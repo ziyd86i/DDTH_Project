@@ -1,0 +1,231 @@
+import { Component, OnInit,ViewChild } from '@angular/core';
+import { Employees } from '../../employees';
+import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
+import { ManagedService } from '../managed.service';
+import { Observable } from 'rxjs/Observable';
+import { Router,ActivatedRoute } from '@angular/router';
+import { PasswordValidation } from './password-validation';
+
+@Component({
+  selector: 'app-adduser',
+  templateUrl: './adduser.component.html',
+  styleUrls: ['./adduser.component.css']
+})
+export class AdduserComponent implements OnInit {
+
+  form : FormGroup;
+  // @ViewChild('f') signUpForm: NgForm;
+  submitted = false;
+  defaultDep = 11;
+  defaultType = 'engineer';
+  defaultPos = 11;
+  defaultSkill = 'voice';
+  employees: Employees[] = Array<Employees>();
+  users: Employees = new Employees();
+  title: string;
+  editted = false;
+  ManagedEmp: Observable<Employees[]>;
+  ManagedUser :Observable<Employees>;
+  errorMsg: string;
+  // employees = {
+  //   em_id : 0,
+  //   name: '',
+  //   lname: '',
+  //   birth: '',
+  //   tel: 0,
+  //   email: '',
+  //   skill: '',
+  //   cid: 0,
+  //   type: '',
+  //   dep_id: 0,
+  //   position_id: 0,
+  //   car_id: '',
+  //   username: '',
+  //   password: '',
+  // }
+
+
+  constructor(
+    formBuilder: FormBuilder,
+    private managedService: ManagedService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+
+    this.form = formBuilder.group({
+      em_id: ['', [
+        Validators.required,
+
+      ]],
+      name: ['', [
+        Validators.required,
+      ]],
+      lname: ['',[
+        Validators.required,
+      ]],
+      // birth: [],
+      tel: ['',[
+        Validators.required,
+      ]],
+      birthday: ['',Validators.required],
+      email: ['', [
+        Validators.required,
+        Validators.pattern("[^ @]*@[^ @]*")
+      ]],
+      skill: ['',Validators.required],
+      cid: ['',Validators.required],
+      type: ['',Validators.required],
+      dep_id: ['',Validators.required],
+      position_id: ['',Validators.required],
+      car_id: ['',Validators.required],
+      username: ['',Validators.required],
+      password: ['',[
+        Validators.minLength(8),
+        Validators.required
+      ]],
+      reply: ['', [
+        Validators.required
+      ]],
+
+
+    },
+    {
+      validator: PasswordValidation.MatchPassword
+    });
+  }
+
+
+
+  ngOnInit() {
+
+    var id = this.route.params.subscribe(params => {
+      var id = params['id'];
+
+      console.log(id);
+
+      this.title = id ? 'Edit User': 'Add User';
+
+      if(id) {
+        this.getDataById(id);
+
+      }
+
+    });
+
+
+
+
+    // var id = this.route.params.subscribe(params => {
+    //   var id = params['em_id'];
+    //
+    //   this.title = id ? 'Edit User' : 'Add User';
+    //
+    //   if (!id)
+    //     return;
+    //
+    //   this.managedService.getUser(id)
+    //     .subscribe(
+    //       users => this.users = users,
+    //       response => {
+    //         if (response.status == 404) {
+    //           this.router.navigate(['NotFound']);
+    //         }
+    //       });
+    // });
+  }
+
+  redirect() {
+    this.router.navigateByUrl('/admin');
+  }
+
+  managedEmployees() {
+    if(this.editted) { this.editUser(this.form); }
+    else if(!this.editted) { this.addUser(this.form); }
+  }
+
+  addUser(form) {
+        console.log(form.value.birthday);
+        console.log("Submitted success!");
+        console.log(form.value);
+        this.ManagedUser = this.managedService.addUser(form.value)
+        this.ManagedUser.subscribe(
+          users => {
+            this.users = users;
+
+          },
+          err =>  this.errorMsg = <any>err
+        );
+
+        this.redirect();
+
+  }
+
+  editUser(form) {
+    console.log("This is the edit function !!!");
+    console.log(form.value);
+    this.ManagedUser = this.managedService.editUser(form.value, form.value.em_id)
+    this.ManagedUser.subscribe(
+      users => {
+        this.users = users;
+
+      },
+      err =>  this.errorMsg = <any>err
+    );this.redirect();
+  }
+
+  getDataById(id) {
+
+    this.ManagedUser = this.managedService.getUserById(id)
+      this.ManagedUser.subscribe(
+      users => {
+        console.log(users),
+        this.users = users[0];
+        console.log(this.users);
+        this.defaultDep = this.users.dep_id;
+        this.defaultPos = this.users.position_id;
+        this.defaultSkill = this.users.skill;
+        this.defaultType = this.users.type;
+
+
+      },
+      err => this.errorMsg = <any>err
+    );
+
+    this.editted = true;
+    //  this.employees.em_id = this.users[0].em_id;
+    //  this.employees.name = this.users[0].name  ;
+    //  this.employees.lname = this.users[0].lname;
+    //  this.employees.birth = this.users[0].birth;
+    //  this.employees.tel = this.users[0].tel;
+    //  this.employees.email = this.users[0].email;
+    // this.employees.skill = this.users[0].skill ;
+    // this.employees.cid = this.users[0].cid ;
+    // this.employees.type = this.users[0].type;
+    // this.employees.dep_id = this.users[0].dep_id;
+    // this.employees.position_id =this.users[0].position_id ;
+    // this.employees.car_id = this.users[0].car_id;
+    // this.employees.username = this.users[0].username;
+    // this.employees.password = this.users[0].password;
+
+  }
+
+  // onSubmit() {
+  //   this.submitted = true;
+  //   this.employees.em_id = this.signUpForm.value.em_id;
+  //   this.employees.name = this.signUpForm.value.name;
+  //   this.employees.surname = this.signUpForm.value.surname;
+  //   this.employees.cid = this.signUpForm.value.cid;
+  //   this.employees.dep = this.signUpForm.value.dep;
+  //   this.employees.type = this.signUpForm.value.type;
+  //   this.employees.email = this.signUpForm.value.email;
+  //   this.employees.tel = this.signUpForm.value.tel;
+  //   this.employees.username = this.signUpForm.value.username;
+  //   this.employees.password = this.signUpForm.value.password;
+  //   this.employees.reply = this.signUpForm.value.reply;
+  // }
+
+
+
+
+
+}

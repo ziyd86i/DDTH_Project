@@ -1,0 +1,20 @@
+
+thead>tr {
+  background-color: #cccccc;
+  -webkit-border-radius: 10px;
+  -moz-border-radius:10px;
+  border-radius: 10px;
+
+
+}
+
+#header_css_racuis {
+  background-color: #cccccc;
+  -webkit-border-radius: 10px;
+  -moz-border-radius:10px;
+  border-radius: 10px
+}
+
+td,th {
+  text-align: center;
+}

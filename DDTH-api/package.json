@@ -1,0 +1,23 @@
+{
+  "name": "ddth_api",
+  "version": "1.0.0",
+  "description": "API for fetch data from MySQL",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "morgan": "^1.8.2",
+    "mysql": "^2.13.0",
+    "socket.io": "^2.0.3",
+    "socketio-auth": "^0.1.0",
+    "waterline": "^0.11.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

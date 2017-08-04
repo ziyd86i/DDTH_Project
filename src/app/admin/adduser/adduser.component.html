@@ -1,0 +1,320 @@
+<app-header-admin></app-header-admin>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+          <h1>{{title}}</h1>
+          <hr>
+    </div>
+  </div>
+
+
+
+  <!-- <form (ngSubmit)="onSubmit(f)" #f="ngForm"> -->
+    <form (ngSubmit)="managedEmployees()" [formGroup]="form">
+   <div class="form-group">
+      <div class="row">
+        <div class="col-md-3">
+          <label>Employee ID (รหัสพนักงาน):</label>
+        </div>
+        <div class="col-md-3">
+          <p *ngIf="!editted"><input type="text"
+                  class="form-control"
+                  id="em_id"
+                  [(ngModel)]="users.em_id"
+                  formControlName="em_id"
+                  placeholder="Ex.TH999999"
+                  maxlength="8"
+                  required>
+          </p>
+          <p *ngIf="editted"><input type="text"
+                  class="form-control"
+                  id="em_id"
+                  [(ngModel)]="users.em_id"
+                  formControlName="em_id"
+                  disabled
+                  ></p>
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Firstname (ชื่อ): </label>
+        </div>
+        <div class="col-md-3">
+          <input
+                type="text"
+                class="form-control"
+                id="name"
+                [(ngModel)]="users.name"
+
+                formControlName="name"
+                name="name"
+                required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Surname (นามสกุล): </label>
+        </div>
+        <div class="col-md-3">
+          <input
+                type="text"
+                class="form-control"
+                id="lname"
+                [(ngModel)]="users.lname"
+
+                formControlName="lname"
+                required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Birthday (วันเกิด): </label>
+        </div>
+        <div class="col-md-3">
+          <input type="date"
+                 class="form-control"
+                 id="birthday"
+                [(ngModel)]="users.birthday"
+                formControlName="birthday"
+                 >
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Citizen ID (หมายเลขบัตรประชาชน): </label>
+        </div>
+        <div class="col-md-3">
+          <input
+                type="number"
+                class="form-control"
+                id="cid"
+                maxlength="13"
+                [(ngModel)]="users.cid"
+                formControlName="cid"
+                placeholder="รหัสบัตรประชาชน 13 หลัก"
+                required>
+                <!-- #cid = "ngModel" -->
+          <!-- <span class="help-block" *ngIf="!cid.valid && cid.touched">Please enter cid valid</span> -->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Team : </label>
+        </div>
+        <div class="col-md-3">
+            <select
+                    class="form-control"
+                    id="dep_id"
+                    [(ngModel)]="defaultDep"
+
+                    formControlName="dep_id"
+                    >
+                    <option value="11" [selected]="defaultDep === 11">Managed Service</option>
+                    <option value="12" [selected]="defaultDep === 12">Installation</option>
+            </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Type (สิทธิ์การใช้งาน): </label>
+        </div>
+        <div class="col-md-3">
+          <select
+                 class="form-control"
+                 id="type"
+                 [(ngModel)]="defaultType"
+
+                 formControlName="type">
+              <option value="admin" [selected]="defaultType === 'admin'">Administator</option>
+              <option value="resource controller" [selected]="defaultType === 'resource controller'">Resource Controller</option>
+              <option value="engineer" [selected]="defaultType === 'engineer'">Engineer</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Position (ตำแหน่ง) : </label>
+        </div>
+        <div class="col-md-3">
+          <select
+                 class="form-control"
+                 id="position_id"
+                 [(ngModel)]="defaultPos"
+
+                 formControlName="position_id"
+                 >
+              <option value="11" [selected]="defaultPos === 11">Network Engineer</option>
+              <option value="12" [selected]="defaultPos === 12">Senior Network Engineer</option>
+
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Skill (ความถนัด): </label>
+        </div>
+        <div class="col-md-3">
+          <select
+                 class="form-control"
+                 id="skill"
+                 [(ngModel)]="defaultSkill"
+
+                 formControlName="skill"
+                 >
+              <option value="voice" [selected]="defaultSkill === 'voice'">Voice</option>
+              <option value="switching&routing" [selected]="defaultSkill === 'switching&routing'">Switching&Routing</option>
+              <option value="system" [selected]="defaultSkill === 'system'">System</option>
+              <option value="others" [selected]="defaultSkill === 'others'">Others</option>
+
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Email (อีเมล): </label>
+        </div>
+        <div class="col-md-3">
+          <input
+                type="email"
+                class="form-control"
+                id="email"
+                [(ngModel)]="users.email"
+
+                formControlName="email"
+                required
+                placeholder="Ex.ddth@ddththailand.com">
+          <!-- <span class="help-block" *ngIf="!email.valid && email.touched">Please Enter a valid email</span> -->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Telephone (โทรศัพท์): </label>
+        </div>
+        <div class="col-md-3">
+          <input
+                type="number"
+                id="tel"
+                [(ngModel)]="users.tel"
+                class="form-control"
+                formControlName="tel"
+                max="9999999999"
+
+                required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Car ID (ทะเบียนรถ): </label>
+        </div>
+        <div class="col-md-3">
+          <input
+                type="text"
+                id="car_id"
+                [(ngModel)]="users.car_id"
+                class="form-control"
+                formControlName="car_id"
+                required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Username: </label>
+        </div>
+        <div class="col-md-3">
+          <input
+                type="text"
+                id="username"
+                [(ngModel)]="users.username"
+                class="form-control"
+                formControlName="username"
+                required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Password: </label>
+        </div>
+        <div class="col-md-3">
+          <input
+                type="password"
+                id="password"
+                [(ngModel)]="users.password"
+                class="form-control"
+                formControlName="password"
+                required>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <label>Reply Password: </label>
+        </div>
+        <div class="col-md-3">
+          <input
+                type="password"
+                id="reply"
+                [(ngModel)]="reply"
+                class="form-control"
+                formControlName="reply"
+                >
+            <!-- <div class="alert alert-danger" *ngIf="form.controls.reply.errors?.MatchPassword">Password not match</div> -->
+            <span class="help-block" *ngIf="form.controls.reply.errors?.MatchPassword">Password not match</span>
+
+        </div>
+
+      </div>
+
+    </div>
+      <p *ngIf="!editted"><button type="submit" class="btn btn-success" [disabled]="!form.valid">Add User</button></p>
+      <p *ngIf="editted"><button type="submit" class="btn btn-warning" >Ediit</button></p>
+  </form>
+
+
+      <!-- <div class="row">
+        <div class="col-md-2">
+          <label>Reply Password: </label>
+        </div>
+        <div class="col-md-3">
+          <input type="text"
+          class="form-control"
+          id="reply"
+
+          >
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success" (click)="AddUser()">Add User</button> -->
+
+
+    <!-- <div class="row" *ngIf="submitted">
+      <div class="col-xs-12">
+        <h3>Your Data</h3>
+        <p>Em ID: {{employees.em_id}}</p>
+        <p>Name:{{ employees.name }}</p>
+        <p>Surname : {{employees.surname}}</p>
+        <p>Em ID: {{employees.cid}}</p>
+        <p>Em ID: {{employees.dep}}</p>
+        <p>Em ID: {{employees.type}}</p>
+        <p>Em ID: {{employees.email}}</p>
+        <p>Em ID: {{employees.tel}}</p>
+        <p>Em ID: {{employees.username}}</p>
+        <p>Em ID: {{employees.password}}</p>
+        <p>Em ID: {{employees.reply}}</p>
+      </div>
+    </div> -->
+</div>

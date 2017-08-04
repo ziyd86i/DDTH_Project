@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+
+      <button class="btn btn-primary" routerLink="/admin/adduser"> Add new user +</button>
+      <table class="table table-striped centered" >
+        <thead >
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Telephone</th>
+            <th>Email</th>
+            <th>Car ID</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let users of employees">
+          <td>{{users.em_id}}</td>
+            <td>{{users.name}}  {{ users.lname}}</td>
+            <td>{{ users.type}}</td>
+            <td>{{ users.tel }}</td>
+            <td>{{users.email}}</td>
+            <td>{{ users.car_id}}</td>
+            <td>
+              <a [routerLink]="['/admin', users.em_id]">
+                <span class="glyphicon glyphicon-pencil" ></span>
+              </a>
+            </td>
+            <td>
+              <a (click)="deleteUser(users)" href="/admin" >
+                <span class="glyphicon glyphicon-trash"></span>
+              </a>
+            </td>
+
+            <!-- <td><button class="btn btn-default"
+                        name="Edit"
+                        (onClick) ="editUser(users.em_id)">
+                        Edit
+                      </button></td> -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
