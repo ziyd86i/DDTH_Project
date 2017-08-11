@@ -1,9 +1,10 @@
 
 thead>tr {
-  background-color: #cccccc;
+  background-color:  #09ba32;
   -webkit-border-radius: 10px;
   -moz-border-radius:10px;
   border-radius: 10px;
+  color: #f2f2f2;
 
 
 }
@@ -17,4 +18,9 @@ thead>tr {
 
 td,th {
   text-align: center;
+}
+
+.container-fluid {
+  font-family: helvetica;
+  
 }

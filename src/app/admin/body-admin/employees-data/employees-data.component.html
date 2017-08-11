@@ -1,32 +1,38 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-md-8">
-
+    <div class="col-md-12">
       <button class="btn btn-primary" routerLink="/admin/adduser"> Add new user +</button>
-      <table class="table table-striped centered" >
-        <thead >
+    </div>
+  </div>
+  <hr>
+
+  <div class="row">
+    <div class="col-xs-12 mx-auto">
+
+      <table datatable class="table table-striped ">
+        <thead>
           <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Telephone</th>
-            <th>Email</th>
-            <th>Car ID</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th style="width: 10%">
+              Employee ID
+            </th>
+            <th style="width: 15%">
+              Name
+            </th>
+            <th style="width: 15%">Type</th>
+            <th style="width: 15%">Email</th>
+            <th style="width: 5%">Edit</th>
+            <th style="width: 5%">Delete</th>
           </tr>
         </thead>
 
         <tbody>
           <tr *ngFor="let users of employees">
           <td>{{users.em_id}}</td>
-            <td>{{users.name}}  {{ users.lname}}</td>
-            <td>{{ users.type}}</td>
-            <td>{{ users.tel }}</td>
+            <td>{{users.name}}  {{users.lname}}</td>
+            <td>{{ users.type }}</td>
             <td>{{users.email}}</td>
-            <td>{{ users.car_id}}</td>
             <td>
-              <a [routerLink]="['/admin', users.em_id]">
+              <a [routerLink]="['/admin', users.em_id]" >
                 <span class="glyphicon glyphicon-pencil" ></span>
               </a>
             </td>
@@ -44,6 +50,7 @@
           </tr>
         </tbody>
       </table>
+
     </div>
   </div>
 </div>

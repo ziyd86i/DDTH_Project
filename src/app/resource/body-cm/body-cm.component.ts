@@ -2,16 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 
 @Component({
-  selector: 'app-body',
-  templateUrl: './body.component.html',
-  styleUrls: ['./body.component.css']
+  selector: 'body-cm',
+  templateUrl: './body-cm.component.html',
+  styleUrls: ['./body-cm.component.css']
 })
-export class BodyComponent implements OnInit {
+export class BodyCmComponent implements OnInit {
 
   constructor(private http: Http) { }
 
   ngOnInit() {
-    
   }
 
 }

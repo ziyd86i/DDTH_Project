@@ -1,16 +1,19 @@
+//Module
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule }   from './app-routing.module';
+import { DataTablesModule } from 'angular-datatables';
+import { DatePipe } from '@angular/common';
+
+//Service
 import { ServiceService } from './service.service';
 import { ManagedService } from './admin/managed.service';
 
+
+//Component
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { BodyComponent } from './body/body.component';
-import { SearchTecniqueComponent } from './body/search-tecnique/search-tecnique.component';
-import { StatusComponent } from './body/status/status.component';
 import { LoginComponent } from './login/login.component';
 import { ResourceComponent } from './resource/resource.component';
 import { AdminComponent } from './admin/admin.component';
@@ -21,6 +24,12 @@ import { HeaderEnComponent } from './engineer/header-en/header-en.component';
 import { BodyAdminComponent } from './admin/body-admin/body-admin.component';
 import { EmployeesDataComponent } from './admin/body-admin/employees-data/employees-data.component';
 import { AdduserComponent } from './admin/adduser/adduser.component';
+import { BodyCmComponent } from './resource/body-cm/body-cm.component';
+import { SearchTectComponent } from './resource/body-cm/search-tect/search-tect.component';
+import { StatusComponent } from './resource/body-cm/status/status.component';
+import { TicketComponent } from './resource/ticket/ticket.component';
+import { BodyTicketComponent } from './resource/ticket/body-ticket/body-ticket.component';
+import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.component';
 
 
 
@@ -31,10 +40,6 @@ import { AdduserComponent } from './admin/adduser/adduser.component';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    BodyComponent,
-    SearchTecniqueComponent,
-    StatusComponent,
     LoginComponent,
     ResourceComponent,
     AdminComponent,
@@ -45,6 +50,12 @@ import { AdduserComponent } from './admin/adduser/adduser.component';
     BodyAdminComponent,
     EmployeesDataComponent,
     AdduserComponent,
+    BodyCmComponent,
+    SearchTectComponent,
+    StatusComponent,
+    TicketComponent,
+    BodyTicketComponent,
+    FormTicketComponent,
 
 
 
@@ -55,12 +66,14 @@ import { AdduserComponent } from './admin/adduser/adduser.component';
     HttpModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    DataTablesModule,
+
 
 
 
 
   ],
-  providers: [ServiceService,ManagedService],
+  providers: [ServiceService,ManagedService,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

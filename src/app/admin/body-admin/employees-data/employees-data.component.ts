@@ -4,6 +4,8 @@ import { ServiceService } from '../../../service.service';
 import { Employees } from '../../../employees';
 import { ManagedService } from '../../managed.service';
 
+
+
 @Component({
   selector: 'employees-data',
   templateUrl: './employees-data.component.html',
@@ -11,13 +13,15 @@ import { ManagedService } from '../../managed.service';
 })
 export class EmployeesDataComponent implements OnInit {
 
+
   ObservableEmp: Observable<Employees[]>;
   employees: Employees[];
   errorMsg: string;
 
+
   constructor(private employeeService:ServiceService, private managedService: ManagedService) { }
 
-  ngOnInit() {
+  ngOnInit():void {
 
     this.getUsers();
 

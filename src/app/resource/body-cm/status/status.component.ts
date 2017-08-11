@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-status',
+  selector: 'status-en',
   templateUrl: './status.component.html',
   styleUrls: ['./status.component.css']
 })

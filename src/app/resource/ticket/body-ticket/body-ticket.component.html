@@ -1,0 +1,115 @@
+
+    <!-- <div class="col-md-6">
+      <div id="custom-search-input">
+              <div class="input-group">
+                  <input type="text" class="form-control input-lg" placeholder="search.." />
+                  <span class="input-group-btn">
+                      <button class="btn btn-info btn-lg" type="button">
+                          <i class="glyphicon glyphicon-search"></i>
+                      </button>
+                  </span>
+              </div>
+      </div>
+    </div> -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <button class="btn btn-primary" routerLink="/cm/ticket/addnew">Add new Ticket +</button>
+      </div>
+    </div>
+      <h4><img src="../../assets/images/icon_yellow.jpg"> In Progress</h4>
+    <hr>
+
+    <div class="row">
+      <div class="col-xs-12 mx-auto">
+        <table datatable class="table table-striped ">
+          <thead>
+            <tr>
+              <th style="width: 10%">Ticket ID</th>
+              <th style="width: 15%">Customer Name</th>
+              <th style="width: 15%">Tel No.</th>
+              <th style="width: 15%">Description</th>
+              <th style="width: 5%">Detail</th>
+              <th style="width: 5%">Edit</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let users of employees">
+            <td>{{users.em_id}}</td>
+              <td>{{users.name}}  {{users.lname}}</td>
+              <td>{{ users.type }}</td>
+              <td>{{users.email}}</td>
+              <td>
+                <a [routerLink]="['/admin', users.em_id]" >
+                  <span class="glyphicon glyphicon-pencil" ></span>
+                </a>
+              </td>
+              <td>
+                <a (click)="deleteUser(users)" href="/admin" >
+                  <span class="glyphicon glyphicon-trash"></span>
+                </a>
+              </td>
+
+              <!-- <td><button class="btn btn-default"
+                          name="Edit"
+                          (onClick) ="editUser(users.em_id)">
+                          Edit
+                        </button></td> -->
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <h4><img src="../../assets/images/icon_green.jpg"> Done</h4>
+  <hr>
+
+  <div class="row">
+    <div class="col-xs-12 mx-auto">
+      <table datatable class="table table-striped ">
+        <thead>
+          <tr>
+            <th style="width: 10%">
+              Employee ID
+            </th>
+            <th style="width: 15%">
+              Name
+            </th>
+            <th style="width: 15%">Type</th>
+            <th style="width: 15%">Email</th>
+            <th style="width: 5%">Edit</th>
+            <th style="width: 5%">Delete</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let users of employees">
+          <td>{{users.em_id}}</td>
+            <td>{{users.name}}  {{users.lname}}</td>
+            <td>{{ users.type }}</td>
+            <td>{{users.email}}</td>
+            <td>
+              <a [routerLink]="['/admin', users.em_id]" >
+                <span class="glyphicon glyphicon-pencil" ></span>
+              </a>
+            </td>
+            <td>
+              <a (click)="deleteUser(users)" href="/admin" >
+                <span class="glyphicon glyphicon-trash"></span>
+              </a>
+            </td>
+
+            <!-- <td><button class="btn btn-default"
+                        name="Edit"
+                        (onClick) ="editUser(users.em_id)">
+                        Edit
+                      </button></td> -->
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+  </div>

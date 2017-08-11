@@ -5,6 +5,8 @@ import { ManagedService } from '../managed.service';
 import { Observable } from 'rxjs/Observable';
 import { Router,ActivatedRoute } from '@angular/router';
 import { PasswordValidation } from './password-validation';
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-adduser',
@@ -16,10 +18,14 @@ export class AdduserComponent implements OnInit {
   form : FormGroup;
   // @ViewChild('f') signUpForm: NgForm;
   submitted = false;
-  defaultDep = 11;
   defaultType = 'engineer';
-  defaultPos = 11;
-  defaultSkill = 'voice';
+  defaultTeam = 505;
+  defaultSkill = 401;
+  defaultSkill_1 = 0;
+  defaultSkill_2 = 0;
+  defaultProfile = 201;
+  defaultBusiness = 301;
+  defaultFamily =103;
   employees: Employees[] = Array<Employees>();
   users: Employees = new Employees();
   title: string;
@@ -27,6 +33,7 @@ export class AdduserComponent implements OnInit {
   ManagedEmp: Observable<Employees[]>;
   ManagedUser :Observable<Employees>;
   errorMsg: string;
+
   // employees = {
   //   em_id : 0,
   //   name: '',
@@ -49,12 +56,14 @@ export class AdduserComponent implements OnInit {
     formBuilder: FormBuilder,
     private managedService: ManagedService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private datePipe: DatePipe
   ) {
 
     this.form = formBuilder.group({
       em_id: ['', [
         Validators.required,
+        Validators.pattern('[ST][AH][0-9]{6}')
 
       ]],
       name: ['', [
@@ -65,22 +74,27 @@ export class AdduserComponent implements OnInit {
       ]],
       // birth: [],
       tel: ['',[
-        Validators.required,
+
+        Validators.maxLength(10),
+        Validators.pattern('[0][0-9]{9}')
       ]],
-      birthday: ['',Validators.required],
+      hiredate: ['',Validators.required],
       email: ['', [
         Validators.required,
-        Validators.pattern("[^ @]*@[^ @]*")
+        Validators.pattern("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
       ]],
-      skill: ['',Validators.required],
-      cid: ['',Validators.required],
+      skill_id: ['',Validators.required],
+      skill_id1: ['',Validators.required],
+      skill_id2: ['',Validators.required],
       type: ['',Validators.required],
-      dep_id: ['',Validators.required],
-      position_id: ['',Validators.required],
-      car_id: ['',Validators.required],
+      job_fam_id: ['',Validators.required],
+      job_pro_id: ['',Validators.required],
+      business_id: ['',Validators.required],
+      team_id: ['',Validators.required],
+      car_id: [''],
       username: ['',Validators.required],
       password: ['',[
-        Validators.minLength(8),
+        Validators.minLength(6),
         Validators.required
       ]],
       reply: ['', [
@@ -136,6 +150,7 @@ export class AdduserComponent implements OnInit {
 
   redirect() {
     this.router.navigateByUrl('/admin');
+    window.location.reload();
   }
 
   managedEmployees() {
@@ -180,12 +195,16 @@ export class AdduserComponent implements OnInit {
       users => {
         console.log(users),
         this.users = users[0];
-        console.log(this.users);
-        this.defaultDep = this.users.dep_id;
-        this.defaultPos = this.users.position_id;
-        this.defaultSkill = this.users.skill;
+        this.users.hiredate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+        console.log(this.users.hiredate);
+        this.defaultSkill = this.users.skill_id;
         this.defaultType = this.users.type;
-
+        this.defaultTeam = this.users.team_id;
+        this.defaultProfile = this.users.job_pro_id;
+        this.defaultBusiness = this.users.business_id;
+        this.defaultFamily = this.users.job_fam_id;
+        this.defaultSkill_1 = this.users.skill_id1;
+        this.defaultSkill_2 = this.users.skill_id2;
 
       },
       err => this.errorMsg = <any>err
