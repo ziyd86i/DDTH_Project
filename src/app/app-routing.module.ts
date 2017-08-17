@@ -15,6 +15,8 @@ const routes: Routes = [
   { path: 'cm', component: ResourceComponent },
   { path: 'cm/ticket', component: TicketComponent },
   { path: 'cm/ticket/addnew', component: FormTicketComponent },
+  { path: 'cm/ticket/:id', component: FormTicketComponent },
+
   { path: 'admin', component: AdminComponent },
   { path: 'admin/adduser', component: AdduserComponent },
   { path: 'admin/:id', component: AdduserComponent },

@@ -23,6 +23,8 @@
     "@angular/router": "^4.0.0",
     "angular-datatables": "^4.2.0",
     "bootstrap": "^3.3.7",
+    "bootstrap-datepicker": "^1.7.1",
+    "bootstrap-timepicker": "^0.5.2",
     "core-js": "^2.4.1",
     "datatables.net": "^1.10.15",
     "datatables.net-dt": "^1.10.15",

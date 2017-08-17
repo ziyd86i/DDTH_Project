@@ -6,10 +6,12 @@ import { HttpModule } from '@angular/http';
 import { AppRoutingModule }   from './app-routing.module';
 import { DataTablesModule } from 'angular-datatables';
 import { DatePipe } from '@angular/common';
+import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 
 //Service
 import { ServiceService } from './service.service';
 import { ManagedService } from './admin/managed.service';
+import { TicketService } from './resource/ticket/ticket.service';
 
 
 //Component
@@ -32,6 +34,17 @@ import { BodyTicketComponent } from './resource/ticket/body-ticket/body-ticket.c
 import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.component';
 
 
+import '@angular/platform-browser';
+import '@angular/platform-browser-dynamic';
+import '@angular/core';
+import '@angular/common';
+
+import 'rxjs';
+
+import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css';
+import 'bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js';
+import 'bootstrap-timepicker/css/bootstrap-timepicker.min.css';
+import 'bootstrap-timepicker/js/bootstrap-timepicker.js';
 
 
 
@@ -67,13 +80,18 @@ import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.c
     AppRoutingModule,
     ReactiveFormsModule,
     DataTablesModule,
+    NKDatetimeModule,
 
 
 
 
 
   ],
-  providers: [ServiceService,ManagedService,DatePipe],
+  providers: [
+              ServiceService,
+              ManagedService,DatePipe,
+              TicketService
+            ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

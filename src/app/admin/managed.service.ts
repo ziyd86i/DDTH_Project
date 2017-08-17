@@ -17,7 +17,7 @@ export class ManagedService {
     let options = new RequestOptions({headers : headers});
 
    return this.http.get(`${this.userUrl}/data/${id}`, options)
-                    .map((res:Response) => res.json())
+                    .map((res:Response) =>res.json())
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
 
   }

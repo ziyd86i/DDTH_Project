@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Employees } from '../../employees';
 import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
 import { ManagedService } from '../managed.service';
@@ -195,7 +195,8 @@ export class AdduserComponent implements OnInit {
       users => {
         console.log(users),
         this.users = users[0];
-        this.users.hiredate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+        //set format date
+        this.users.hiredate = this.datePipe.transform(this.users.hiredate, 'yyyy-MM-dd');
         console.log(this.users.hiredate);
         this.defaultSkill = this.users.skill_id;
         this.defaultType = this.users.type;

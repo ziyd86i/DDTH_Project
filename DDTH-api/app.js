@@ -10,6 +10,7 @@ var morgan = require('morgan');
 var apiRoutes = express.Router();
 var config = require('./config');
 let data_employees = [];
+let data_ticket = [];
 app.use(cors());
 
 //connect mysql
@@ -106,11 +107,14 @@ app.get('/data', (req,res) => {
   });
 });
 
+//************************************** Admin Managed User *************************************
+
+// get data user ตาม id
 app.get('/data/:id', (req,res) => {
   id = req.params.id;
   // res.send('Get Request !!' + id);
   // console.log(req.params.id);
-  let queryId = " SELECT *,DATE_FORMAT(hiredate, '%d/%m/%y') FROM employees where em_id = '"+id+"'";
+  let queryId = " SELECT * FROM employees where em_id = '"+id+"'";
   console.log(queryId);
   con.query(queryId,(err,users) => {
     if(err) {
@@ -125,6 +129,7 @@ app.get('/data/:id', (req,res) => {
 
 });
 
+// edit user
 app.post('/edit/:id', (req,res) => {
   id = req.params.id;
   let name = req.body.name;
@@ -162,19 +167,7 @@ app.post('/edit/:id', (req,res) => {
 
 });
 
-// app.post('/authenticate', (req,res) => {
-//   let authen = {username: 'test', password:'test'};
-//
-//   con.query(queryString,(err,users,fields) => {
-//     if (err) {
-//       res.status(400).send('Error to authen.');
-//     }
-//     else {
-//       res.send();
-//     }
-//   });
-// });
-
+// ลบ user employee
 app.get('/delete/:id',(req,res) => {
   id = req.params.id;
   console.log(id);
@@ -190,6 +183,7 @@ app.get('/delete/:id',(req,res) => {
   });
 });
 
+// add user
 app.post('/adduser', (req,res) => {
   let em_id = req.body.em_id;
   let name = req.body.name;
@@ -226,7 +220,110 @@ app.post('/adduser', (req,res) => {
 
 });
 
-//กำหนด port ที่ api จะแสดงผล
+// ********************************* CM Managed Ticket ************************************
+
+app.get('/ticket', (req,res) => {
+
+  queryTicket = "SELECT * FROM ticket";
+  con.query(queryTicket,(err,ticket) => {
+    if (err) {
+      res.status(400).send('Error in database.');
+    }
+    else {
+    res.send(ticket);
+     data_ticket = ticket;
+     console.log(data_ticket);
+    }
+  });
+});
+
+app.get('/ticket/:id', (req,res) => {
+  id = req.params.id;
+  console.log("Get ticket request = " + id);
+
+  let queryIdTicket = "SELECT * FROM ticket WHERE ticket_id = '"+id+"'";
+  console.log(queryIdTicket);
+  con.query(queryIdTicket,(err,ticket) => {
+    if(err) {
+      res.status(400).send('Error to get ticket data!');
+    }
+    else {
+      res.send(ticket);
+      console.log("SEND DATA ALREADY");
+      console.log(ticket);
+    }
+  });
+
+});
+
+app.post('/ticket/add', (req,res) => {
+  let ticket_id = req.body.ticket_id;
+  let owner = req.body.owner;
+  let customer_name = req.body.customer_name;
+  let tel = req.body.tel;
+  let description = req.body.description;
+  let state = req.body.state;
+  console.log(ticket_id,owner, customer_name, tel, description, state);
+  queryTicket2 = "INSERT INTO ticket (`ticket_id`, `customer_name`, `owner`, `tel`,`description`, `date`, `time`, `state`)"
+                 + "VALUES ('"+ticket_id+"', '"+customer_name+"', '"+owner+"', '"+tel+"', '"+description+"', '', '', '"+state+"')";
+  con.query(queryTicket2, (err,ticket) => {
+    if (err) {
+      res.status(400).send('Error insert Ticket ' + queryTicket2);
+    }
+    else {
+
+      res.send(ticket);
+      console.log("Insert into ticket success !! " + ticket);
+    }
+  });
+});
+
+app.post('/ticket/edit/:id', (req,res) => {
+  let id = req.params.id;
+  let owner = req.body.owner;
+  let customer_name = req.body.customer_name;
+  let tel = req.body.tel;
+  let description = req.body.description;
+  // let state = req.body.state;
+
+    // console.log(id,name);
+    // console.log(req.body.em_id);
+    console.log(id, owner, customer_name, tel, description);
+  //
+  let queryEdit = "UPDATE ticket SET `owner`='"+owner+"', `customer_name`='"+customer_name+"', `tel`='"+tel+"', `tel`='"+tel+"', `description`='"+description+"'"
+                  +" WHERE ticket.ticket_id = "+id+"";
+
+    con.query(queryEdit, (err,ticket) => {
+      if (err) {
+        console.log("Error to Edit Ticket !! " + queryEdit);
+      }
+      else {
+        console.log("Edit Ticket complete !!" + ticket);
+      }
+    });
+
+});
+
+app.get('/ticket/delete/:id',(req,res) => {
+  let id = req.params.id;
+  console.log(id);
+  queryDelTicket = "DELETE FROM ticket WHERE ticket_id = '"+id+"'";
+
+  con.query(queryDelTicket, (err,result) =>{
+    if (err) {
+      throw err;
+    }
+    else {
+      console.log("Delete Record " + id + " Completed. " +result.affectedRows);
+    }
+  });
+});
+
+
+
+
+
+//  *************************** กำหนด port ที่ api จะแสดงผล ***************************
 server.listen(3300, () => {
   console.log('Express server is lisening on port 3300');
 });

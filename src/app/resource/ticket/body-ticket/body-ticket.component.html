@@ -1,16 +1,4 @@
 
-    <!-- <div class="col-md-6">
-      <div id="custom-search-input">
-              <div class="input-group">
-                  <input type="text" class="form-control input-lg" placeholder="search.." />
-                  <span class="input-group-btn">
-                      <button class="btn btn-info btn-lg" type="button">
-                          <i class="glyphicon glyphicon-search"></i>
-                      </button>
-                  </span>
-              </div>
-      </div>
-    </div> -->
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -25,31 +13,36 @@
         <table datatable class="table table-striped ">
           <thead>
             <tr>
-              <th style="width: 10%">Ticket ID</th>
-              <th style="width: 15%">Customer Name</th>
-              <th style="width: 15%">Tel No.</th>
-              <th style="width: 15%">Description</th>
-              <th style="width: 5%">Detail</th>
-              <th style="width: 5%">Edit</th>
+              <th style="width: 20%">Ticket ID</th>
+              <th style="width: 20%">Case Owner </th>
+              <th style="width: 20%">Customer Name</th>
+              <th style="width: 20%">Tel No.</th>
+              <th style="width: 20%">Description</th>
+              <th style="width: 5%">Detail&Edit</th>
+              <th style="width: 5%">Delete</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr *ngFor="let users of employees">
-            <td>{{users.em_id}}</td>
-              <td>{{users.name}}  {{users.lname}}</td>
-              <td>{{ users.type }}</td>
-              <td>{{users.email}}</td>
-              <td>
-                <a [routerLink]="['/admin', users.em_id]" >
-                  <span class="glyphicon glyphicon-pencil" ></span>
-                </a>
-              </td>
-              <td>
-                <a (click)="deleteUser(users)" href="/admin" >
-                  <span class="glyphicon glyphicon-trash"></span>
-                </a>
-              </td>
+            <ng-container *ngFor="let tick of ticket">
+              <tr *ngIf="tick.state === 1">
+                <td>{{tick.ticket_id}}</td>
+                <td> {{ tick.owner }}</td>
+                <td>{{tick.customer_name}} </td>
+                <td>{{ tick.tel }}</td>
+                <td>{{tick.description}}</td>
+                <td>
+                  <a [routerLink]="['/cm/ticket', tick.ticket_id]" >
+                    <span class="glyphicon glyphicon-pencil" ></span>
+                  </a>
+                </td>
+                <td>
+                  <a (click)="deleteTicket(tick)" href="/cm/ticket" >
+                    <span class="glyphicon glyphicon-trash"></span>
+                  </a>
+                </td>
+
+
 
               <!-- <td><button class="btn btn-default"
                           name="Edit"
@@ -57,6 +50,7 @@
                           Edit
                         </button></td> -->
             </tr>
+            </ng-container>
           </tbody>
         </table>
 
@@ -71,42 +65,37 @@
       <table datatable class="table table-striped ">
         <thead>
           <tr>
-            <th style="width: 10%">
-              Employee ID
-            </th>
-            <th style="width: 15%">
-              Name
-            </th>
-            <th style="width: 15%">Type</th>
-            <th style="width: 15%">Email</th>
-            <th style="width: 5%">Edit</th>
+            <th style="width: 10%">Ticket ID</th>
+            <th style="width: 20%">Case Owner </th>
+            <th style="width: 15%">Customer Name</th>
+            <th style="width: 15%">Tel No.</th>
+            <th style="width: 15%">Description</th>
             <th style="width: 5%">Delete</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr *ngFor="let users of employees">
-          <td>{{users.em_id}}</td>
-            <td>{{users.name}}  {{users.lname}}</td>
-            <td>{{ users.type }}</td>
-            <td>{{users.email}}</td>
-            <td>
-              <a [routerLink]="['/admin', users.em_id]" >
-                <span class="glyphicon glyphicon-pencil" ></span>
-              </a>
-            </td>
-            <td>
-              <a (click)="deleteUser(users)" href="/admin" >
-                <span class="glyphicon glyphicon-trash"></span>
-              </a>
-            </td>
+          <ng-container *ngFor="let tick of ticket">
+            <tr *ngIf="tick.state === 0">
+              <td>{{tick.ticket_id}}</td>
+              <td>{{tick.owner}}</td>
+              <td>{{tick.customer_name}} </td>
+              <td>{{ tick.tel }}</td>
+              <td>{{tick.description}}</td>
+
+              <td>
+                <a (click)="deleteTicket(tick)" href="/cm/ticket" >
+                  <span class="glyphicon glyphicon-trash"></span>
+                </a>
+              </td>
 
             <!-- <td><button class="btn btn-default"
                         name="Edit"
                         (onClick) ="editUser(users.em_id)">
                         Edit
                       </button></td> -->
-          </tr>
+            </tr>
+          </ng-container>
         </tbody>
       </table>
 
