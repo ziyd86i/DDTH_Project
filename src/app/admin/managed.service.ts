@@ -10,6 +10,14 @@ export class ManagedService {
 
   userUrl = 'http://localhost:3300';
 
+  getEmployees(): Observable<Employees[]> {
+    console.log("GET");
+   return this.http.get(`${this.userUrl}/data`)
+                    .map((res:Response) => res.json())
+                    .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
+
+  }
+
   getUserById(id : Object): Observable<Employees> {
     console.log("GET" + id);
 

@@ -9,6 +9,10 @@ p {
   font-size: 12px;
 }
 
+.help-block {
+  color: red;
+}
+
 .card-container.card {
     max-width: 350px;
     padding: 40px 40px;

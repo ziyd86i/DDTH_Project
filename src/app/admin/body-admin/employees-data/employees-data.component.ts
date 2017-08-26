@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ServiceService } from '../../../service.service';
 import { Employees } from '../../../employees';
 import { ManagedService } from '../../managed.service';
 
@@ -19,7 +18,7 @@ export class EmployeesDataComponent implements OnInit {
   errorMsg: string;
 
 
-  constructor(private employeeService:ServiceService, private managedService: ManagedService) { }
+  constructor( private managedService: ManagedService) { }
 
   ngOnInit():void {
 
@@ -28,7 +27,7 @@ export class EmployeesDataComponent implements OnInit {
   }
 
   getUsers(): void {
-    this.ObservableEmp = this.employeeService.getEmployees();
+    this.ObservableEmp = this.managedService.getEmployees();
     this.ObservableEmp.subscribe(
               employees => this.employees = employees,
               err => this.errorMsg = <any>err

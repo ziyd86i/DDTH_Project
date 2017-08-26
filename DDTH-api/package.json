@@ -5,11 +5,17 @@
   "main": "app.js",
   "dependencies": {
     "body-parser": "^1.17.2",
+    "compression": "^1.7.0",
     "cors": "^2.8.3",
     "express": "^4.15.3",
+    "express-session": "^1.15.5",
     "jsonwebtoken": "^7.4.1",
+    "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
     "morgan": "^1.8.2",
     "mysql": "^2.13.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
     "socket.io": "^2.0.3",
     "socketio-auth": "^0.1.0",
     "waterline": "^0.11.11"

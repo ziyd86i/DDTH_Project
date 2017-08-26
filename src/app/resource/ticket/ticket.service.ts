@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Ticket } from './ticket';
+import { NguiDatetimePickerModule, NguiDatetime } from '@ngui/datetime-picker';
 
 @Injectable()
 export class TicketService {
@@ -31,7 +32,9 @@ export class TicketService {
 
 
   addTicket(form: Object): Observable<Ticket> {
-    console.log("POST ticket " + form);
+    console.log("POST ticket ");
+    console.log(form);
+
     let body = JSON.stringify(form);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});

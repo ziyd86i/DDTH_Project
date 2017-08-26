@@ -1,4 +1,6 @@
+var compression = require('compression');
 var express = require('express');
+var session = require('express-session');
 var app = express();
 var mysql = require('mysql');
 var server = require('http').createServer(app);
@@ -6,13 +8,29 @@ var server = require('http').createServer(app);
 var cors = require('cors');
 var jwt = require('jsonwebtoken');
 var bodyParser = require('body-parser');
+var passport = require('passport');
+var localStrategy = require('passport-local').Strategy;
 var morgan = require('morgan');
 var apiRoutes = express.Router();
 var config = require('./config');
-let data_employees = [];
-let data_ticket = [];
-app.use(cors());
+var moment = require('moment-timezone');
 
+var data_employees = [];
+var data_ticket = [];
+
+//รองรับ cors
+app.use(cors());
+// ใช้ session
+// app.use(session({secret: 'ddth_workplan'}));
+app.set('ddth_workplan', config.secret);
+//support json encoded bodies
+app.use(bodyParser.json());
+// support encoded bodies
+app.use(bodyParser.urlencoded({ extended: true }));
+// ใช้ compression เพื่อเพิ่มประสิทธิภาพในการส่ง req, res
+app.use(compression());
+// use morgan to log requests to the console
+app.use(morgan('dev'));
 //connect mysql
 var con = mysql.createConnection({
   host: "localhost",
@@ -27,68 +45,67 @@ var queryString = "SELECT * FROM employees";
 var authen = "SELECT username, password from employees";
 var query2 = "SELECT * FROM `workplan` INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id INNER JOIN employees ON workplan.em_id = employees.em_id";
 
-//ดึงข้อมูลจาก db มาใส่ใน data_employees
-// con.query(queryString,(err, users) => {
-//   if (err) {
-//     throw err;
-//   }
-//   else {
-//     data_employees = users;
-//     console.log(data_employees);
-//   }
-// });
 
-app.set('SecretOfDdth', config.secret); //secret variable
-
-//use body parser we can get info from POST and/or URL params
-
-app.use(bodyParser.urlencoded({ extended: false}));
-app.use(bodyParser.json());
-
+//************************************** Login Authentication *************************************
 app.use('/api', apiRoutes);
+
+apiRoutes.post('/authenticate', (req,res) => {
+
+    var username = req.body.username;
+    var password = req.body.password;
+
+    // console.log(username,password);
+    queryAuthen = "SELECT * from employees WHERE username = '"+username+"'";
+    // console.log(queryAuthen);
+
+    con.query(queryAuthen,(err,users) => {
+      if (err) {
+        res.status(400).send('Error in database.');
+      }
+      if (!users[0]) {
+        // console.log(users);
+        // console.log(users[0].username);
+        console.log("Cant Find USERNAME!!");
+        res.json({ success: false, message: 'Authentication failed. User not found.' });
+      }
+      else if (users[0]) {
+        console.log("Find users " + users[0].name);
+        console.log(password);
+        if (users[0].password != password) {
+          console.log("Password not match");
+          res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+        }
+        else {
+          console.log("success!!");
+          var token = jwt.sign(users[0], 'ddth_workplan', {
+            expiresIn: '24h'
+          });
+
+          res.json({
+              success: true,
+              em_id: users[0].em_id,
+              name: users[0].name,
+              lname: users[0].lname,
+              type: users[0].type,
+              token: token
+          });
+        }
+      }
+
+
+    });
+
+});
+
+
 apiRoutes.get('/', (req,res) => {
-  res.json({ message: 'Welcome to the coolest API !'});
+  res.json({ message: 'Welcome to the coolest API !', success: true});
   // console.log(data_employees);
 });
 
 
-apiRoutes.post('/authenticate', (req,res) => {
 
-  //find user
-  data_employees.findOne({
-    user: req.body.username
-  }, (err,user) => {
-    if (err) {
-      throw err;
-    }
-
-    if (!user) {
-      res.json({success: false, message: 'Failed to authenticate token.'});
-    }
-
-    else if (user) {
-      //check password dont matches
-      if(user.password != req.body.password) {
-        res.json({ success: false, message: 'Authentication failed. Wrong password.'})
-      }
-      else {
-        //if user found and password is right then create token
-        var token = jwt.sign(user, app.get('SecretOfDdth'), {
-          expiresInMinutes: 1440 //expire in 24 hr
-        });
-
-        res.json({
-          success: true,
-          message: 'Enjoy your token',
-          token: token
-        });
-      }
-    }
-  });
-});
-
-
-
+//************************************** Test & data employees *************************************
 
 app.get('/', (req, res) => {
   res.send('<h1> Hello Node.js</h1>');
@@ -257,15 +274,21 @@ app.get('/ticket/:id', (req,res) => {
 });
 
 app.post('/ticket/add', (req,res) => {
+
   let ticket_id = req.body.ticket_id;
   let owner = req.body.owner;
   let customer_name = req.body.customer_name;
   let tel = req.body.tel;
   let description = req.body.description;
   let state = req.body.state;
-  console.log(ticket_id,owner, customer_name, tel, description, state);
+  let date = req.body.date;
+  let time = req.body.time;
+
+
+
+  console.log(ticket_id,owner, customer_name, tel, description, state, date, time);
   queryTicket2 = "INSERT INTO ticket (`ticket_id`, `customer_name`, `owner`, `tel`,`description`, `date`, `time`, `state`)"
-                 + "VALUES ('"+ticket_id+"', '"+customer_name+"', '"+owner+"', '"+tel+"', '"+description+"', '', '', '"+state+"')";
+                 + "VALUES ('"+ticket_id+"', '"+customer_name+"', '"+owner+"', '"+tel+"', '"+description+"', '"+date+"', '"+time+"', '"+state+"')";
   con.query(queryTicket2, (err,ticket) => {
     if (err) {
       res.status(400).send('Error insert Ticket ' + queryTicket2);
@@ -284,6 +307,8 @@ app.post('/ticket/edit/:id', (req,res) => {
   let customer_name = req.body.customer_name;
   let tel = req.body.tel;
   let description = req.body.description;
+  let date = req.body.date;
+  let time = req.body.time;
   // let state = req.body.state;
 
     // console.log(id,name);
@@ -291,7 +316,7 @@ app.post('/ticket/edit/:id', (req,res) => {
     console.log(id, owner, customer_name, tel, description);
   //
   let queryEdit = "UPDATE ticket SET `owner`='"+owner+"', `customer_name`='"+customer_name+"', `tel`='"+tel+"', `tel`='"+tel+"', `description`='"+description+"'"
-                  +" WHERE ticket.ticket_id = "+id+"";
+                  +",`date`='"+date+"',`time`='"+time+"' WHERE ticket.ticket_id = "+id+"";
 
     con.query(queryEdit, (err,ticket) => {
       if (err) {

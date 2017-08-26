@@ -16,5 +16,6 @@ export class Employees {
   password: string;
   skill_id1: number;
   skill_id2: number;
+  token: string;
 
 }

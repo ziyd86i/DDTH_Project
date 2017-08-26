@@ -6,11 +6,11 @@ export class PasswordValidation {
     let password = AC.get('password').value;
     let confirmPassword = AC.get('reply').value;
     if(password != confirmPassword) {
-      console.log('false');
+      // console.log('false');
       AC.get('reply').setErrors({MatchPassword: true})
     }
     else {
-      console.log('true');
+      // console.log('true');
       return null
     }
   }

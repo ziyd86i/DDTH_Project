@@ -8,6 +8,8 @@ import { AdduserComponent } from './admin/adduser/adduser.component';
 import { TicketComponent } from './resource/ticket/ticket.component';
 import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.component';
 
+import { EngineerComponent } from './engineer/engineer.component';
+import { AuthGuard } from './login/_guard/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
@@ -20,6 +22,8 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'admin/adduser', component: AdduserComponent },
   { path: 'admin/:id', component: AdduserComponent },
+
+  { path: 'eng', component: EngineerComponent },
 
 ]
 

@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-// import { Router, ActivatedRoute } from '@angular/router';
-//
-// import { AlertService, AuthenticationService } from './_service/index';
-
-import { ServiceService } from '../service.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AlertService, AuthenticationService } from './_service/index';
+// import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Employees } from '../employees';
 
 @Component({
@@ -15,46 +13,73 @@ import { Employees } from '../employees';
 })
 export class LoginComponent implements OnInit {
 
+  loading = false;
+  returnUrl: string;
+
   ObservableEmp: Observable<Employees[]>
-  employees: Employees[];
+  employees: Employees;
   errorMsg: string;
+  username: string = '';
+  password: string = '';
 
-  constructor(private employeeService: ServiceService) { }
-  ngOnInit(): void {
-    this.ObservableEmp = this.employeeService.getEmployees();
-    this.ObservableEmp.subscribe(
-      employees => this.employees = employees,
-      err => this.errorMsg = <any>err
-    );
-  }
-  //   model: any= {};
-  //   loading = false;
-  //   returnUrl: string;
-  // constructor(
-  //   private route: ActivatedRoute,
-  //   private router: Router,
-  //   private authenticationService: AuthenticationService,
-  //   private alertService: AlertService) { }
-  //
-  //   ngOnInit() {
-  //         // reset login status
-  //         this.authenticationService.logout();
-  //
-  //         // get return url from route parameters or default to '/'
-  //         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-  //     }
+  constructor(
+              private authenService: AuthenticationService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private alertService: AlertService) { }
 
-      // login() {
-      //     this.loading = true;
-      //     this.authenticationService.login(this.model.username, this.model.password)
-      //         .subscribe(
-      //             data => {
-      //                 this.router.navigate([this.returnUrl]);
-      //             },
-      //             error => {
-      //                 this.alertService.error(error);
-      //                 this.loading = false;
-      //             });
-      // }
+
+  ngOnInit() {
+
+    //reset login status
+    this.authenService.logout();
+
+    //get return url from  route  params or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+   }
+
+   login() {
+     this.loading = true;
+     console.log(this.username, this.password);
+     this.authenService.login(this.username, this.password)
+         .subscribe(
+           users => {
+             if(!users.success){
+                this.loading = false;
+
+               this.errorMsg = users.message;
+
+             }
+             else if(users.success) {
+               this.employees = users;
+               console.log(this.employees.type);
+               if(this.employees.type === 'admin') {
+                 this.router.navigate(['/admin']);
+               }
+               else if(this.employees.type === 'resource controller') {
+                 this.router.navigate(['/cm']);
+               }
+               else if(this.employees.type === 'engineer') {
+                 this.router.navigate(['/eng']);
+               }
+             }
+
+           },
+           error => {
+             this.alertService.error(error);
+             this.loading = false;
+           }
+         );
+   }
+
+
+  //  private jwt() {
+  //    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  //    if(currentUser && currentUser.token) {
+  //      let headers = new Headers({'Authorization':'DDTH'+ currentUser.token});
+  //      return new RequestOptions({ headers: headers});
+  //    }
+  //  }
+
 
 }

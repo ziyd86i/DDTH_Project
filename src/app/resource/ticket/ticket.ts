@@ -3,7 +3,8 @@ export class Ticket {
   customer_name: string;
   tel: number;
   description: string;
-  date: Date;
+  date: string;
+  time: string;
   state: number;
 
 }

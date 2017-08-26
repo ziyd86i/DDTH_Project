@@ -1,5 +1,5 @@
 module.exports = {
 
-  'secret': 'WEloveDDTH',
+  'secret': "DDTH_WORKPLAN"
 
 };

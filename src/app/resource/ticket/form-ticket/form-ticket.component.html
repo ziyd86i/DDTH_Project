@@ -100,6 +100,41 @@
 
        <div class="row">
          <div class="col-md-3">
+           <label>Date: </label>
+         </div>
+         <div class="col-md-3">
+                <input
+                type="text"
+                [(ngModel)]="tickets.date"
+                class="form-control"
+                ngui-datetime-picker
+                formControlName="date"
+                date-format = "YYYY-MM-DD"
+                date-only = "true"
+                 />
+         </div>
+       </div>
+
+       <div class="row">
+         <div class="col-md-3">
+           <label>Time: </label>
+         </div>
+         <div class="col-md-3">
+                <input
+
+                [(ngModel)]="tickets.time"
+                class="form-control"
+                ngui-datetime-picker
+                formControlName="time"
+                time-only = "true"
+                date-format="HH:mm"
+                [close-on-select]="false"
+                 />
+         </div>
+       </div>
+
+       <div class="row">
+         <div class="col-md-3">
            <label>Description :</label>
          </div>
          <div class="col-md-3">
@@ -112,6 +147,9 @@
                     rows="10" cols="50"></textarea>
          </div>
        </div>
+
+
+
 
 
 

@@ -6,20 +6,52 @@
   </head>
   <body>
     <div class="container">
-           <div class="card card-container">
+           <div class="card card-container" >
 
                <img id="profile-img" class="profile-img-card" src="../assets/images/DDTHlogo.jpeg" />
                <p id="profile-name" class="profile-name-card"></p>
-               <form class="form-signin">
-                   <span id="reauth-email" class="reauth-email"></span>
-                   <input type="email" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
-                   <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+               <form class="form-signin" (ngSubmit)="login()" #f="ngForm">
+                   <span id="reauth-email" class="reauth-email">aaa</span>
+                    <div *ngIf="f.submitted && !username.valid" class="help-block">{{ errorMsg }}</div>
+                   <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                     <input type="email"
+                            class="form-control"
+                            id="username"
+                            name = "username"
+                            [(ngModel)]="username"
+                            placeholder="Username"
+                            required
+                            autofocus>
+                   </div>
+
+
+                   <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                     <input type="password"
+                            class="form-control"
+                            [(ngModel)]="password"
+                            id="password"
+                            name = "password"
+                            placeholder="Password"
+                            required>
+                   </div>
+
+
                    <div id="remember" class="checkbox">
                        <label>
-                           <input type="checkbox" value="remember-me"> Remember me
+                           <input type="checkbox" value="remember-me" name="remember"> Remember me
                        </label>
                    </div>
-                   <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+                   <div class="form-group">
+                     <div align="center">
+                       <img *ngIf="loading" src="../../assets/images/loader.gif">
+                     </div>
+                     <button [disabled]="loading"
+                             type="submit"
+                             class="btn btn-lg btn-primary btn-block btn-signin"
+                             >Sign in</button>
+
+                   </div>
                </form>
 
 

@@ -159,7 +159,7 @@ export class AdduserComponent implements OnInit {
   }
 
   addUser(form) {
-        console.log(form.value.birthday);
+        console.log(form.value.hiredate);
         console.log("Submitted success!");
         console.log(form.value);
         this.ManagedUser = this.managedService.addUser(form.value)
@@ -178,6 +178,7 @@ export class AdduserComponent implements OnInit {
   editUser(form) {
     console.log("This is the edit function !!!");
     console.log(form.value);
+    console.log(form.value.hiredate);
     this.ManagedUser = this.managedService.editUser(form.value, form.value.em_id)
     this.ManagedUser.subscribe(
       users => {
@@ -185,7 +186,8 @@ export class AdduserComponent implements OnInit {
 
       },
       err =>  this.errorMsg = <any>err
-    );this.redirect();
+    );
+    // this.redirect();
   }
 
   getDataById(id) {

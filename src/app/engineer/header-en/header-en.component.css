@@ -1,0 +1,44 @@
+.navbar, .dropdown-menu{
+background:#09ba32;
+border: none;
+
+}
+
+.navbar-default .navbar-toggle .icon-bar
+  {
+  background-color: white;
+
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus
+ {
+
+  background-color: #009900;
+
+}
+.navbar-default .navbar-right .dropdown-toggle:focus,
+.navbar-default .navbar-right .dropdown-toggle:hover
+{
+  color: #6b6565;
+  background-color: #09ba32;
+}
+
+.navbar-default .navbar-right .droupdown-menu:hover {
+  background-color: red;
+  color: red;
+}
+
+
+.navbar a {
+  color: white;
+}
+
+.navbar-left {
+  margin-left: 10px;
+
+}
+
+body {
+  font-family: roboto;
+}
