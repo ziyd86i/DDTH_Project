@@ -3,8 +3,9 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from
  import { Employees } from '../../employees';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class AuthEngineerGuard implements CanActivate {
     currentUser: Employees;
+
     constructor(private router: Router) { }
  
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -13,17 +14,20 @@ export class AuthGuard implements CanActivate {
 
           this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
           console.log(this.currentUser);
-          if (this.currentUser.type === 'resource controller') {
-              
+          if (this.currentUser.type === 'engineer') {
               return true;
+          }
+          else {
+            window.alert("please login as a Engineer.");
           }
             
         }
+          // not logged in so redirect to login page with the return url
           this.router.navigate(['/login'], { queryParams: { returnUrl: state.url }});
           return false;
 
  
-        // not logged in so redirect to login page with the return url
+        
         
     }
 }

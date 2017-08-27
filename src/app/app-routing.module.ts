@@ -9,21 +9,27 @@ import { TicketComponent } from './resource/ticket/ticket.component';
 import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.component';
 
 import { EngineerComponent } from './engineer/engineer.component';
-import { AuthGuard } from './login/_guard/auth.guard';
+import { AuthCmGuard } from './login/_guard/auth_cm.guard';
+import { AuthAdminGuard } from './login/_guard/auth_admin.guard';
+import { AuthEngineerGuard } from './login/_guard/auth_engineer.guard';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full'},
   { path: 'login', component: LoginComponent },
-  { path: 'cm', component: ResourceComponent },
-  { path: 'cm/ticket', component: TicketComponent },
-  { path: 'cm/ticket/addnew', component: FormTicketComponent },
-  { path: 'cm/ticket/:id', component: FormTicketComponent },
+  { path: 'cm', component: ResourceComponent, canActivate: [AuthCmGuard] },
+  { path: 'cm/ticket', component: TicketComponent, canActivate: [AuthCmGuard] },
+  { path: 'cm/ticket/addnew', component: FormTicketComponent, canActivate: [AuthCmGuard] },
+  { path: 'cm/ticket/:id', component: FormTicketComponent, canActivate: [AuthCmGuard] },
 
-  { path: 'admin', component: AdminComponent },
-  { path: 'admin/adduser', component: AdduserComponent },
-  { path: 'admin/:id', component: AdduserComponent },
+  { path: 'admin', component: AdminComponent, canActivate: [AuthAdminGuard]},
+  { path: 'admin/adduser', component: AdduserComponent, canActivate: [AuthAdminGuard] },
+  { path: 'admin/:id', component: AdduserComponent, canActivate: [AuthAdminGuard] },
 
-  { path: 'eng', component: EngineerComponent },
+  { path: 'eng', component: EngineerComponent, canActivate: [AuthEngineerGuard] },
+
+  // otherwise redirect to home
+  { path: '**', redirectTo: '' }
 
 ]
 

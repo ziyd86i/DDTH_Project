@@ -10,7 +10,9 @@ import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 
 //Service
-import { AuthGuard } from './login/_guard/auth.guard';
+import { AuthCmGuard } from './login/_guard/auth_cm.guard';
+import { AuthAdminGuard } from './login/_guard/auth_admin.guard';
+import { AuthEngineerGuard } from './login/_guard/auth_engineer.guard';
 import { ManagedService } from './admin/managed.service';
 import { TicketService } from './resource/ticket/ticket.service';
 import { LoginService } from './login/login.service';
@@ -77,7 +79,9 @@ import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.c
 
   ],
   providers: [
-              AuthGuard,
+              AuthCmGuard,
+              AuthEngineerGuard,
+              AuthAdminGuard,
               LoginService,
               ManagedService,
               DatePipe,
