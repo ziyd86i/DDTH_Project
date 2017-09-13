@@ -1,52 +1,52 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <button class="btn btn-primary" routerLink="/cm/ticket/addnew">Add new Ticket +</button>
-      </div>
     </div>
-      <h4><img src="../../assets/images/icon_yellow.jpg"> In Progress</h4>
-    <hr>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <button class="btn btn-primary pull-right" routerLink="/cm/ticket/addnew">Add new Ticket +</button>
+    </div>
+  </div>
+  <h4><img src="../../assets/images/icon_yellow.jpg"> In Progress</h4>
+  <hr>
 
-    <div class="row">
-      <div class="col-xs-12 mx-auto">
-        <table datatable class="table table-striped ">
-          <thead>
-            <tr>
-              <th style="width: 5%">Ticket ID</th>
-              <th style="width: 5%">Case Owner </th>
-              <th style="width: 10%">Customer Name</th>
-              <th style="width: 10%">Tel No.</th>
-              <th style="width: 15%">Date</th>
-              <th style="width: 10%">Time</th>
-              <th style="width: 30%">Description</th>
-              <th style="width: 5%">Detail&Edit</th>
-              <th style="width: 5%">Delete</th>
-            </tr>
-          </thead>
+  <div class="row">
+    <div class="col mx-auto">
+      <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped ">
+        <thead>
+          <tr>
+            <th style="width: 5%">Ticket ID</th>
+            <th style="width: 5%">Case Owner </th>
+            <th style="width: 10%">Customer Name</th>
+            <th style="width: 10%">Tel No.</th>
+            <th style="width: 15%">Date</th>
+            <th style="width: 10%">Time</th>
+            <th style="width: 30%">Description</th>
+            <th style="width: 5%">Detail&Edit</th>
+            <th style="width: 5%">Delete</th>
+          </tr>
+        </thead>
 
-          <tbody>
-            <ng-container *ngFor="let tick of ticket">
-              <tr *ngIf="tick.state === 1">
-                <td>{{tick.ticket_id}}</td>
-                <td> {{ tick.owner }}</td>
-                <td>{{tick.customer_name}} </td>
-                <td>{{ tick.tel }}</td>
-                <td>{{ tick.date | date:'longDate' }}</td>
-                <td>{{ tick.time }}</td>
-                <td>{{tick.description}}</td>
-                <td>
-                  <a [routerLink]="['/cm/ticket', tick.ticket_id]" >
+        <tbody>
+          <ng-container *ngFor="let tick of ticket">
+            <tr *ngIf="tick.state === 1">
+              <td>{{tick.ticket_id}}</td>
+              <td> {{ tick.owner }}</td>
+              <td>{{tick.customer_name}} </td>
+              <td>{{ tick.tel }}</td>
+              <td>{{ tick.date | date:'longDate' }}</td>
+              <td>{{ tick.time | slice:0:5}}</td>
+              <td>{{tick.description}}</td>
+              <td>
+                <a [routerLink]="['/cm/ticket', tick.ticket_id]">
                     <span class="glyphicon glyphicon-pencil" ></span>
                   </a>
-                </td>
-                <td>
-                  <a (click)="deleteTicket(tick)" href="/cm/ticket" >
+              </td>
+              <td>
+                <a (click)="deleteTicket(tick)" href="/cm/ticket">
                     <span class="glyphicon glyphicon-trash"></span>
                   </a>
-                </td>
-
-
+              </td>
 
               <!-- <td><button class="btn btn-default"
                           name="Edit"
@@ -54,26 +54,28 @@
                           Edit
                         </button></td> -->
             </tr>
-            </ng-container>
-          </tbody>
-        </table>
+          </ng-container>
+        </tbody>
+      </table>
 
-      </div>
     </div>
+  </div>
 
-    <h4><img src="../../assets/images/icon_green.jpg"> Done</h4>
+  <h4><img src="../../assets/images/icon_green.jpg"> Done</h4>
   <hr>
 
   <div class="row">
-    <div class="col-xs-12 mx-auto">
-      <table datatable class="table table-striped ">
+    <div class="col mx-auto">
+      <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-striped ">
         <thead>
           <tr>
-            <th style="width: 10%">Ticket ID</th>
-            <th style="width: 20%">Case Owner </th>
-            <th style="width: 15%">Customer Name</th>
-            <th style="width: 15%">Tel No.</th>
-            <th style="width: 15%">Description</th>
+            <th style="width: 5%">Ticket ID</th>
+            <th style="width: 10%">Case Owner </th>
+            <th style="width: 10%">Customer Name</th>
+            <th style="width: 5%">Tel No.</th>
+            <th style="width: 10%">Date</th>
+            <th style="width: 10%">Time</th>
+            <th style="width: 20%">Description</th>
             <th style="width: 5%">Delete</th>
           </tr>
         </thead>
@@ -85,15 +87,17 @@
               <td>{{tick.owner}}</td>
               <td>{{tick.customer_name}} </td>
               <td>{{ tick.tel }}</td>
+              <td>{{ tick.date | date:'longDate' }}</td>
+              <td>{{ tick.time | slice:0:5}}</td>
               <td>{{tick.description}}</td>
 
               <td>
-                <a (click)="deleteTicket(tick)" href="/cm/ticket" >
+                <a (click)="deleteTicket(tick)" href="/cm/ticket">
                   <span class="glyphicon glyphicon-trash"></span>
                 </a>
               </td>
 
-            <!-- <td><button class="btn btn-default"
+              <!-- <td><button class="btn btn-default"
                         name="Edit"
                         (onClick) ="editUser(users.em_id)">
                         Edit
@@ -105,4 +109,4 @@
 
     </div>
   </div>
-  </div>
+</div>

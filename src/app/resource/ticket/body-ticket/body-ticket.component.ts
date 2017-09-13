@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { TicketService } from '../ticket.service';
 import { Ticket } from '../ticket';
 import { Observable } from 'rxjs/Observable';
 import { Router,ActivatedRoute } from '@angular/router';
-import { DatePipe } from '@angular/common';
-
-
+import { DatePipe,SlicePipe } from '@angular/common';
+import { Subject } from 'rxjs/Subject';
+import { DataTableDirective } from 'angular-datatables';
 
 
 @Component({
@@ -14,6 +14,11 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./body-ticket.component.css']
 })
 export class BodyTicketComponent implements OnInit {
+
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtOptions: DataTables.Settings = {};
+  dtTrigger: Subject<any> = new Subject();
 
   ObservableTicket : Observable<Ticket[]>;
   ticket : Ticket[];
@@ -37,6 +42,7 @@ export class BodyTicketComponent implements OnInit {
     this.ObservableTicket.subscribe(
               ticket => {
                 this.ticket = ticket
+                this.dtTrigger.next();
               },
               err => this.ticket = <any>err
 

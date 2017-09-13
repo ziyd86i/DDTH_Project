@@ -1,6 +1,7 @@
 //Module
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {MdDialogModule, MdCardModule, MdButtonModule} from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule }   from './app-routing.module';
@@ -8,6 +9,14 @@ import { DataTablesModule } from 'angular-datatables';
 import { DatePipe } from '@angular/common';
 import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { DxButtonModule } from 'devextreme-angular';
+
+import {
+         DxDataGridModule,
+         DxSelectBoxModule,
+         DxCheckBoxModule } from 'devextreme-angular';
+
 
 //Service
 import { AuthCmGuard } from './login/_guard/auth_cm.guard';
@@ -18,6 +27,8 @@ import { TicketService } from './resource/ticket/ticket.service';
 import { LoginService } from './login/login.service';
 import { AlertService } from './login/_service/alert.service';
 import { AuthenticationService } from './login/_service/authentication.service';
+import { EngineerService } from './engineer/engineer.service';
+import { ResourceService } from './resource/resource.service';
 
 
 //Component
@@ -34,11 +45,15 @@ import { BodyAdminComponent } from './admin/body-admin/body-admin.component';
 import { EmployeesDataComponent } from './admin/body-admin/employees-data/employees-data.component';
 import { AdduserComponent } from './admin/adduser/adduser.component';
 import { BodyCmComponent } from './resource/body-cm/body-cm.component';
-import { SearchTectComponent } from './resource/body-cm/search-tect/search-tect.component';
 import { StatusComponent } from './resource/body-cm/status/status.component';
 import { TicketComponent } from './resource/ticket/ticket.component';
 import { BodyTicketComponent } from './resource/ticket/body-ticket/body-ticket.component';
 import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.component';
+import { EngDataComponent } from './engineer/body-en/eng-data/eng-data.component';
+import { EngWorkplanComponent } from './engineer/eng-workplan/eng-workplan.component';
+import { EngDialogComponent } from './engineer/eng-workplan/eng-dialog/eng-dialog.component';
+import { DialogDetails } from './engineer/body-en/eng-data/dialog-detials/dialog-detials.component';
+import { DialogDone } from './engineer/body-en/eng-data/dialog-done/dialog-done.component';
 
 
 
@@ -57,13 +72,24 @@ import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.c
     EmployeesDataComponent,
     AdduserComponent,
     BodyCmComponent,
-    SearchTectComponent,
     StatusComponent,
     TicketComponent,
     BodyTicketComponent,
     FormTicketComponent,
     BodyEnComponent,
+    EngDataComponent,
+    DialogDetails,
+    EngWorkplanComponent,
+    EngDialogComponent,
+    DialogDone,
 
+
+
+  ],
+  entryComponents: [
+    DialogDone,
+    DialogDetails,
+    EngDialogComponent,
 
   ],
   imports: [
@@ -75,6 +101,14 @@ import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.c
     ReactiveFormsModule,
     DataTablesModule,
     NguiDatetimePickerModule,
+    MdDialogModule,
+    MdCardModule,
+    MdButtonModule,
+    BrowserAnimationsModule,
+    DxButtonModule,
+    DxDataGridModule,
+    DxSelectBoxModule,
+    DxCheckBoxModule
 
 
   ],
@@ -87,7 +121,9 @@ import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.c
               DatePipe,
               TicketService,
               AlertService,
-              AuthenticationService
+              AuthenticationService,
+              EngineerService,
+              ResourceService
             ],
   bootstrap: [AppComponent]
 })

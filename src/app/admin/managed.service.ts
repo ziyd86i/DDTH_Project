@@ -20,7 +20,6 @@ export class ManagedService {
 
   getUserById(id : Object): Observable<Employees> {
     console.log("GET" + id);
-
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
@@ -47,12 +46,14 @@ export class ManagedService {
 
   addUser(form: Object): Observable<Employees> {
     console.log("POST" + form);
+    console.log(form);
     let body = JSON.stringify(form);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
-    console.log(body);
+    // console.log(body);
 
-    return this.http.post(`${this.userUrl}/adduser`, body, options)
+
+    return this.http.post(`${this.userUrl}/adduser`, form, options)
                     .map((res:Response) => res.json())
                     .catch((err:any) => Observable.throw(err.json().error || 'Server Error'));
 
@@ -60,7 +61,6 @@ export class ManagedService {
 
   deleteUser(id): Observable<Employees> {
     console.log(id);
-
 
     return this.http.get(`${this.userUrl}/delete/${id}`)
                     .map((res: Response) => res.json())

@@ -67,6 +67,7 @@ apiRoutes.post('/authenticate', (req,res) => {
         // console.log(users[0].username);
         console.log("Cant Find USERNAME!!");
         res.json({ success: false, message: 'Authentication failed. User not found.' });
+
       }
       else if (users[0]) {
         console.log("Find users " + users[0].name);
@@ -237,6 +238,53 @@ app.post('/adduser', (req,res) => {
 
 });
 
+// ********************************* CM Assign Work ************************************
+
+app.get('/available', (req,res) => {
+
+  queryAvailable = "SELECT * FROM employees INNER JOIN skill ON employees.skill_id = skill.skill_id WHERE emp_status = 'available' AND employees.team_id = '505'";
+
+  con.query(queryAvailable, (err,data) => {
+    if (err) {
+      console.log("Error to get data available status");
+    }
+    else {
+      res.send(data);
+      console.log("Get available status complete");
+    }
+  });
+});
+
+app.get('/progress', (req,res) => {
+
+  queryProgress = "SELECT * FROM employees INNER JOIN workplan ON employees.em_id = workplan.em_id INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE workplan.status_work = 'active' AND ticket.date = cast(now() as date)";
+
+  con.query(queryProgress, (err,data) => {
+    if (err) {
+      console.log("Error to get data in progress status");
+    }
+    else {
+      res.send(data);
+      console.log("Get progress status complete");
+    }
+  });
+});
+
+app.get('/busy', (req,res) => {
+
+  queryAvailable = "SELECT * FROM employees INNER JOIN skill ON employees.skill_id = skill.skill_id WHERE emp_status = 'available' AND employees.team_id = '505'";
+
+  con.query(queryAvailable, (err,data) => {
+    if (err) {
+      console.log("Error to get data available status");
+    }
+    else {
+      res.send(data);
+      console.log("Get available status complete");
+    }
+  });
+});
+
 // ********************************* CM Managed Ticket ************************************
 
 app.get('/ticket', (req,res) => {
@@ -332,7 +380,7 @@ app.post('/ticket/edit/:id', (req,res) => {
 app.get('/ticket/delete/:id',(req,res) => {
   let id = req.params.id;
   console.log(id);
-  queryDelTicket = "DELETE FROM ticket WHERE ticket_id = '"+id+"'";
+  let queryDelTicket = "DELETE FROM ticket WHERE ticket_id = '"+id+"'";
 
   con.query(queryDelTicket, (err,result) =>{
     if (err) {
@@ -344,9 +392,94 @@ app.get('/ticket/delete/:id',(req,res) => {
   });
 });
 
+// ********************************* Engineer Management ************************************
 
+app.get('/eng/workplan/:id', (req,res) => {
+  let id = req.params.id;
 
+  let queryWork = "SELECT * FROM `workplan` INNER JOIN employees ON workplan.em_id = employees.em_id"+
+  " INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE workplan.em_id = '"+id+"' AND date = cast(now() as date) AND status_work = 'active'";
 
+  // console.log(queryWork);
+  con.query(queryWork, (err,workplan) => {
+    if (err) {
+      console.log("Failed to select workplan user " + id);
+    }
+    else {
+      res.send(workplan);
+      console.log("Success select data !!");
+      console.log(workplan);
+    }
+  });
+});
+
+app.get('/eng/workonweek/:id', (req,res) => {
+  let id = req.params.id;
+
+  let queryWorkOnWeek = "SELECT * FROM `workplan` INNER JOIN employees ON workplan.em_id = employees.em_id"+
+  " INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE workplan.em_id = '"+id+"' AND  date > cast((now()) as date) AND date <= cast((now() + interval 7 day) as date)";
+
+  con.query(queryWorkOnWeek, (err,workplan) => {
+    if (err) {
+      console.log("Failed to select workplan on week");
+    }
+    else {
+      res.send(workplan);
+      console.log("Success to select data on week");
+      console.log(workplan);
+    }
+  })
+});
+
+app.get('/eng/workdoing/:id', (req,res) => {
+  let id = req.params.id;
+
+  let queryWorkdoing = "SELECT * FROM `workplan` INNER JOIN employees ON workplan.em_id = employees.em_id"+
+  " INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE workplan.em_id = '"+id+"' AND status_work = 'doing'"
+
+  con.query(queryWorkdoing, (err,workplan) => {
+    if (err) {
+      console.log("Failed to select Doing work");
+    }
+    else {
+      res.send(workplan);
+      console.log("Success to select data Doing work");
+      console.log(workplan);
+    }
+  });
+});
+
+app.post('/eng/accept/:id', (req,res) => {
+
+  let work_id =  req.params.id;
+  console.log(work_id);
+
+  let queryAccept = "UPDATE workplan SET `status_work`= 'doing' WHERE workplan_id = '"+work_id+"'";
+
+  con.query(queryAccept, (err,workplan) => {
+    if (err) {
+      console.log("Cannot update workplan_id");
+    }
+    else {
+      console.log("Change status to Doing complete!");
+    }
+  });
+});
+
+app.post('/eng/donework/:id', (req,res) => {
+  let work_id = req.params.id;
+  console.log(work_id);
+  let queryDone = "UPDATE workplan INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id SET `status_work` = 'done', ticket.state = '0' WHERE workplan_id = '"+work_id+"'";
+
+  con.query(queryDone, (err,workplan) => {
+    if (err) {
+      console.log("Cannot update done work");
+    }
+    else {
+      console.log("Change status to Done Complete!");
+    }
+  });
+});
 
 //  *************************** กำหนด port ที่ api จะแสดงผล ***************************
 server.listen(3300, () => {

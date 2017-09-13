@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Http } from '@angular/http';
 
 @Component({
@@ -8,7 +9,7 @@ import { Http } from '@angular/http';
 })
 export class BodyCmComponent implements OnInit {
 
-  constructor(private http: Http) { }
+  constructor() { }
 
   ngOnInit() {
   }

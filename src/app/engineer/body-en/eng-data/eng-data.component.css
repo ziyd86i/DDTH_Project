@@ -1,0 +1,40 @@
+h3 {
+  font-family: helvetica;
+  padding-left: 10;
+  color: #6b6565;
+}
+
+.table-striped {
+  text-align: center;
+  border-radius: 20px;
+}
+
+thead>tr>th {
+  background-color: white;
+  text-align: center;
+}
+
+caption {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  background-color: #09ba32;
+  text-align: center;
+  color: white;
+}
+
+.box {
+  background-color: #F6F7F2;
+  border-radius: 20px;
+  padding: 1px;
+  margin: 10px;
+}
+
+
+/*.subbox {
+  text-align: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #09ba32;
+  color: white;
+  padding: 10px;
+}*/

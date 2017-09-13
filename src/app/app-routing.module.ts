@@ -9,6 +9,7 @@ import { TicketComponent } from './resource/ticket/ticket.component';
 import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.component';
 
 import { EngineerComponent } from './engineer/engineer.component';
+import { EngWorkplanComponent } from './engineer/eng-workplan/eng-workplan.component';
 import { AuthCmGuard } from './login/_guard/auth_cm.guard';
 import { AuthAdminGuard } from './login/_guard/auth_admin.guard';
 import { AuthEngineerGuard } from './login/_guard/auth_engineer.guard';
@@ -27,7 +28,7 @@ const routes: Routes = [
   { path: 'admin/:id', component: AdduserComponent, canActivate: [AuthAdminGuard] },
 
   { path: 'eng', component: EngineerComponent, canActivate: [AuthEngineerGuard] },
-
+  { path: 'eng/workplan', component: EngWorkplanComponent, canActivate: [AuthEngineerGuard] },
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
 

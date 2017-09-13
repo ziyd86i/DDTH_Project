@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild, enableProdMode } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Employees } from '../../../employees';
 import { ManagedService } from '../../managed.service';
-
-
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs/Subject';
+declare var $ :any;
 
 @Component({
   selector: 'employees-data',
@@ -11,10 +12,12 @@ import { ManagedService } from '../../managed.service';
   styleUrls: ['./employees-data.component.css']
 })
 export class EmployeesDataComponent implements OnInit {
-
-
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtOptions: DataTables.Settings = {};
   ObservableEmp: Observable<Employees[]>;
   employees: Employees[];
+  dtTrigger: Subject<any> = new Subject();
   errorMsg: string;
 
 
@@ -27,11 +30,22 @@ export class EmployeesDataComponent implements OnInit {
   }
 
   getUsers(): void {
+
     this.ObservableEmp = this.managedService.getEmployees();
     this.ObservableEmp.subscribe(
-              employees => this.employees = employees,
+              employees => {
+                this.employees = employees
+                this.dtTrigger.next();
+                // $(document).ready(function() {
+                //   $('#emp-table').DataTable();
+                // } );
+              },
               err => this.errorMsg = <any>err
     );
+    // for(let users of this.employees){
+    //   console.log(users.name);
+    // }
+
   }
 
   deleteUser(users) :void {

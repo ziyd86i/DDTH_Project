@@ -13,7 +13,8 @@ import { Employees } from '../employees';
 })
 export class LoginComponent implements OnInit {
 
-  loading = false;
+  loading: boolean = false;
+  remember : boolean = false;
   returnUrl: string;
 
   ObservableEmp: Observable<Employees[]>

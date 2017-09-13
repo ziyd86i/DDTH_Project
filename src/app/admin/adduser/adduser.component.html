@@ -3,37 +3,24 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-          <h1>{{title}}</h1>
-          <hr>
+      <h1>{{title}}</h1>
+      <hr>
     </div>
   </div>
 
 
 
   <!-- <form (ngSubmit)="onSubmit(f)" #f="ngForm"> -->
-    <form (ngSubmit)="managedEmployees()" [formGroup]="form">
-   <div class="form-group">
+  <form (ngSubmit)="managedEmployees()" [formGroup]="form">
+    <div class="form-group">
       <div class="row">
         <div class="col-md-3">
           <label>Employee ID (รหัสพนักงาน):</label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['em_id'].valid && form.controls['em_id'].touched}">
-          <p *ngIf="!editted"><input type="text"
-                  class="form-control"
-                  id="em_id"
-                  [(ngModel)]="users.em_id"
-                  formControlName="em_id"
-                  placeholder="Ex.TH999999"
-                  maxlength="8"
-                  required>
+          <p *ngIf="!editted"><input type="text" class="form-control" id="em_id" [(ngModel)]="users.em_id" formControlName="em_id" placeholder="Ex.TH999999" maxlength="8" required>
           </p>
-          <p *ngIf="editted"><input type="text"
-                  class="form-control"
-                  id="em_id"
-                  [(ngModel)]="users.em_id"
-                  formControlName="em_id"
-                  disabled
-                  ></p>
+          <p *ngIf="editted"><input type="text" class="form-control" id="em_id" [(ngModel)]="users.em_id" formControlName="em_id" disabled></p>
           <span class="help-block" *ngIf="!form.controls['em_id'].valid
                                         && form.controls['em_id'].touched">Please enter valid Employees ID</span>
         </div>
@@ -44,14 +31,7 @@
           <label>Firstname (ชื่อ): </label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['name'].valid && form.controls['name'].touched}">
-          <input
-                type="text"
-                class="form-control"
-                id="name"
-                [(ngModel)]="users.name"
-                formControlName="name"
-                name="name"
-                required>
+          <input type="text" class="form-control" id="name" [(ngModel)]="users.name" formControlName="name" name="name" required>
           <span class="help-block" *ngIf="!form.controls['name'].valid
                                         && form.controls['name'].touched">Please enter Name</span>
         </div>
@@ -62,14 +42,8 @@
           <label>Surname (นามสกุล): </label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['lname'].valid && form.controls['lname'].touched}">
-          <input
-                type="text"
-                class="form-control"
-                id="lname"
-                [(ngModel)]="users.lname"
-                formControlName="lname"
-                required>
-                <span class="help-block" *ngIf="!form.controls['lname'].valid
+          <input type="text" class="form-control" id="lname" [(ngModel)]="users.lname" formControlName="lname" required>
+          <span class="help-block" *ngIf="!form.controls['lname'].valid
                                               && form.controls['lname'].touched">Please enter Surname</span>
         </div>
       </div>
@@ -78,16 +52,10 @@
 
       <div class="row">
         <div class="col-md-3">
-          <label>Job Famiky : </label>
+          <label>Job Family : </label>
         </div>
         <div class="col-md-3">
-          <select
-                 class="form-control"
-                 id="job_fam_id"
-                 [(ngModel)]="defaultFamily"
-                 formControlName="job_fam_id"
-                 required
-                 >
+          <select class="form-control" id="job_fam_id" [(ngModel)]="defaultFamily" formControlName="job_fam_id" required>
               <option value="101" [selected]="defaultFamily === 101">PS Implementation Engineers</option>
               <option value="102" [selected]="defaultFamily === 102">Business Management</option>
               <option value="103" [selected]="defaultFamily === 103">MS Management</option>
@@ -107,13 +75,7 @@
           <label>Team : </label>
         </div>
         <div class="col-md-3">
-            <select
-                    class="form-control"
-                    id="team_id"
-                    [(ngModel)]="defaultTeam"
-                    formControlName="team_id"
-                    required
-                    >
+          <select class="form-control" id="team_id" [(ngModel)]="defaultTeam" formControlName="team_id" required>
                     <option value="501" [selected]="defaultTeam === 501">Admin</option>
                     <option value="502" [selected]="defaultTeam === 502">Cabling</option>
                     <option value="503" [selected]="defaultTeam === 503">Installation </option>
@@ -132,13 +94,7 @@
           <label>Job Profile : </label>
         </div>
         <div class="col-md-3">
-          <select
-                 class="form-control"
-                 id="job_pro_id"
-                 [(ngModel)]="defaultProfile"
-                 formControlName="job_pro_id"
-                 required
-                 >
+          <select class="form-control" id="job_pro_id" [(ngModel)]="defaultProfile" formControlName="job_pro_id" required>
               <option value="201" [selected]="defaultProfile === 201">PS Implementation Engineer (L1)</option>
               <option value="202" [selected]="defaultProfile === 202">PS Implementation Engineer (L2)</option>
               <option value="203" [selected]="defaultProfile === 203">PS Implementation Engineer (L3)</option>
@@ -167,13 +123,7 @@
           <label>Business Title : </label>
         </div>
         <div class="col-md-3">
-          <select
-                 class="form-control"
-                 id="business_id"
-                 [(ngModel)]="defaultBusiness"
-                 formControlName="business_id"
-                 required
-                 >
+          <select class="form-control" id="business_id" [(ngModel)]="defaultBusiness" formControlName="business_id" required>
               <option value="301" [selected]="defaultBusiness === 301">Head of Services</option>
               <option value="302" [selected]="defaultBusiness === 302">Helpdesk Manager</option>
               <option value="303" [selected]="defaultBusiness === 303">Installation Manager</option>
@@ -210,13 +160,7 @@
           <label>Skill (ทักษะ / ความสนใจ) : </label>
         </div>
         <div class="col-md-3">
-          <select
-                 class="form-control"
-                 id="skill_id"
-                 [(ngModel)]="defaultSkill"
-                 formControlName="skill_id"
-                 required
-                 >
+          <select class="form-control" id="skill_id" [(ngModel)]="defaultSkill" formControlName="skill_id" required>
               <option value="401" [selected]="defaultSkill === 401">Networking</option>
               <option value="402" [selected]="defaultSkill === 402">Security</option>
               <option value="403" [selected]="defaultSkill === 403">Customer experience & Collaboration</option>
@@ -233,13 +177,7 @@
           <label>Skill (เพิ่มเติม 1) : </label>
         </div>
         <div class="col-md-3">
-          <select
-                 class="form-control"
-                 id="skill_id1"
-                 [(ngModel)]="defaultSkill_1"
-                 formControlName="skill_id1"
-                 required
-                 >
+          <select class="form-control" id="skill_id1" [(ngModel)]="defaultSkill_1" formControlName="skill_id1" required>
               <option value="0" [selected]="defaultSkill_1 === 0">ไม่มี</option>
               <option value="401" [selected]="defaultSkill_1 === 401">Networking</option>
               <option value="402" [selected]="defaultSkill_1 === 402">Security</option>
@@ -257,13 +195,7 @@
           <label>Skill (เพิ่มเติม 2) : </label>
         </div>
         <div class="col-md-3">
-          <select
-                 class="form-control"
-                 id="skill_id2"
-                 [(ngModel)]="defaultSkill_2"
-                 formControlName="skill_id2"
-                 required
-                 >
+          <select class="form-control" id="skill_id2" [(ngModel)]="defaultSkill_2" formControlName="skill_id2" required>
               <option value="0" [selected]="defaultSkill_2 === 0">ไม่มี</option>
               <option value="401" [selected]="defaultSkill_2 === 401">Networking</option>
               <option value="402" [selected]="defaultSkill_2 === 402">Security</option>
@@ -282,16 +214,9 @@
         </div>
         <!-- Type date not support for firefox and IE 11 recommended to use google chome -->
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['hiredate'].valid && form.controls['hiredate'].touched}">
-          <input type="date"
-                 class="form-control"
-                 id="hiredate"
-                [ngModel]="users.hiredate"
-                (ngModelChange)="users.hiredate = $event"
+          <input type="text" [(ngModel)]="users.hiredate" class="form-control" ngui-datetime-picker formControlName="hiredate" date-format="YYYY/MM/DD" date-only="true" placeholder="format.Year/Month/day" required />
 
-                formControlName="hiredate"
-                min="2000-01-02"
-                 required>
-                 <span class="help-block" *ngIf="!form.controls['hiredate'].valid
+          <span class="help-block" *ngIf="!form.controls['hiredate'].valid
                                                && form.controls['hiredate'].touched">Please enter valid Hiredate</span>
         </div>
       </div>
@@ -301,15 +226,8 @@
           <label>Email (อีเมล): </label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['email'].valid && form.controls['email'].touched}">
-          <input
-                type="email"
-                class="form-control"
-                id="email"
-                [(ngModel)]="users.email"
-                formControlName="email"
-                required
-                placeholder="Ex.ddth.d@dimentiondata.com">
-                <span class="help-block" *ngIf="!form.controls['email'].valid
+          <input type="email" class="form-control" id="email" [(ngModel)]="users.email" formControlName="email" required placeholder="Ex.ddth.d@dimentiondata.com">
+          <span class="help-block" *ngIf="!form.controls['email'].valid
                                               && form.controls['email'].touched">Please enter Valid Email</span>
 
           <!-- <span class="help-block" *ngIf="!email.valid && email.touched">Please Enter a valid email</span> -->
@@ -321,15 +239,8 @@
           <label>Telephone (โทรศัพท์): </label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['tel'].valid && form.controls['tel'].touched}">
-          <input
-                type="text"
-                id="tel"
-                [(ngModel)]="users.tel"
-                class="form-control"
-                maxlength="10"
-                formControlName="tel"
-                >
-                <span class="help-block" *ngIf="!form.controls['tel'].valid
+          <input type="text" id="tel" [(ngModel)]="users.tel" class="form-control" maxlength="10" formControlName="tel">
+          <span class="help-block" *ngIf="!form.controls['tel'].valid
                                               && form.controls['tel'].touched">Please enter Valid Number</span>
         </div>
       </div>
@@ -339,13 +250,7 @@
           <label>Car ID (ทะเบียนรถ): </label>
         </div>
         <div class="col-md-3">
-          <input
-                type="text"
-                id="car_id"
-                [(ngModel)]="users.car_id"
-                class="form-control"
-                formControlName="car_id"
-                >
+          <input type="text" id="car_id" [(ngModel)]="users.car_id" class="form-control" formControlName="car_id">
         </div>
       </div>
 
@@ -354,12 +259,7 @@
           <label>Type (สิทธิ์การใช้งาน): </label>
         </div>
         <div class="col-md-3">
-          <select
-                 class="form-control"
-                 id="type"
-                 [(ngModel)]="defaultType"
-
-                 formControlName="type">
+          <select class="form-control" id="type" [(ngModel)]="defaultType" formControlName="type">
               <option value="admin" [selected]="defaultType === 'admin'">Administator</option>
               <option value="resource controller" [selected]="defaultType === 'resource controller'">Resource Controller</option>
               <option value="engineer" [selected]="defaultType === 'engineer'">Engineer</option>
@@ -372,14 +272,8 @@
           <label>Username: </label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['username'].valid && form.controls['username'].touched}">
-          <input
-                type="text"
-                id="username"
-                [(ngModel)]="users.username"
-                class="form-control"
-                formControlName="username"
-                required>
-                <span class="help-block" *ngIf="!form.controls['username'].valid
+          <input type="text" id="username" [(ngModel)]="users.username" class="form-control" formControlName="username" required>
+          <span class="help-block" *ngIf="!form.controls['username'].valid
                                               && form.controls['username'].touched">Please enter username</span>
         </div>
       </div>
@@ -389,14 +283,8 @@
           <label>Password: </label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['password'].valid && form.controls['password'].touched}">
-          <input
-                type="password"
-                id="password"
-                [(ngModel)]="users.password"
-                class="form-control"
-                formControlName="password"
-                required>
-                <span class="help-block" *ngIf="!form.controls['password'].valid
+          <input type="password" id="password" [(ngModel)]="users.password" class="form-control" formControlName="password" required>
+          <span class="help-block" *ngIf="!form.controls['password'].valid
                                               && form.controls['password'].touched">Please enter password 6 digits</span>
         </div>
       </div>
@@ -406,15 +294,9 @@
           <label>Reply Password: </label>
         </div>
         <div class="col-md-3">
-          <input
-                type="password"
-                id="reply"
-                [(ngModel)]="reply"
-                class="form-control"
-                formControlName="reply"
-                >
-            <!-- <div class="alert alert-danger" *ngIf="form.controls.reply.errors?.MatchPassword">Password not match</div> -->
-            <span class="help-block" *ngIf="form.controls['reply'].errors?.MatchPassword
+          <input type="password" id="reply" [(ngModel)]="reply" class="form-control" formControlName="reply">
+          <!-- <div class="alert alert-danger" *ngIf="form.controls.reply.errors?.MatchPassword">Password not match</div> -->
+          <span class="help-block" *ngIf="form.controls['reply'].errors?.MatchPassword
                                           &&form.controls['reply'].touched">Password not match</span>
 
         </div>
@@ -423,14 +305,14 @@
 
     </div>
 
-      <p *ngIf="!editted"><button type="submit" class="btn btn-success" [disabled]="!form.valid" >Add User</button></p>
-      <p *ngIf="editted"><button type="submit" class="btn btn-warning" [disabled]="!form.valid" >Ediit</button></p>
+    <p *ngIf="!editted" align="center"><button type="submit"  class="btn btn-success" [disabled]="!form.valid">Add User</button></p>
+    <p *ngIf="editted" align="center"><button type="submit"  class="btn btn-warning" [disabled]="!form.valid">Ediit</button></p>
 
 
   </form>
 
 
-      <!-- <div class="row">
+  <!-- <div class="row">
         <div class="col-md-2">
           <label>Reply Password: </label>
         </div>
@@ -446,7 +328,7 @@
     <button type="submit" class="btn btn-success" (click)="AddUser()">Add User</button> -->
 
 
-    <!-- <div class="row" *ngIf="submitted">
+  <!-- <div class="row" *ngIf="submitted">
       <div class="col-xs-12">
         <h3>Your Data</h3>
         <p>Em ID: {{employees.em_id}}</p>

@@ -14,7 +14,7 @@ export class AuthCmGuard implements CanActivate {
             // logged in so return true
 
           this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-          console.log(this.currentUser);
+          // console.log(this.currentUser);
           if (this.currentUser.type === 'resource controller') {
 
               return true;

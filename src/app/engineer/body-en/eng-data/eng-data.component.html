@@ -1,0 +1,131 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+        <div class="box">
+          <table class="table table-striped">
+              <caption><h4>Your Job on today </h4></caption>
+              <thead>
+                <tr>
+                  <th>Ticket#</th>
+                  <th>Customer</th>
+                  <th>Time</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="(workplan | json) === '[]'">
+                  <td colspan="4" align="center">
+                    <h4 >Good news ! not have work</h4>
+                  </td>
+                </tr>
+
+                <ng-container *ngIf="workplan">
+                  <tr *ngFor="let data of workplan; let i = index">
+                    <td>{{ data.ticket_id }}</td>
+                    <td>{{ data.customer_name }}</td>
+                    <td>{{ data.time | slice:0:5 }}</td>
+                    <!-- <td>{{ data.workplan_id}}</td> -->
+
+                    <td>
+                      <button md-raised-button
+                              (click)="openDialogToday(data.workplan_id, i)"
+                              class="btn btn-info">
+                              Details
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+          </table>
+         </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+          <div class="box">
+            <table class="table table-striped">
+              <caption>
+                <h4>Doing Now</h4>
+              </caption>
+              <!-- <thead>
+                <tr>
+                  <th>Ticket# : </th>
+                  <th>Customer</th>
+                  <th>Time</th>
+                </tr>
+
+              </thead> -->
+              <tbody>
+                <tr *ngIf="!workDoing">
+                  <td align="center" colspan="2">
+                    <h4 >Not work doing now</h4>
+                  </td>
+                </tr>
+
+                <tr *ngIf="workDoing">
+                  <td><b>Ticket # : </b></td>
+                  <td>{{ workDoing.ticket_id }}</td>
+                </tr>
+
+                <tr *ngIf="workDoing">
+                  <td><b>Customer : </b> </td>
+                  <td>{{ workDoing.customer_name }}</td>
+                </tr>
+
+                <tr *ngIf="workDoing">
+                  <td><b>Time :  </b></td>
+                  <td>
+                      {{ workDoing.time | slice:0:5 }}</td>
+                </tr>
+
+                <tr *ngIf="workDoing">
+                  <td align="center" colspan="2">
+                    <button class="btn btn-success"
+                            md-raised-button
+                            (click)="dialogWorkDone(workDoing.workplan_id)">
+                            Done
+                    </button>
+                  </td>
+
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+
+          <table class="table table-striped">
+            <caption>
+              <h4>Your Job on this week</h4></caption>
+            <thead>
+              <tr>
+                <th>Ticket#</th>
+                <th>Customer</th>
+                <th>Time</th>
+                <th>Date</th>
+              </tr>
+
+            </thead>
+            <tbody>
+              <tr *ngIf="(workofweek | json) === '[]'">
+                <td align="center" colspan="4">
+                  <h4 >Not have work on this week </h4>
+                </td>
+              </tr>
+              <tr *ngFor="let week of workofweek">
+                <td>{{ week.ticket_id }}</td>
+                <td>{{ week.customer_name }}</td>
+                <td>{{ week.time }}</td>
+                <td>{{ week.date | date}}</td>
+                <!-- <td>{{ data.date | date }}</td> -->
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>

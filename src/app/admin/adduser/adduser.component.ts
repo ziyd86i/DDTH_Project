@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { Router,ActivatedRoute } from '@angular/router';
 import { PasswordValidation } from './password-validation';
 import { DatePipe } from '@angular/common';
+import { NguiDatetime } from '@ngui/datetime-picker';
+
 
 
 @Component({
@@ -159,9 +161,10 @@ export class AdduserComponent implements OnInit {
   }
 
   addUser(form) {
-        console.log(form.value.hiredate);
+        // console.log(form.value.hiredate);
         console.log("Submitted success!");
-        console.log(form.value);
+        // console.log(form.value);
+        form.value.hiredate = form.value.hiredate.toString();
         this.ManagedUser = this.managedService.addUser(form.value)
         this.ManagedUser.subscribe(
           users => {
@@ -177,8 +180,10 @@ export class AdduserComponent implements OnInit {
 
   editUser(form) {
     console.log("This is the edit function !!!");
-    console.log(form.value);
-    console.log(form.value.hiredate);
+    // console.log(form.value);
+    // console.log(form.value.hiredate);
+    form.value.hiredate = form.value.hiredate.toString();
+    // console.log(form.value.hiredate)
     this.ManagedUser = this.managedService.editUser(form.value, form.value.em_id)
     this.ManagedUser.subscribe(
       users => {
@@ -187,7 +192,7 @@ export class AdduserComponent implements OnInit {
       },
       err =>  this.errorMsg = <any>err
     );
-    // this.redirect();
+    this.redirect();
   }
 
   getDataById(id) {
@@ -214,37 +219,8 @@ export class AdduserComponent implements OnInit {
     );
 
     this.editted = true;
-    //  this.employees.em_id = this.users[0].em_id;
-    //  this.employees.name = this.users[0].name  ;
-    //  this.employees.lname = this.users[0].lname;
-    //  this.employees.birth = this.users[0].birth;
-    //  this.employees.tel = this.users[0].tel;
-    //  this.employees.email = this.users[0].email;
-    // this.employees.skill = this.users[0].skill ;
-    // this.employees.cid = this.users[0].cid ;
-    // this.employees.type = this.users[0].type;
-    // this.employees.dep_id = this.users[0].dep_id;
-    // this.employees.position_id =this.users[0].position_id ;
-    // this.employees.car_id = this.users[0].car_id;
-    // this.employees.username = this.users[0].username;
-    // this.employees.password = this.users[0].password;
 
   }
-
-  // onSubmit() {
-  //   this.submitted = true;
-  //   this.employees.em_id = this.signUpForm.value.em_id;
-  //   this.employees.name = this.signUpForm.value.name;
-  //   this.employees.surname = this.signUpForm.value.surname;
-  //   this.employees.cid = this.signUpForm.value.cid;
-  //   this.employees.dep = this.signUpForm.value.dep;
-  //   this.employees.type = this.signUpForm.value.type;
-  //   this.employees.email = this.signUpForm.value.email;
-  //   this.employees.tel = this.signUpForm.value.tel;
-  //   this.employees.username = this.signUpForm.value.username;
-  //   this.employees.password = this.signUpForm.value.password;
-  //   this.employees.reply = this.signUpForm.value.reply;
-  // }
 
 
 
