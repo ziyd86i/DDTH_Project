@@ -16,6 +16,7 @@ export class DialogDetails implements OnInit {
   DetailData: Workplan = new Workplan();
   index: number;
   workplan_id: number;
+  block: boolean;
   errorMsg: string;
   constructor(private engineerService: EngineerService,
     public dialogRef: MdDialogRef<DialogDetails>,
@@ -26,6 +27,7 @@ export class DialogDetails implements OnInit {
     this.DetailData = this.data.mydata;
     this.index = this.data.index;
     this.workplan_id = this.data.workplan_id;
+    this.block = this.data.block;
     console.log(this.DetailData);
   }
 
@@ -35,7 +37,6 @@ export class DialogDetails implements OnInit {
     this.ObservableWork.subscribe(
                       workplan => {
                         this.DetailData = workplan
-                        this.dialogRef.close();
                       },
                       err => {
                         this.errorMsg = <any>err

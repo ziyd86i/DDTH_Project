@@ -9,4 +9,5 @@ export class Workplan {
   tel: number;
   date : Date;
   time: string;
+  end_date: Date;
 }

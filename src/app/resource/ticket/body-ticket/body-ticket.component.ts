@@ -43,6 +43,14 @@ export class BodyTicketComponent implements OnInit {
               ticket => {
                 this.ticket = ticket
                 this.dtTrigger.next();
+                $(document).ready(function() {
+                  $('#ticket').DataTable({
+
+                  });
+                  $('#ticket2').DataTable({
+
+                  });
+                });
               },
               err => this.ticket = <any>err
 
@@ -53,7 +61,7 @@ export class BodyTicketComponent implements OnInit {
  deleteTicket(ticket) :void {
 
    console.log(ticket);
-   if (confirm("Are you sure you want to delete this ticket ?")) {
+   if (confirm("Warning !! if you already assign this ticket to engineer, Engineer's workplan will be deleted in the same time.")) {
 
      this.ticketService.deleteTicket(ticket.ticket_id)
        .subscribe(null,

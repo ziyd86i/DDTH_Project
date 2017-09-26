@@ -16,3 +16,7 @@ img {
 .container {
   border: 1;
 }
+
+tr>th,tr>td {
+  text-align: center;
+}

@@ -1,11 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MdDialog } from '@angular/material';
 import { Employees } from '../../../employees';
 import { ResourceService } from '../../resource.service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { DataTableDirective } from 'angular-datatables';
 import { DatePipe, SlicePipe } from '@angular/common';
+import { DoneDialog } from './done-dialog/done-dialog.component';
+import { AssignDialog } from './assign-dialog/assign-dialog.component';
+import { DelDialog } from './del-dialog/del-dialog.component';
+import { DescDialog } from './desc-dialog/desc-dialog.component';
 declare var $ :any;
+
 
 @Component({
   selector: 'status-en',
@@ -14,14 +20,10 @@ declare var $ :any;
 })
 export class StatusComponent implements OnInit {
 
-  @ViewChild(DataTableDirective)
-  dtElement: DataTableDirective;
-  dtOptions1: DataTables.Settings = {};
-  dtOptions2: DataTables.Settings = {};
-  dtOptions3: DataTables.Settings = {};
-  dtTrigger1: Subject<any> = new Subject();
-  dtTrigger2: Subject<any> = new Subject();
-  dtTrigger3: Subject<any> = new Subject();
+  // @ViewChild(DataTableDirective)
+  // dtElement: DataTableDirective;
+  // dtOptions: DataTables.Settings = {};
+  // dtTrigger: Subject<any> = new Subject();
 
   employees: Employees[];
   progress: Employees[];
@@ -29,11 +31,15 @@ export class StatusComponent implements OnInit {
   cmObservable: Observable<Employees[]>;
   errorMsg: string;
 
-  constructor(private resourceService: ResourceService) { }
+  constructor(
+              public dialog: MdDialog,
+              private resourceService: ResourceService
+            ) { }
 
   ngOnInit() {
     this.getAvailable();
     this.getInProgress();
+    this.getBusy();
   }
 
   getAvailable() {
@@ -41,8 +47,12 @@ export class StatusComponent implements OnInit {
     this.cmObservable.subscribe(
       data => {
         this.employees = data
-        this.dtTrigger1.next();
+        // this.dtTrigger.next();
+        $(document).ready(function() {
+          $('#available').DataTable({
 
+          });
+        });
 
       },
       err => this.errorMsg = <any>err
@@ -54,8 +64,11 @@ export class StatusComponent implements OnInit {
     this.cmObservable.subscribe(
       data => {
         this.progress = data
-        this.dtTrigger2.next();
+        $(document).ready(function() {
+          $('#progress').DataTable({
 
+          });
+        });
 
       },
       err => this.errorMsg = <any>err
@@ -67,12 +80,51 @@ export class StatusComponent implements OnInit {
     this.cmObservable.subscribe(
       data => {
         this.busy = data
-        this.dtTrigger3.next();
+        $(document).ready(function() {
+          $('#busy').DataTable({
 
+          });
+        });
 
       },
       err => this.errorMsg = <any>err
     )
   }
+
+  assignWork(id) {
+    console.log(id);
+    let dialogRef = this.dialog.open(AssignDialog, {
+      width: '500px',
+      data: id
+    });
+  }
+
+  Description(id) {
+    let dialogRef = this.dialog.open(DescDialog, {
+      width: '550px',
+      data: id
+
+    })
+  }
+
+  deleteWork(id) {
+    console.log(id);
+    let dialogRef = this.dialog.open(DelDialog, {
+      width: '350px',
+      data: id
+
+    })
+  }
+
+  dialogWorkDone(id) {
+    console.log(id)
+
+    let dialogRef = this.dialog.open(DoneDialog, {
+      width: '350px',
+      data: id
+    });
+
+  }
+
 
 }

@@ -10,12 +10,13 @@ import { DatePipe } from '@angular/common';
 import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { DxButtonModule } from 'devextreme-angular';
-
 import {
+         DxSchedulerModule,
          DxDataGridModule,
          DxSelectBoxModule,
-         DxCheckBoxModule } from 'devextreme-angular';
+         DxCheckBoxModule,
+         DxButtonModule,
+         DxDateBoxModule } from 'devextreme-angular';
 
 
 //Service
@@ -29,6 +30,7 @@ import { AlertService } from './login/_service/alert.service';
 import { AuthenticationService } from './login/_service/authentication.service';
 import { EngineerService } from './engineer/engineer.service';
 import { ResourceService } from './resource/resource.service';
+import { Service } from './engineer/eng-workplan/app.service';
 
 
 //Component
@@ -54,6 +56,10 @@ import { EngWorkplanComponent } from './engineer/eng-workplan/eng-workplan.compo
 import { EngDialogComponent } from './engineer/eng-workplan/eng-dialog/eng-dialog.component';
 import { DialogDetails } from './engineer/body-en/eng-data/dialog-detials/dialog-detials.component';
 import { DialogDone } from './engineer/body-en/eng-data/dialog-done/dialog-done.component';
+import { DoneDialog } from './resource/body-cm/status/done-dialog/done-dialog.component';
+import { AssignDialog } from './resource/body-cm/status/assign-dialog/assign-dialog.component';
+import { DelDialog } from './resource/body-cm/status/del-dialog/del-dialog.component';
+import { DescDialog } from './resource/body-cm/status/desc-dialog/desc-dialog.component';
 
 
 
@@ -82,6 +88,11 @@ import { DialogDone } from './engineer/body-en/eng-data/dialog-done/dialog-done.
     EngWorkplanComponent,
     EngDialogComponent,
     DialogDone,
+    DoneDialog,
+    AssignDialog,
+    DelDialog,
+    DescDialog,
+
 
 
 
@@ -90,6 +101,10 @@ import { DialogDone } from './engineer/body-en/eng-data/dialog-done/dialog-done.
     DialogDone,
     DialogDetails,
     EngDialogComponent,
+    DoneDialog,
+    AssignDialog,
+    DelDialog,
+    DescDialog,
 
   ],
   imports: [
@@ -108,7 +123,9 @@ import { DialogDone } from './engineer/body-en/eng-data/dialog-done/dialog-done.
     DxButtonModule,
     DxDataGridModule,
     DxSelectBoxModule,
-    DxCheckBoxModule
+    DxCheckBoxModule,
+    DxSchedulerModule,
+    DxDateBoxModule,
 
 
   ],
@@ -123,7 +140,8 @@ import { DialogDone } from './engineer/body-en/eng-data/dialog-done/dialog-done.
               AlertService,
               AuthenticationService,
               EngineerService,
-              ResourceService
+              ResourceService,
+              Service,
             ],
   bootstrap: [AppComponent]
 })

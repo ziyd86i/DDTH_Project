@@ -61,4 +61,14 @@ export class EngineerService {
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
   }
 
+  GetcurrentWorkplan(id: Object): Observable<Workplan[]> {
+    console.log(id);
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers : headers});
+
+    return this.http.get(`${this.userUrl}/eng/workplan/get/${id}`, options)
+                    .map((res:Response) =>res.json())
+                    .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
 }

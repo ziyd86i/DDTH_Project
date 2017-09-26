@@ -1,0 +1,59 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h4>Details ticket # {{workplan.ticket_id}}</h4>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col">
+        <div class="form-group">
+
+
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Customer Name: </label>
+                </div>
+                <div class="col-md-6">
+                  <label>{{workplan.customer_name}}</label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Start Date : </label>
+                </div>
+                <div class="col-md-6">
+                  <label>{{workplan.date | date:'dd-MMM-yy, hh:mm'}}</label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <label>End Date : </label>
+                </div>
+                <div class="col-md-6">
+                  <label>{{workplan.end_date | date:'dd-MMM-yy, hh:mm'}}</label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <label>Description: </label>
+                </div>
+                <div class="col-md-6">
+                  <label>{{workplan.description}}</label>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col text-center">
+                  <button md-raised-button (click)="close()" class="btn btn-warning pull-center" >Close</button>
+
+                </div>
+              </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,8 @@ export class Ticket {
   tel: number;
   description: string;
   date: string;
-  time: string;
+  end_date: string;
+  // time: string;
   state: number;
 
 }

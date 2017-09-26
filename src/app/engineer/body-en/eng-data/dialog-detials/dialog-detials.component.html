@@ -14,18 +14,18 @@
         </div>
         <div class="row">
           <div class="col-xs-4 col-md-4 col-lg-4" id="title">
-            <strong>Date :</strong>
+            <strong>Start Date :</strong>
           </div>
           <div class="col-xs-4 offset-xs-4 col-md-4 col-lg-4" >
-            {{ DetailData.date | date }}
+            {{ DetailData.date | date:'dd-MMM-yy, hh:mm' }}
           </div>
         </div>
         <div class="row">
           <div class="col-xs-4 col-md-4 col-lg-4" id="title">
-            <strong>Tiime :</strong>
+            <strong>End Date :</strong>
           </div>
           <div class="col-xs-4 offset-xs-4 col-md-4 col-lg-4">
-            {{ DetailData.time | slice:0:5 }}
+            {{ DetailData.end_date | date:'dd-MMM-yy, hh:mm' }}
           </div>
         </div>
         <div class="row">
@@ -33,15 +33,24 @@
             <strong>Description :</strong>
           </div>
           <div class="col-xs-4 offset-xs-4 col-md-4 col-lg-4">
-
-            <textarea name="name" rows="8" cols="35">{{ DetailData.description }}</textarea>
+            <label>{{ DetailData.description }}</label>
           </div>
         </div>
 
       </md-dialog-content>
       <md-dialog-actions align="center">
-        <button md-raised-button (click)="ConfirmWork()" class="btn btn-success" >Confirm</button>
-        <button md-raised-button (click)="CancelWork()" class="btn btn-warning" >Cancel</button>
+        <div class="row">
+          <div class="col">
+            <p *ngIf="!block">* You cannot accept this work if you not done your current work.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button md-raised-button (click)="ConfirmWork()" class="btn btn-success" [disabled]="!block" >Confirm</button>
+            <button md-raised-button (click)="CancelWork()" class="btn btn-warning" >Cancel</button>
+          </div>
+        </div>
+
 
       </md-dialog-actions>
     </div>

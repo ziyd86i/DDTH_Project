@@ -1,0 +1,62 @@
+
+  <div class="row">
+    <div class="col">
+      <div class="form-group">
+        <label for="ticket">Select Ticket No. </label>
+        <select class="form-control" id="ticket" [(ngModel)]="selectTicket">
+          <option *ngFor="let data of ticket" [ngValue]="data.ticket_id">
+            {{data.ticket_id}}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group" *ngIf="selectTicket">
+        <ng-container *ngFor="let tick of ticket">
+          <md-dialog-content *ngIf="tick.ticket_id === selectTicket">
+            <div class="row">
+              <div class="col-md-6">
+                <label>Customer Name: </label>
+              </div>
+              <div class="col-md-6">
+                <label>{{tick.customer_name}}</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label>Start Date : </label>
+              </div>
+              <div class="col-md-6">
+                <label>{{tick.date | date:'dd-MMM-yy, hh:mm'}}</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label>End Date: </label>
+              </div>
+              <div class="col-md-6">
+                <label>{{tick.end_date | date:'dd-MMM-yy, hh:mm'}}</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <label>Description: </label>
+              </div>
+              <div class="col-md-6">
+                <label>{{tick.description}}</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col text-center">
+                <button md-raised-button (click)="AssignWork(tick.ticket_id)" class="btn btn-success" >Assign Work</button>
+              </div>
+            </div>
+
+          </md-dialog-content>
+        </ng-container>
+      </div>
+    </div>
+  </div>

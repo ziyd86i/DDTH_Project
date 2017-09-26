@@ -18,6 +18,13 @@ export class TicketService {
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server get ticket Error'));
   }
 
+  getTicketState1(): Observable<Ticket[]> {
+    console.log("Get Ticket State");
+    return this.http.get(`${this.userUrl}/ticketstate`)
+                    .map((res:Response) => res.json())
+                    .catch((error:Response|any) => Observable.throw(error.json().error || 'Server get ticket Error'));
+  }
+
   getTicketById(id : Object): Observable<Ticket> {
       console.log("GET" + id);
 

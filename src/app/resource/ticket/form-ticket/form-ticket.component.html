@@ -21,7 +21,7 @@
               id="ticket_id"
               [(ngModel)]="tickets.ticket_id"
               formControlName="ticket_id"
-              maxlength="10"
+              maxlength="40"
               required
               >
             </p>
@@ -30,7 +30,7 @@
                     id="ticket_id"
                     [(ngModel)]="tickets.ticket_id"
                     formControlName="ticket_id"
-                    maxlength="10"
+                    maxlength="40"
                     disabled
                     ></p>
          </div>
@@ -100,34 +100,35 @@
 
        <div class="row">
          <div class="col-md-3">
-           <label>Date: </label>
+           <label>Start Date: </label>
          </div>
          <div class="col-md-3">
+
                 <input
                 type="text"
                 [(ngModel)]="tickets.date"
                 class="form-control"
                 ngui-datetime-picker
                 formControlName="date"
-                date-format = "YYYY-MM-DD"
-                date-only = "true"
+                date-format = "YYYY-MM-DD HH:mm"
+                [close-on-select]="false"
                  />
          </div>
        </div>
 
        <div class="row">
          <div class="col-md-3">
-           <label>Time: </label>
+           <label>End Date: </label>
          </div>
          <div class="col-md-3">
-                <input
 
-                [(ngModel)]="tickets.time"
+                <input
+                type="text"
+                [(ngModel)]="tickets.end_date"
                 class="form-control"
                 ngui-datetime-picker
-                formControlName="time"
-                time-only = "true"
-                date-format="HH:mm"
+                formControlName="end_date"
+                date-format = "YYYY-MM-DD HH:mm"
                 [close-on-select]="false"
                  />
          </div>

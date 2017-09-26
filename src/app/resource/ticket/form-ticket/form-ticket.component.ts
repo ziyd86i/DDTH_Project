@@ -7,6 +7,7 @@ import { TicketService } from '../ticket.service';
 import { Ticket } from '../ticket';
 import * as $ from 'jquery';
 import { NguiDatetimePickerModule, NguiDatetime } from '@ngui/datetime-picker';
+
 declare var jQuery: any;
 
 
@@ -67,9 +68,12 @@ export class FormTicketComponent implements OnInit {
      date: ['', [
        Validators.required,
      ]],
-     time: ['', [
+     end_date: ['', [
        Validators.required,
-     ]]
+     ]],
+    //  time: ['', [
+    //    Validators.required,
+    //  ]]
 
 
 
@@ -111,7 +115,8 @@ export class FormTicketComponent implements OnInit {
         ticket => {
           console.log(ticket),
           this.tickets = ticket[0];
-          this.tickets.date = this.datePipe.transform(this.tickets.date, 'yyyy-MM-dd');
+          this.tickets.date = this.datePipe.transform(this.tickets.date, 'yyyy-MM-dd HH:mm');
+          this.tickets.end_date = this.datePipe.transform(this.tickets.end_date, 'yyyy-MM-dd HH:mm');
         },
         err => this.errorMsg = <any>err
       );
@@ -126,9 +131,10 @@ export class FormTicketComponent implements OnInit {
   addTicket(form) {
 
         console.log("Submitted success!");
-        form.value.state = 1;
+        form.value.state = 'active';
         form.value.date = form.value.date.toString();
-        form.value.time = form.value.time.toString();
+        form.value.end_date = form.value.end_date.toString();
+        // form.value.time = form.value.time.toString();
         console.log(form.value);
         this.ManagedTicket = this.ticketService.addTicket(form.value)
         this.ManagedTicket.subscribe(
@@ -146,7 +152,8 @@ export class FormTicketComponent implements OnInit {
     console.log("This is the edit function !!!");
     console.log(form.value);
     form.value.date = form.value.date.toString();
-    form.value.time = form.value.time.toString();
+    form.value.end_date = form.value.end_date.toString();
+    // form.value.time = form.value.time.toString();
     this.ManagedTicket = this.ticketService.editTicket(form.value, form.value.ticket_id)
     this.ManagedTicket.subscribe(
       users => {

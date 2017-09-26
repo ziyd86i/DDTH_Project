@@ -19,6 +19,7 @@ export class EngDataComponent implements OnInit {
   ObservableWorking: Observable<Workplan>;
   index: number = 0;
   errorMsg: string;
+  block: boolean = true;
   current: Employees = JSON.parse(localStorage.getItem('currentUser'));
   workplan: Workplan[];
   workofweek: Workplan[];
@@ -76,7 +77,9 @@ export class EngDataComponent implements OnInit {
   }
 
   openDialogToday(id, index) {
-
+    if(this.workDoing){
+      this.block = false;
+    }
     console.log(id);
     console.log(index);
     let dialogRef = this.dialog.open(DialogDetails, {
@@ -84,7 +87,8 @@ export class EngDataComponent implements OnInit {
       data: {
         mydata: this.workplan[index],
         index: this.index,
-        workplan_id: id
+        workplan_id: id,
+        block: this.block
         // week: this.workofweek,
         // doing: this.workDoing,
       }

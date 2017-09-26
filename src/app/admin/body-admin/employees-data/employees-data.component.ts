@@ -21,7 +21,7 @@ export class EmployeesDataComponent implements OnInit {
   errorMsg: string;
 
 
-  constructor( private managedService: ManagedService) { }
+  constructor(private managedService: ManagedService) { }
 
   ngOnInit():void {
 

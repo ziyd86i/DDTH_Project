@@ -18,3 +18,7 @@ textarea {
    border-color: Transparent;
    overflow: auto;
  }
+
+p {
+  color: #E3000E;
+}
