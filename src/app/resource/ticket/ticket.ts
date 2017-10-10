@@ -7,5 +7,7 @@ export class Ticket {
   end_date: string;
   // time: string;
   state: number;
+  so_number: string;
+  person_contact: string;
 
 }

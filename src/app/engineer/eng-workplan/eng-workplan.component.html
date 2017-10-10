@@ -3,22 +3,41 @@
   <div class="row">
     <div class="col">
       <dx-scheduler
-          [dataSource]="appointmentsData"
+          id="scheduler"
+          [dataSource]="workplan"
           [views]='["month", "week", "day"]'
           currentView="month"
           [firstDayOfWeek]="0"
-          [startDayHour]="8"
+          [startDayHour]="0"
           [endDayHour]="24"
           [currentDate]="currentDate"
           [useDropDownViewSwitcher]="switchModeNames[1] === switchMode.value"
           width="100%"
-          [height]="600">
-          <dxi-resource
+          [height]="600"
+          appointmentTemplate="appointment-template"
+          appointmentTooltipTemplate="tooltip-template"
+          (onAppointmentFormCreated)="FormCreated($event)"
+          startDateExpr="date"
+          endDateExpr="end_date"
+          (onAppointmentAdding)="addWorkplan($event)">
+          <!-- <dxi-resource
               fieldExpr="ownerId"
               label="Owner"
               [allowMultiple]="true"
               [dataSource]="resourcesData"
-          ></dxi-resource>
+          ></dxi-resource> -->
+          <div *dxTemplate="let data of 'appointment-template'">
+            <i>Customer Name: {{data.customer_name}}</i>
+            <p> Description: {{data.description}}</p>
+            <p>{{ data.date | date:'shortTime'}} - {{data.end_date | date:'shortTime'}}</p>
+          </div>
+
+          <div *dxTemplate="let data of 'tooltip-template'">
+            <i>Customer Name: {{data.customer_name}}</i>
+            <p> Description: {{data.description}}</p>
+            <p>{{ data.date | date:'shortTime'}} - {{data.end_date | date:'shortTime'}}</p>
+          </div>
+
           <dxo-editing #editingOptions
               [allowAdding]="true"
               [allowUpdating]="true"
@@ -38,7 +57,7 @@
               </dx-select-box>
           </div>
           <div class="option" hidden>
-              <dx-check-box text="Allow adding" [(value)]="editingOptions.allowAdding"></dx-check-box>
+              <dx-check-box text="Allow adding" [(value)]="editingOptions.allowAdding" (click)="addWorkplan($event)"></dx-check-box>
           </div>
           <div class="option" hidden>
               <dx-check-box text="Allow updating" [(value)]="editingOptions.allowUpdating"></dx-check-box>
@@ -57,14 +76,16 @@
     </div>
   </div>
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col">
       <div *ngFor="let data of workplan">
         <li>{{data.workplan_id}}</li>
         <li>{{data.em_id}}</li>
-        <li>{{data.name}} {{data.lname}}</li>
+        <li>{{data.customer_name}}</li>
         <li>{{data.ticket_id}}</li>
+        <li>{{data.date | date:'shortDate'}}</li>
+        <li>{{data.end_date |date:'dd-MMM-yy, hh:mm'}}</li>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

@@ -1,23 +1,19 @@
-import { NgModule, Component, enableProdMode, OnInit, ViewChild } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { EngineerService } from '../engineer.service';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Workplan } from '../../workplan';
 import { Employees } from '../../employees';
 import { DatePipe, SlicePipe } from '@angular/common';
-import { DxSchedulerComponent } from 'devextreme-angular';
+import { ResourceService } from '../resource.service';
 
 @Component({
-  selector: 'eng-workplan',
-  templateUrl: './eng-workplan.component.html',
-  styleUrls: ['./eng-workplan.component.css']
+  selector: 'workplan-cm',
+  templateUrl: './workplan-cm.component.html',
+  styleUrls: ['./workplan-cm.component.css']
 })
-export class EngWorkplanComponent {
-  //  @ViewChild(DxSchedulerComponent) scheduler: DxSchedulerComponent;
+export class WorkplanCmComponent implements OnInit {
   currentDate: Date = new Date();
   switchModeNames: string[];
-
+  defaultTeam: number = 505;
   ObservWork: Observable<Workplan[]>;
   // ObservEng: Observable<Employees[]>;
   workplan: Workplan[];
@@ -25,7 +21,7 @@ export class EngWorkplanComponent {
   errorMsg: string;
 
   constructor(
-    private engineerService: EngineerService,
+    private resourceService: ResourceService,
     private datePipe: DatePipe) {
     this.switchModeNames = ["Tabs", "Drop-Down Menu"];
 
@@ -34,13 +30,11 @@ export class EngWorkplanComponent {
   }
 
   ngOnInit() {
-
-
   }
 
   GetcurrentWorkplan() {
     // console.log(this.current);
-    this.ObservWork = this.engineerService.GetcurrentWorkplan(this.current.em_id);
+    this.ObservWork = this.resourceService.GetcurrentWorkplan(this.defaultTeam);
     this.ObservWork.subscribe(
       workplan => {
         this.workplan = workplan;
@@ -56,6 +50,10 @@ export class EngWorkplanComponent {
         this.errorMsg = <any>err;
       }
     )
+  }
+
+  changeDefault() {
+    this.GetcurrentWorkplan();
   }
 
   FormCreated(data) {
@@ -169,21 +167,5 @@ export class EngWorkplanComponent {
     }
     ])
   }
-
-  addWorkplan(data) {
-    console.log(data);
-    console.log(data.appointmentData);
-
-    this.ObservWork = this.engineerService.addWorkplan(data.appointmentData)
-    this.ObservWork.subscribe(
-      workplan => {
-        this.workplan = workplan
-      },
-      err => {
-        this.errorMsg = <any>err;
-      }
-    )
-  }
-
 
 }

@@ -30,7 +30,7 @@ import { AlertService } from './login/_service/alert.service';
 import { AuthenticationService } from './login/_service/authentication.service';
 import { EngineerService } from './engineer/engineer.service';
 import { ResourceService } from './resource/resource.service';
-import { Service } from './engineer/eng-workplan/app.service';
+
 
 
 //Component
@@ -60,6 +60,7 @@ import { DoneDialog } from './resource/body-cm/status/done-dialog/done-dialog.co
 import { AssignDialog } from './resource/body-cm/status/assign-dialog/assign-dialog.component';
 import { DelDialog } from './resource/body-cm/status/del-dialog/del-dialog.component';
 import { DescDialog } from './resource/body-cm/status/desc-dialog/desc-dialog.component';
+import { WorkplanCmComponent } from './resource/workplan-cm/workplan-cm.component';
 
 
 
@@ -92,6 +93,7 @@ import { DescDialog } from './resource/body-cm/status/desc-dialog/desc-dialog.co
     AssignDialog,
     DelDialog,
     DescDialog,
+    WorkplanCmComponent,
 
 
 
@@ -141,7 +143,7 @@ import { DescDialog } from './resource/body-cm/status/desc-dialog/desc-dialog.co
               AuthenticationService,
               EngineerService,
               ResourceService,
-              Service,
+
             ],
   bootstrap: [AppComponent]
 })

@@ -18,7 +18,7 @@ export class AssignDialog implements OnInit {
   ObservableWork: Observable<Workplan>;
   ObservableTicket: Observable<Ticket[]>;
   ticket: Ticket[];
-  workplan: Workplan = new Workplan();
+  workplan:Workplan = new Workplan();
   selectTicket: string;
   em_id: string;
   errorMsg: string;
@@ -51,6 +51,7 @@ export class AssignDialog implements OnInit {
     console.log(this.em_id);
     this.workplan.em_id = this.em_id;
     this.workplan.ticket_id = id;
+    // console.log(this.workplan);
     this.ObservableWork = this.resourceService.AssignWork(this.workplan)
     this.ObservableWork.subscribe(
       data => {

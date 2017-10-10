@@ -7,6 +7,7 @@ import { AdminComponent } from './admin/admin.component';
 import { AdduserComponent } from './admin/adduser/adduser.component';
 import { TicketComponent } from './resource/ticket/ticket.component';
 import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.component';
+import { WorkplanCmComponent } from './resource/workplan-cm/workplan-cm.component';
 
 import { EngineerComponent } from './engineer/engineer.component';
 import { EngWorkplanComponent } from './engineer/eng-workplan/eng-workplan.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'cm/ticket', component: TicketComponent, canActivate: [AuthCmGuard] },
   { path: 'cm/ticket/addnew', component: FormTicketComponent, canActivate: [AuthCmGuard] },
   { path: 'cm/ticket/:id', component: FormTicketComponent, canActivate: [AuthCmGuard] },
+  { path: 'cm/workplan', component: WorkplanCmComponent, canActivate: [AuthCmGuard] },
 
   { path: 'admin', component: AdminComponent, canActivate: [AuthAdminGuard]},
   { path: 'admin/adduser', component: AdduserComponent, canActivate: [AuthAdminGuard] },

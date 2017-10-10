@@ -46,7 +46,10 @@ var authen = "SELECT username, password from employees";
 var query2 = "SELECT * FROM `workplan` INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id INNER JOIN employees ON workplan.em_id = employees.em_id";
 
 
-//************************************** Login Authentication *************************************
+// =========================================================================================================================
+// ********************************************** Login Authentication *****************************************************
+// =========================================================================================================================
+
 app.use('/api', apiRoutes);
 
 apiRoutes.post('/authenticate', (req,res) => {
@@ -125,7 +128,10 @@ app.get('/data', (req,res) => {
   });
 });
 
-//************************************** Admin Managed User *************************************
+
+// =========================================================================================================================
+// ********************************************** Admin Managed User *******************************************************
+// =========================================================================================================================
 
 // get data user ตาม id
 app.get('/data/:id', (req,res) => {
@@ -238,12 +244,15 @@ app.post('/adduser', (req,res) => {
 
 });
 
-// ********************************* CM Assign Work ************************************
+// =========================================================================================================================
+// ************************************************** CM Assign Work *******************************************************
+// =========================================================================================================================
 
-// *************** Select available team support
-app.get('/available', (req,res) => {
-
-  queryAvailable = "SELECT * FROM employees INNER JOIN skill ON employees.skill_id = skill.skill_id WHERE emp_status = 'available' AND employees.team_id = '505'";
+// Select employees on status available & in the team that selected
+app.get('/available/:id', (req,res) => {
+  id = req.params.id;
+  console.log(id);
+  queryAvailable = "SELECT * FROM employees INNER JOIN skill ON employees.skill_id = skill.skill_id WHERE emp_status = 'available' AND employees.team_id = '"+id+"'";
 
   con.query(queryAvailable, (err,data) => {
     if (err) {
@@ -256,9 +265,12 @@ app.get('/available', (req,res) => {
   });
 });
 
-app.get('/progress', (req,res) => {
+// Select employees on status in progress & in the team that selected
+app.get('/progress/:id', (req,res) => {
+  id = req.params.id;
+  console.log(id);
 
-  queryProgress = "SELECT * FROM employees INNER JOIN workplan ON employees.em_id = workplan.em_id INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE workplan.status_work = 'active' AND date(ticket.date)= cast(now() as date)";
+  queryProgress = "SELECT * FROM employees INNER JOIN workplan ON employees.em_id = workplan.em_id INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE workplan.status_work = 'active' AND date(ticket.date) >= cast(now() as date) AND employees.team_id = '"+id+"'";
 
   con.query(queryProgress, (err,data) => {
     if (err) {
@@ -271,9 +283,13 @@ app.get('/progress', (req,res) => {
   });
 });
 
-app.get('/busy', (req,res) => {
+// Select employees on status in busy & in the team that selected
+app.get('/busy/:id', (req,res) => {
 
-  queryBusy = "SELECT * FROM employees INNER JOIN workplan ON employees.em_id = workplan.em_id INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE workplan.status_work = 'doing'";
+  id = req.params.id;
+  console.log(id);
+
+  queryBusy = "SELECT * FROM employees INNER JOIN workplan ON employees.em_id = workplan.em_id INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE workplan.status_work = 'doing' AND employees.team_id = '"+id+"'";
 
   con.query(queryBusy, (err,data) => {
     if (err) {
@@ -286,39 +302,8 @@ app.get('/busy', (req,res) => {
   });
 });
 
-app.post('/eng/accept/:id', (req,res) => {
 
-  let work_id =  req.params.id;
-  console.log(work_id);
-
-  let queryAccept = "UPDATE workplan INNER JOIN employees ON workplan.em_id = employees.em_id  SET `status_work`= 'doing', employees.emp_status = 'busy' WHERE workplan_id = '"+work_id+"'";
-
-  con.query(queryAccept, (err,workplan) => {
-    if (err) {
-      console.log("Cannot update workplan_id");
-    }
-    else {
-      console.log("Change status to Doing complete!");
-    }
-  });
-});
-
-app.post('/eng/donework/:id', (req,res) => {
-  let work_id = req.params.id;
-  console.log(work_id);
-  let queryDone = "UPDATE workplan INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id INNER JOIN employees ON workplan.em_id = employees.em_id SET `status_work` = 'done', ticket.state = 'done', employees.emp_status = 'available' WHERE workplan_id = '"+work_id+"'";
-
-  con.query(queryDone, (err,workplan) => {
-    if (err) {
-      console.log("Cannot update done work");
-    }
-    else {
-      console.log("Change status to Done Complete!");
-    }
-  });
-});
-
-
+// Assign work to engineer
 app.post('/cm/assignwork', (req,res) => {
   let ticket_id = req.body.ticket_id;
   let em_id = req.body.em_id;
@@ -346,6 +331,7 @@ app.post('/cm/assignwork', (req,res) => {
   })
 })
 
+// Delete the workplan that cm assign to engineer
 app.get('/cm/delete/:id',(req,res) => {
   let id = req.params.id;
   console.log(id);
@@ -451,11 +437,13 @@ app.post('/ticket/add', (req,res) => {
   let state = req.body.state;
   let date = req.body.date;
   let end_date = req.body.end_date;
+  let so_number = req.body.so_number;
+  let person_contact = req.body.person_contact;
 
 
   console.log(ticket_id,owner, customer_name, tel, description, state, date, end_date);
-  queryTicket2 = "INSERT INTO ticket (`ticket_id`, `customer_name`, `owner`, `tel`,`description`, `date`, `end_date`, `state`)"
-                 + "VALUES ('"+ticket_id+"', '"+customer_name+"', '"+owner+"', '"+tel+"', '"+description+"', '"+date+"','"+end_date+"', '"+state+"')";
+  queryTicket2 = "INSERT INTO ticket (`ticket_id`, `customer_name`, `owner`, `tel`,`description`, `date`, `end_date`, `state`, `so_number`, `person_contact` )"
+                 + "VALUES ('"+ticket_id+"', '"+customer_name+"', '"+owner+"', '"+tel+"', '"+description+"', '"+date+"','"+end_date+"', '"+state+"', '"+so_number+"', '"+person_contact+"')";
   con.query(queryTicket2, (err,ticket) => {
     if (err) {
       res.status(400).send('Error insert Ticket ' + queryTicket2);
@@ -469,9 +457,12 @@ app.post('/ticket/add', (req,res) => {
 });
 
 app.post('/ticket/edit/:id', (req,res) => {
+
   let id = req.params.id;
   let owner = req.body.owner;
+  let so_number = req.body.so_number;
   let customer_name = req.body.customer_name;
+  let person_contact = req.body.person_contact;
   let tel = req.body.tel;
   let description = req.body.description;
   let date = req.body.date;
@@ -483,7 +474,7 @@ app.post('/ticket/edit/:id', (req,res) => {
     console.log(id, owner, customer_name, tel, description,end_date);
   //
   let queryEdit = "UPDATE ticket SET `owner`='"+owner+"', `customer_name`='"+customer_name+"', `tel`='"+tel+"', `tel`='"+tel+"', `description`='"+description+"'"
-                  +",`date`='"+date+"',`end_date`='"+end_date+"' WHERE ticket.ticket_id = "+id+"";
+                  +",`date`='"+date+"',`end_date`='"+end_date+"',`so_number`='"+so_number+"',`person_contact`='"+person_contact+"' WHERE ticket.ticket_id = "+id+"";
 
     con.query(queryEdit, (err,ticket) => {
       if (err) {
@@ -501,17 +492,20 @@ app.get('/ticket/delete/:id',(req,res) => {
   console.log(id);
   let queryDelTicket = "DELETE FROM ticket WHERE ticket_id = '"+id+"'";
   let queryDelWorkplan = "DELETE FROM workplan WHERE workplan.ticket_id = '"+id+"'";
+  let querySetstatus = "UPDATE "
 
   con.query(queryDelWorkplan, (err,result) =>{
     if (err) {
       throw err;
     }
     else {
+      console.log("Delete Workplan complete");
       con.query(queryDelTicket, (err,ticket) => {
         if (err) {
             throw err;
         }
         else {
+          console.log("delete Ticket Complete");
           console.log("Delete Record " + id + " Completed. " +result.affectedRows);
         }
       })
@@ -519,6 +513,24 @@ app.get('/ticket/delete/:id',(req,res) => {
     }
   });
 });
+
+// ********************************* CM Management Workplan ************************************
+
+  app.get('/workplan/:team', (req,res) => {
+    let team_id = req.params.team;
+    console.log(team_id);
+    let queryAll = "SELECT * FROM workplan INNER JOIN employees ON workplan.em_id = employees.em_id INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE employees.team_id = '"+team_id+"'";
+
+    con.query(queryAll, (err,workplan) => {
+      if (err) {
+        console.log("Cannot select Workplan data ");
+      }
+      else {
+        res.send(workplan);
+        console.log("Send DATA workplan success !");
+      }
+    })
+  })
 
 // ********************************* Engineer Management ************************************
 
@@ -577,6 +589,40 @@ app.get('/eng/workdoing/:id', (req,res) => {
   });
 });
 
+// Changing status engineer to 'busy' & state work to 'doing' when engineer who get the ticket and accept to work
+app.post('/eng/accept/:id', (req,res) => {
+
+  let work_id =  req.params.id;
+  console.log(work_id);
+
+  let queryAccept = "UPDATE workplan INNER JOIN employees ON workplan.em_id = employees.em_id  SET `status_work`= 'doing', employees.emp_status = 'busy' WHERE workplan_id = '"+work_id+"'";
+
+  con.query(queryAccept, (err,workplan) => {
+    if (err) {
+      console.log("Cannot update workplan_id");
+    }
+    else {
+      console.log("Change status to Doing complete!");
+    }
+  });
+});
+
+// Changing status engineer 'available' and state work to 'done' when engineer done this work
+app.post('/eng/donework/:id', (req,res) => {
+  let work_id = req.params.id;
+  console.log(work_id);
+  let queryDone = "UPDATE workplan INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id INNER JOIN employees ON workplan.em_id = employees.em_id SET `status_work` = 'done', ticket.state = 'done', employees.emp_status = 'available' WHERE workplan_id = '"+work_id+"'";
+
+  con.query(queryDone, (err,workplan) => {
+    if (err) {
+      console.log("Cannot update done work");
+    }
+    else {
+      console.log("Change status to Done Complete!");
+    }
+  });
+});
+
 // ********************************* Engineer Workplan ************************************
 
 app.get('/eng/workplan/get/:id' , (req,res) => {
@@ -594,6 +640,19 @@ app.get('/eng/workplan/get/:id' , (req,res) => {
       console.log("Succes to select workplan user: " + id);
     }
   })
+})
+
+app.post('/eng/addwork', (req,res) => {
+  let ticket_id = req.body.ticket_id;
+  let owner = req.body.owner;
+  let customer_name = req.body.customer_name;
+  let tel = req.body.tel;
+  let description = req.body.description;
+  let state = req.body.state;
+  let date = req.body.date;
+  let end_date = req.body.end_date;
+  let so_number = req.body.so_number;
+  let person_contact = req.body.person_contact;
 })
 
 

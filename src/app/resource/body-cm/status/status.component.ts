@@ -30,6 +30,8 @@ export class StatusComponent implements OnInit {
   busy: Employees[];
   cmObservable: Observable<Employees[]>;
   errorMsg: string;
+  defaultTeam:number;
+
 
   constructor(
               public dialog: MdDialog,
@@ -37,22 +39,73 @@ export class StatusComponent implements OnInit {
             ) { }
 
   ngOnInit() {
+    this.defaultTeam = 505;
     this.getAvailable();
     this.getInProgress();
     this.getBusy();
+
+    setInterval(()=> {
+       this.changeDefault();
+
+     },60000);
+
+  }
+
+  changeDefault() {
+
+    $('#available').DataTable().destroy();
+    $('#progress').DataTable().destroy();
+    $('#busy').DataTable().destroy();
+
+    this.getAvailable();
+    this.getInProgress();
+    this.getBusy();
+    // this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+    //   dtInstance.destroy();
+    //   this.getAvailable();
+    //   // this.dtTrigger.next();
+    // })
+    // this.tableCount = true;
+    // console.log(e);
+    // this.employees.splice(0,this.employees.length);
+    // this.progress.splice(0,this.progress.length);
+    // this.busy.splice(0,this.busy.length);
+    // console.log(this.employees);
+    // console.log(this.progress);
+    // console.log(this.busy);
+    // this.getAvailable();
+    // this.getInProgress();
+    // this.getBusy();
   }
 
   getAvailable() {
-    this.cmObservable = this.resourceService.getAvailable()
+    console.log(this.defaultTeam);
+    this.cmObservable = this.resourceService.getAvailable(this.defaultTeam)
     this.cmObservable.subscribe(
       data => {
-        this.employees = data
+        this.employees = data;
         // this.dtTrigger.next();
-        $(document).ready(function() {
-          $('#available').DataTable({
+        // var that = this;
+        // var count = that.tableCount;
 
+          // console.log(count);
+          $(document).ready( () => {
+            var table1 = $('#available').DataTable({
+                  "language": {
+                    "emptyTable": "No available data"
+                  }
+            });
+
+            $('#available tbody').on('click', 'tr', () => {
+              if ($(this).hasClass('selected')) {
+                  $(this).removeClass('selected');
+              }
+              else {
+                table1.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+              }
+            });
           });
-        });
 
       },
       err => this.errorMsg = <any>err
@@ -60,14 +113,19 @@ export class StatusComponent implements OnInit {
   }
 
   getInProgress() {
-    this.cmObservable = this.resourceService.getInProgress()
+    this.cmObservable = this.resourceService.getInProgress(this.defaultTeam)
     this.cmObservable.subscribe(
       data => {
         this.progress = data
-        $(document).ready(function() {
-          $('#progress').DataTable({
 
-          });
+        $(document).ready( () => {
+
+          $('#progress').DataTable({
+              "language": {
+                "emptyTable": "No progress data"
+              }
+            });
+
         });
 
       },
@@ -76,16 +134,18 @@ export class StatusComponent implements OnInit {
   }
 
   getBusy() {
-    this.cmObservable = this.resourceService.getBusy()
+    this.cmObservable = this.resourceService.getBusy(this.defaultTeam)
     this.cmObservable.subscribe(
       data => {
         this.busy = data
-        $(document).ready(function() {
-          $('#busy').DataTable({
 
-          });
+        $(document).ready( () => {
+            $('#busy').DataTable({
+              "language": {
+                "emptyTable": "No busy data"
+              }
+            });
         });
-
       },
       err => this.errorMsg = <any>err
     )

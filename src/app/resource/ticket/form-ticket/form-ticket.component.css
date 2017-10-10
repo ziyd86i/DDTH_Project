@@ -5,9 +5,16 @@ h1 {
 
 }
 
-.row {
+.form-group>.row {
   margin-bottom: 10px;
+  border: 1px;
+  border-color: blue;
 
+}
+
+.form-group>.col {
+  border: 1px;
+  border-color: red;
 }
 
 

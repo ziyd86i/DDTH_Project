@@ -1,29 +1,18 @@
 <div class="container">
   <div class="row">
-    <!-- <div class="col-xs-12
-                col-sm-12
-                col-md-2
-                col-lg-2">
-      <div class="dropdown">
-        <button class="btn btn-success dropdown-toggle"
-              type="button"
-              data-toggle="dropdown">
-              Support Engineer
-              <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><a href="selectAll()">All</a></li>
-          <li><a (click)="selectAll()">Networking</a></li>
-          <li><a (click)="selectAll()">Security</a></li>
-          <li><a (click)="selectAll()">Customer experience & Collaboration</a></li>
-          <li><a (click)="selectAll()">Data Centres (Hybrid IT)</a></li>
-          <li><a (click)="selectAll()">End-user computer</a></li>
-          <li><a (click)="selectAll()">Others</a></li>
-
-        </ul>
-      </div>
-    </div> -->
-
+    <div class="col pull-right">
+      <label>Select Team: </label>
+      <select class="form-control" id="team_id" [(ngModel)]="defaultTeam" (ngModelChange)="changeDefault()" required>
+          <option value="505" [selected]="defaultTeam === 505">Service Support</option>
+          <option value="503" [selected]="defaultTeam === 503">Installation </option>
+          <option value="504" [selected]="defaultTeam === 504">Preventive Maintenance</option>
+          <option value="506" [selected]="defaultTeam === 506">Resource Management</option>
+          <option value="507" [selected]="defaultTeam === 507">Service</option>
+          <option value="509" [selected]="defaultTeam === 509">Upcountry FE</option>
+      </select>
+    </div>
+  </div>
+  <div class="row">
     <div class="col">
 
       <h4><img src="../../assets/images/green_1.png"> Available</h4>

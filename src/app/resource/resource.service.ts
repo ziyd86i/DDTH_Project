@@ -12,33 +12,34 @@ export class ResourceService {
 
   userUrl = 'http://localhost:3300';
 
-  getAvailable(): Observable<Employees[]> {
+  getAvailable(team_id): Observable<Employees[]> {
+    // console.log(team_id);
     console.log("Get available");
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
-   return this.http.get(`${this.userUrl}/available`, options)
+   return this.http.get(`${this.userUrl}/available/${team_id}`, options)
                     .map((res:Response) =>res.json())
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
 
   }
 
-  getInProgress() : Observable<Employees[]> {
+  getInProgress(team_id) : Observable<Employees[]> {
     console.log("Get In progress");
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
-   return this.http.get(`${this.userUrl}/progress`, options)
+   return this.http.get(`${this.userUrl}/progress/${team_id}`, options)
                     .map((res:Response) =>res.json())
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
 
   }
-  getBusy() : Observable<Employees[]> {
+  getBusy(team_id) : Observable<Employees[]> {
     console.log("Get Busy");
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
-    return this.http.get(`${this.userUrl}/busy`, options)
+    return this.http.get(`${this.userUrl}/busy/${team_id}`, options)
                     .map((res:Response) =>res.json())
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
 
@@ -83,6 +84,16 @@ export class ResourceService {
     let options = new RequestOptions({headers : headers});
 
     return this.http.get(`${this.userUrl}/cm/getdata/${id}`, options)
+                    .map((res:Response) =>res.json())
+                    .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  GetcurrentWorkplan(team: Object): Observable<Workplan[]> {
+    console.log("Get all Workplan");
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers : headers});
+
+   return this.http.get(`${this.userUrl}/workplan/${team}`, options)
                     .map((res:Response) =>res.json())
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
   }

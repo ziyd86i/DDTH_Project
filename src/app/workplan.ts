@@ -7,7 +7,9 @@ export class Workplan {
   customer_name: string;
   description: string;
   tel: number;
-  date : Date;
+  date : string;
   time: string;
-  end_date: Date;
+  end_date: string;
+  so_number: string;
+  contact_number: string;
 }

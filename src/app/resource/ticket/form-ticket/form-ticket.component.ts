@@ -53,7 +53,13 @@ export class FormTicketComponent implements OnInit {
        Validators.required,
 
      ]],
+     so_number:['', [
+       Validators.required,
+     ]],
      owner: ['', [
+       Validators.required,
+     ]],
+     person_contact: ['', [
        Validators.required,
      ]],
      customer_name: ['', [
