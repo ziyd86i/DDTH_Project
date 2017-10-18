@@ -1,20 +1,27 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <h4>Details ticket # {{workplan.ticket_id}}</h4>
+      <h4>Details ticket # {{workplan.ticket_name}}</h4>
     </div>
     <hr>
     <div class="row">
       <div class="col">
         <div class="form-group">
-
-
               <div class="row">
                 <div class="col-md-6">
                   <label>Customer Name: </label>
                 </div>
                 <div class="col-md-6">
                   <label>{{workplan.customer_name}}</label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <label>SO Number: </label>
+                </div>
+                <div class="col-md-6">
+                  <label>{{workplan.so_number}}</label>
                 </div>
               </div>
 
@@ -47,6 +54,7 @@
               <hr>
               <div class="row">
                 <div class="col text-center">
+                  <button md-raised-button (click)="ConfirmWork()" class="btn btn-success pull-center" >Confirm</button>
                   <button md-raised-button (click)="close()" class="btn btn-warning pull-center" >Close</button>
 
                 </div>

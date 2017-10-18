@@ -13,23 +13,27 @@ import { ResourceService } from '../resource.service';
 export class WorkplanCmComponent implements OnInit {
   currentDate: Date = new Date();
   switchModeNames: string[];
-  defaultTeam: number = 505;
+  defaultTeam: number;
   ObservWork: Observable<Workplan[]>;
   // ObservEng: Observable<Employees[]>;
   workplan: Workplan[];
-  current: Employees = JSON.parse(localStorage.getItem('currentUser'));
+  dataGrid: Workplan[];
+  current = JSON.parse(localStorage.getItem('currentUser'));
   errorMsg: string;
+  viewType: number = 1;
+  month: number = new Date().getMonth()+1;
+  year: number = new Date().getFullYear();
 
   constructor(
     private resourceService: ResourceService,
-    private datePipe: DatePipe) {
+    private datePipe: DatePipe) { }
+
+  ngOnInit() {
+    this.defaultTeam = this.current.team_id;
     this.switchModeNames = ["Tabs", "Drop-Down Menu"];
 
     this.GetcurrentWorkplan();
-
-  }
-
-  ngOnInit() {
+    this.getDateSelect();
   }
 
   GetcurrentWorkplan() {
@@ -38,6 +42,7 @@ export class WorkplanCmComponent implements OnInit {
     this.ObservWork.subscribe(
       workplan => {
         this.workplan = workplan;
+
         for (let i = 0; i < workplan.length; i++) {
           this.workplan[i].date = this.datePipe.transform(this.workplan[i].date, 'short');
           this.workplan[i].end_date = this.datePipe.transform(this.workplan[i].end_date, 'short');
@@ -54,6 +59,26 @@ export class WorkplanCmComponent implements OnInit {
 
   changeDefault() {
     this.GetcurrentWorkplan();
+    this.getDateSelect();
+  }
+
+  getDateSelect() {
+    this.ObservWork = this.resourceService.getDateSelect(this.month, this.year,this.defaultTeam)
+    this.ObservWork.subscribe(
+      workplan => {
+        this.dataGrid = workplan
+        console.log(this.dataGrid)
+        for (let i = 0; i < workplan.length; i++) {
+          this.dataGrid[i].date = this.datePipe.transform(this.dataGrid[i].date, 'short');
+          this.dataGrid[i].end_date = this.datePipe.transform(this.dataGrid[i].end_date, 'short');
+          console.log(this.dataGrid[i].date);
+
+        }
+      },
+      err => {
+        this.errorMsg = <any>err;
+      }
+    )
   }
 
   FormCreated(data) {
@@ -76,11 +101,11 @@ export class WorkplanCmComponent implements OnInit {
         text: 'Ticket ID'
       },
       editorType: 'dxTextBox',
-      dataField: 'ticket_id',
+      dataField: 'ticket_name',
       editorOptions: {
         items: this.workplan,
-        displayExpr: "ticket_id",
-        valueExpr: "ticket_id",
+        displayExpr: "ticket_name",
+        valueExpr: "ticket_name",
       }
     },
     {

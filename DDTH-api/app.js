@@ -47,6 +47,32 @@ var query2 = "SELECT * FROM `workplan` INNER JOIN ticket ON workplan.ticket_id =
 
 
 // =========================================================================================================================
+// ********************************* SET INTERVAL TO AUTO DELETE RECORD EVERY 2 YEARS***************************************
+// =========================================================================================================================
+
+setInterval( ()=>{
+
+  let intervalWork = "DELETE FROM workplan WHERE ticket_id = (SELECT ticket_id FROM ticket WHERE date < NOW() - INTERVAL 2 YEAR)";
+  let intervalTicket = "DELETE FROM ticket WHERE date < NOW() - INTERVAL 2 YEAR";
+  con.query(intervalWork, (err)=> {
+    if (err) {
+      console.log("Cannot delete workplan internal 2 years");
+    }
+    else {
+      con.query(intervalTicket, (err) => {
+        if (err) {
+          console.log("Cannot delete ticket interval 2 years");
+        }
+        else {
+          console.log("Delete record in workplan & ticket interval 2 years");
+        }
+      })
+    }
+  })
+}, 86400000);
+
+
+// =========================================================================================================================
 // ********************************************** Login Authentication *****************************************************
 // =========================================================================================================================
 
@@ -91,6 +117,7 @@ apiRoutes.post('/authenticate', (req,res) => {
               name: users[0].name,
               lname: users[0].lname,
               type: users[0].type,
+              team_id: users[0].team_id,
               token: token
           });
         }
@@ -357,6 +384,7 @@ app.get('/cm/delete/:id',(req,res) => {
   });
 });
 
+
 app.get('/cm/getdata/:id', (req,res) => {
 
   let id = req.params.id;
@@ -375,8 +403,10 @@ app.get('/cm/getdata/:id', (req,res) => {
   });
 
 });
-
+// ===========================================================================================
 // ********************************* CM Managed Ticket ************************************
+// ===========================================================================================
+
 
 app.get('/ticket', (req,res) => {
 
@@ -429,7 +459,7 @@ app.get('/ticket/:id', (req,res) => {
 
 app.post('/ticket/add', (req,res) => {
 
-  let ticket_id = req.body.ticket_id;
+  let ticket_name = req.body.ticket_name;
   let owner = req.body.owner;
   let customer_name = req.body.customer_name;
   let tel = req.body.tel;
@@ -441,9 +471,9 @@ app.post('/ticket/add', (req,res) => {
   let person_contact = req.body.person_contact;
 
 
-  console.log(ticket_id,owner, customer_name, tel, description, state, date, end_date);
-  queryTicket2 = "INSERT INTO ticket (`ticket_id`, `customer_name`, `owner`, `tel`,`description`, `date`, `end_date`, `state`, `so_number`, `person_contact` )"
-                 + "VALUES ('"+ticket_id+"', '"+customer_name+"', '"+owner+"', '"+tel+"', '"+description+"', '"+date+"','"+end_date+"', '"+state+"', '"+so_number+"', '"+person_contact+"')";
+  // console.log(ticket_name ,owner, customer_name, tel, description, state, date, end_date);
+  queryTicket2 = "INSERT INTO ticket (`ticket_id`,`ticket_name`, `customer_name`, `owner`, `tel`,`description`, `date`, `end_date`, `state`, `so_number`, `person_contact` )"
+                 + "VALUES (NULL,'"+ticket_name+"', '"+customer_name+"', '"+owner+"', '"+tel+"', '"+description+"', '"+date+"','"+end_date+"', '"+state+"', '"+so_number+"', '"+person_contact+"')";
   con.query(queryTicket2, (err,ticket) => {
     if (err) {
       res.status(400).send('Error insert Ticket ' + queryTicket2);
@@ -459,6 +489,7 @@ app.post('/ticket/add', (req,res) => {
 app.post('/ticket/edit/:id', (req,res) => {
 
   let id = req.params.id;
+  let ticket_name = req.body.ticket_name;
   let owner = req.body.owner;
   let so_number = req.body.so_number;
   let customer_name = req.body.customer_name;
@@ -473,7 +504,7 @@ app.post('/ticket/edit/:id', (req,res) => {
     // console.log(req.body.em_id);
     console.log(id, owner, customer_name, tel, description,end_date);
   //
-  let queryEdit = "UPDATE ticket SET `owner`='"+owner+"', `customer_name`='"+customer_name+"', `tel`='"+tel+"', `tel`='"+tel+"', `description`='"+description+"'"
+  let queryEdit = "UPDATE ticket SET `ticket_name`='"+ticket_name+"', `owner`='"+owner+"', `customer_name`='"+customer_name+"', `tel`='"+tel+"', `description`='"+description+"'"
                   +",`date`='"+date+"',`end_date`='"+end_date+"',`so_number`='"+so_number+"',`person_contact`='"+person_contact+"' WHERE ticket.ticket_id = "+id+"";
 
     con.query(queryEdit, (err,ticket) => {
@@ -514,7 +545,10 @@ app.get('/ticket/delete/:id',(req,res) => {
   });
 });
 
+// =============================================================================================
 // ********************************* CM Management Workplan ************************************
+// =============================================================================================
+
 
   app.get('/workplan/:team', (req,res) => {
     let team_id = req.params.team;
@@ -532,7 +566,47 @@ app.get('/ticket/delete/:id',(req,res) => {
     })
   })
 
+  app.post('/workplan/dateselect/:team', (req,res) => {
+    let team_id = req.params.team;
+    let month = req.body.month;
+    let year = req.body.year;
+
+    console.log(team_id, month, year);
+    let queryDate = "SELECT employees.em_id, employees.name, employees.lname , ticket.ticket_id, ticket.so_number, ticket.customer_name, ticket.person_contact, ticket.description, team.team_name, ticket.date, ticket.end_date "
+                    +"FROM workplan INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id INNER JOIN employees ON workplan.em_id = employees.em_id INNER JOIN team ON employees.team_id = team.team_id "
+                    +"WHERE team.team_id = '"+team_id+"' AND month(date) = '"+month+"' AND year(date) = '"+year+"'"
+
+    con.query(queryDate, (err,workplan) => {
+      if (err) {
+        console.log("Select Data from month&year fail");
+      }
+      else {
+        res.send(workplan);
+        console.log("Select Data from month&year success!");
+      }
+    })
+  })
+
+  app.get('/workplan/id/:id', (req,res) => {
+    let id = req.params.id;
+
+    let queryID = "SELECT * FROM workplan INNER JOIN employees ON employees.em_id = workplan.em_id INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE employees.em_id = '"+id+"'";
+
+    con.query(queryID, (err,workplan) => {
+      if (err) {
+        console.log("Cannot select workplan data from id");
+      }
+      else {
+        res.send(workplan);
+        console.log("Send data workplan from ID success!");
+      }
+    })
+  })
+
+// =============================================================================================
 // ********************************* Engineer Management ************************************
+// =============================================================================================
+
 
 app.get('/eng/workplan/:id', (req,res) => {
   let id = req.params.id;
@@ -623,7 +697,10 @@ app.post('/eng/donework/:id', (req,res) => {
   });
 });
 
+// =============================================================================================
 // ********************************* Engineer Workplan ************************************
+// =============================================================================================
+
 
 app.get('/eng/workplan/get/:id' , (req,res) => {
   let id = req.params.id;
@@ -642,23 +719,110 @@ app.get('/eng/workplan/get/:id' , (req,res) => {
   })
 })
 
-app.post('/eng/addwork', (req,res) => {
-  let ticket_id = req.body.ticket_id;
+app.post('/eng/addwork/:id', (req,res) => {
+  let em_id = req.params.id;
+  let ticket_name = req.body.ticket_name;
   let owner = req.body.owner;
   let customer_name = req.body.customer_name;
   let tel = req.body.tel;
   let description = req.body.description;
-  let state = req.body.state;
   let date = req.body.date;
   let end_date = req.body.end_date;
   let so_number = req.body.so_number;
   let person_contact = req.body.person_contact;
+
+  console.log(em_id,ticket_name,owner,customer_name,tel,description,date,end_date,so_number,person_contact);
+
+   var sqlTicket = "INSERT INTO ticket (`ticket_id`,`ticket_name`, `customer_name`, `owner`, `tel`,`description`, `date`, `end_date`, `state`, `so_number`, `person_contact`)"
+                   + " VALUES (NULL,'"+ticket_name+"', '"+customer_name+"', '"+owner+"', '"+tel+"', '"+description+"', '"+date+"','"+end_date+"', 'in progress', '"+so_number+"', '"+person_contact+"')";
+   var sqlSelect = "SELECT ticket_id FROM `ticket` WHERE ticket_id = (SELECT MAX(ticket_id) from ticket) AND ticket_name = '"+ticket_name+"'";
+
+
+  con.query(sqlTicket, (err,ticket) => {
+    if (err) {
+      console.log("Cannot insert Ticket");
+    }
+    else {
+
+      console.log("Insert ticket complete!");
+      con.query(sqlSelect, (err,select) => {
+        if (err) {
+          console.log("Cannot select Ticket");
+        }
+        else {
+          // console.log(select[0].ticket_id);
+          let tick_id = select[0].ticket_id;
+          // console.log(tick_id);
+
+          var sqlWorkplan = "INSERT INTO `workplan` (`workplan_id`, `em_id`, `ticket_id`, `status_work`) VALUES (NULL, '"+em_id+"', '"+tick_id+"', 'active')";
+          console.log("Select ticket_id success");
+          console.log(sqlWorkplan);
+          con.query(sqlWorkplan, (err,workplan) => {
+            if (err) {
+              console.log("Cannot insert Workplan");
+            }
+            else {
+              console.log("Insert Workplan Complete!");
+            }
+          })
+        }
+      })
+    }
+  })
+});
+
+app.post('/eng/updatework', (req,res) => {
+  let ticket_id = req.body.ticket_id;
+  let em_id = req.body.em_id;
+  let ticket_name = req.body.ticket_name;
+  let owner = req.body.owner;
+  let customer_name = req.body.customer_name;
+  let tel = req.body.tel;
+  let description = req.body.description;
+  let date = req.body.date;
+  let end_date = req.body.end_date;
+  let so_number = req.body.so_number;
+  let person_contact = req.body.person_contact;
+  // console.log(em_id,description);
+
+  sqlupdate = "UPDATE ticket SET ticket_name = '"+ticket_name+"', so_number = '"+so_number+"', owner = '"+owner+"', customer_name = '"+customer_name+"', person_contact = '"+person_contact+"', tel = '"+tel+"'"
+              +", description = '"+description+"', date = '"+date+"', end_date = '"+end_date+"' WHERE ticket_id = '"+ticket_id+"'"
+  console.log(sqlupdate);
+
+  con.query(sqlupdate, (err,update) => {
+    if (err) {
+      console.log("Error to update ticket id : "+ ticket_id);
+    }
+    else {
+      console.log("Update Complete!");
+    }
+  })
+
+})
+
+app.get('/eng/removework/:id', (req,res) => {
+  let id = req.params.id;
+
+  console.log(id);
+
+  sqlRemove = "DELETE FROM workplan WHERE workplan_id = '"+id+"'";
+
+  con.query(sqlRemove, (err) => {
+    if (err) {
+      console.log("Error to remove workplan");
+    }
+    else {
+      console.log("Remove Workplan complete");
+    }
+  })
 })
 
 
 
-
+// =============================================================================================
 //  *************************** กำหนด port ที่ api จะแสดงผล ***************************
+// =============================================================================================
+
 server.listen(3300, () => {
   console.log('Express server is lisening on port 3300');
 });

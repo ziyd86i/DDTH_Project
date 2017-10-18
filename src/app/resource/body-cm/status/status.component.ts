@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MdDialog } from '@angular/material';
 import { Employees } from '../../../employees';
+import { Workplan } from '../../../workplan';
 import { ResourceService } from '../../resource.service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
@@ -10,6 +11,7 @@ import { DoneDialog } from './done-dialog/done-dialog.component';
 import { AssignDialog } from './assign-dialog/assign-dialog.component';
 import { DelDialog } from './del-dialog/del-dialog.component';
 import { DescDialog } from './desc-dialog/desc-dialog.component';
+import { SchedulerDialog } from './scheduler-dialog/scheduler-dialog.component';
 declare var $ :any;
 
 
@@ -31,6 +33,7 @@ export class StatusComponent implements OnInit {
   cmObservable: Observable<Employees[]>;
   errorMsg: string;
   defaultTeam:number;
+  currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
 
   constructor(
@@ -39,7 +42,7 @@ export class StatusComponent implements OnInit {
             ) { }
 
   ngOnInit() {
-    this.defaultTeam = 505;
+    this.defaultTeam = this.currentUser.team_id;
     this.getAvailable();
     this.getInProgress();
     this.getBusy();
@@ -60,22 +63,7 @@ export class StatusComponent implements OnInit {
     this.getAvailable();
     this.getInProgress();
     this.getBusy();
-    // this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-    //   dtInstance.destroy();
-    //   this.getAvailable();
-    //   // this.dtTrigger.next();
-    // })
-    // this.tableCount = true;
-    // console.log(e);
-    // this.employees.splice(0,this.employees.length);
-    // this.progress.splice(0,this.progress.length);
-    // this.busy.splice(0,this.busy.length);
-    // console.log(this.employees);
-    // console.log(this.progress);
-    // console.log(this.busy);
-    // this.getAvailable();
-    // this.getInProgress();
-    // this.getBusy();
+
   }
 
   getAvailable() {
@@ -85,25 +73,12 @@ export class StatusComponent implements OnInit {
       data => {
         this.employees = data;
         // this.dtTrigger.next();
-        // var that = this;
-        // var count = that.tableCount;
 
-          // console.log(count);
           $(document).ready( () => {
             var table1 = $('#available').DataTable({
                   "language": {
                     "emptyTable": "No available data"
                   }
-            });
-
-            $('#available tbody').on('click', 'tr', () => {
-              if ($(this).hasClass('selected')) {
-                  $(this).removeClass('selected');
-              }
-              else {
-                table1.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-              }
             });
           });
 
@@ -151,6 +126,8 @@ export class StatusComponent implements OnInit {
     )
   }
 
+
+
   assignWork(id) {
     console.log(id);
     let dialogRef = this.dialog.open(AssignDialog, {
@@ -184,6 +161,15 @@ export class StatusComponent implements OnInit {
       data: id
     });
 
+  }
+
+  schedulerDialog(data) {
+    console.log(data)
+
+    let dialogRef = this.dialog.open(SchedulerDialog, {
+      width: '768px',
+      data: data
+    })
   }
 
 

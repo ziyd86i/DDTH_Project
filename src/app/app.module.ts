@@ -61,6 +61,7 @@ import { AssignDialog } from './resource/body-cm/status/assign-dialog/assign-dia
 import { DelDialog } from './resource/body-cm/status/del-dialog/del-dialog.component';
 import { DescDialog } from './resource/body-cm/status/desc-dialog/desc-dialog.component';
 import { WorkplanCmComponent } from './resource/workplan-cm/workplan-cm.component';
+import { SchedulerDialog } from './resource/body-cm/status/scheduler-dialog/scheduler-dialog.component';
 
 
 
@@ -94,6 +95,7 @@ import { WorkplanCmComponent } from './resource/workplan-cm/workplan-cm.componen
     DelDialog,
     DescDialog,
     WorkplanCmComponent,
+    SchedulerDialog,
 
 
 
@@ -107,6 +109,7 @@ import { WorkplanCmComponent } from './resource/workplan-cm/workplan-cm.componen
     AssignDialog,
     DelDialog,
     DescDialog,
+    SchedulerDialog
 
   ],
   imports: [

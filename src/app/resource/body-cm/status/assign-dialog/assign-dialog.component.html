@@ -5,7 +5,7 @@
         <label for="ticket">Select Ticket No. </label>
         <select class="form-control" id="ticket" [(ngModel)]="selectTicket">
           <option *ngFor="let data of ticket" [ngValue]="data.ticket_id">
-            {{data.ticket_id}}
+            {{data.ticket_name}}
           </option>
         </select>
       </div>

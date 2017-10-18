@@ -17,6 +17,11 @@ img {
   border: 1;
 }
 
-tr>th,tr>td {
+tr>th {
   text-align: center;
+}
+
+tbody>tr:hover {
+
+  background-color: #B0DACC;
 }

@@ -15,11 +15,11 @@ import { DataTableDirective } from 'angular-datatables';
 })
 export class BodyTicketComponent implements OnInit {
 
-  @ViewChild(DataTableDirective)
-  dtElement: DataTableDirective;
-  dtOptions: DataTables.Settings = {};
-  dtTrigger: Subject<any> = new Subject();
-
+  // @ViewChild(DataTableDirective)
+  // dtElement: DataTableDirective;
+  // dtOptions: DataTables.Settings = {};
+  // dtTrigger: Subject<any> = new Subject();
+  mapping: string;
   ObservableTicket : Observable<Ticket[]>;
   ticket : Ticket[];
 
@@ -42,7 +42,7 @@ export class BodyTicketComponent implements OnInit {
     this.ObservableTicket.subscribe(
               ticket => {
                 this.ticket = ticket
-                this.dtTrigger.next();
+                // this.dtTrigger.next();
                 $(document).ready(function() {
                   $('#ticket').DataTable({
 

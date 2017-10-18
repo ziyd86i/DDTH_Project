@@ -19,6 +19,7 @@ export class EngWorkplanComponent {
   switchModeNames: string[];
 
   ObservWork: Observable<Workplan[]>;
+  ObservWork1: Observable<Workplan>;
   // ObservEng: Observable<Employees[]>;
   workplan: Workplan[];
   current: Employees = JSON.parse(localStorage.getItem('currentUser'));
@@ -47,7 +48,7 @@ export class EngWorkplanComponent {
         for (let i = 0; i < workplan.length; i++) {
           this.workplan[i].date = this.datePipe.transform(this.workplan[i].date, 'short');
           this.workplan[i].end_date = this.datePipe.transform(this.workplan[i].end_date, 'short');
-          console.log(this.workplan[i].date);
+          console.log(this.workplan[i].date,this.workplan[i].end_date);
 
         }
         console.log(this.workplan);
@@ -58,10 +59,65 @@ export class EngWorkplanComponent {
     )
   }
 
+  addWorkplan(data) {
+    console.log(data);
+    console.log(data.appointmentData);
+    console.log(this.current.em_id)
+    this.ObservWork1 = this.engineerService.addWorkplan(data.appointmentData,this.current.em_id)
+    this.ObservWork1.subscribe(
+      workplan => {
+        console.log("Update complete" + workplan)
+      },
+      err => {
+        this.errorMsg = <any>err;
+      }
+    )
+  }
+
+  updateWorkplan(data) {
+    console.log(data.newData)
+    this.ObservWork1 = this.engineerService.updateWorkplan(data.newData)
+    this.ObservWork1.subscribe(
+      workplan => {
+        this.workplan[0] = workplan
+      },
+      err => {
+        this.errorMsg = <any>err
+      }
+    )
+  }
+
+  removeWork(e) {
+    // console.log(e.appointmentData.workplan_id)
+    this.ObservWork1 = this.engineerService.removeWork(e.appointmentData.workplan_id)
+    this.ObservWork1.subscribe(
+      workplan => {
+        this.workplan[0] = workplan
+      },
+      err => {
+        this.errorMsg = <any>err
+      }
+    )
+  }
+
   FormCreated(data) {
     let form = data.form
-
-    form.option("items", [{
+    console.log(data)
+    let startDate = data.appointmentData.date;
+    form.option("items", [
+    {
+      label: {
+        text: 'Ticket ID'
+      },
+      editorType: 'dxTextBox',
+      dataField: 'ticket_name',
+      editorOptions: {
+        items: this.workplan,
+        displayExpr: "ticket_name",
+        valueExpr: "ticket_name",
+      }
+    },
+    {
       label: {
         text: 'SO Number'
       },
@@ -71,18 +127,6 @@ export class EngWorkplanComponent {
         items: this.workplan,
         displayExpr: "so_number",
         valueExpr: "so_number"
-      }
-    },
-    {
-      label: {
-        text: 'Ticket ID'
-      },
-      editorType: 'dxTextBox',
-      dataField: 'ticket_id',
-      editorOptions: {
-        items: this.workplan,
-        displayExpr: "ticket_id",
-        valueExpr: "ticket_id",
       }
     },
     {
@@ -121,7 +165,7 @@ export class EngWorkplanComponent {
     },
     {
       label: {
-        text: 'Telephone'
+        text: 'Contact Number'
       },
       editorType: 'dxTextBox',
       dataField: 'tel',
@@ -136,10 +180,13 @@ export class EngWorkplanComponent {
       editorOptions: {
         type: "datetime",
         items: this.workplan,
-        startDateExpr: "date",
+        displayExpr: "date",
         onValueChanged: (change) => {
-          console.log(change.value);
-          //  this.workplan.date = change.value;
+          // console.log(change.value);
+          startDate = new Date(change.value)
+          form.getEditor("end_date")
+              .option("value", this.datePipe.transform(new Date(startDate.getTime() + 60*1000*180), 'yyyy/MM/dd HH:mm:ss'));
+
         }
       }
     },
@@ -170,20 +217,7 @@ export class EngWorkplanComponent {
     ])
   }
 
-  addWorkplan(data) {
-    console.log(data);
-    console.log(data.appointmentData);
 
-    this.ObservWork = this.engineerService.addWorkplan(data.appointmentData)
-    this.ObservWork.subscribe(
-      workplan => {
-        this.workplan = workplan
-      },
-      err => {
-        this.errorMsg = <any>err;
-      }
-    )
-  }
 
 
 }

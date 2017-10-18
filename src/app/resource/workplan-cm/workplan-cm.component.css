@@ -8,3 +8,7 @@ h1 {
 .row {
   margin-bottom: 15px;
 }
+
+.col {
+  margin-left: 15px;
+}

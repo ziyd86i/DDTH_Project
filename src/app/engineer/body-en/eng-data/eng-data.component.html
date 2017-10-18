@@ -22,7 +22,7 @@
 
                 <ng-container *ngIf="workplan">
                   <tr *ngFor="let data of workplan; let i = index">
-                    <td>{{ data.ticket_id }}</td>
+                    <td>{{ data.ticket_name }}</td>
                     <td>{{ data.customer_name }}</td>
                     <td>{{ data.date | date:'dd-MMM-yy, hh:mm' }}</td>
                     <td>{{ data.end_date | date:'dd-MMM-yy, hh:mm'}}</td>
@@ -65,7 +65,7 @@
 
                 <tr *ngIf="workDoing">
                   <td><b>Ticket # : </b></td>
-                  <td>{{ workDoing.ticket_id }}</td>
+                  <td>{{ workDoing.ticket_name }}</td>
                 </tr>
 
                 <tr *ngIf="workDoing">
@@ -130,7 +130,7 @@
                 </td>
               </tr>
               <tr *ngFor="let week of workofweek">
-                <td>{{ week.ticket_id }}</td>
+                <td>{{ week.ticket_name }}</td>
                 <td>{{ week.customer_name }}</td>
                 <td>{{ week.date | date:'dd-MMM-yy, hh:mm' }}</td>
                 <td>{{ week.end_date | date:'dd-MMM-yy, hh:mm'}}</td>

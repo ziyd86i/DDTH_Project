@@ -3,13 +3,14 @@ export class Workplan {
   em_id: string;
   name: string;
   lname: string;
-  ticket_id: string;
+  ticket_id: number;
+  ticket_name: string;
   customer_name: string;
   description: string;
   tel: number;
   date : string;
-  time: string;
+  owner: string;
   end_date: string;
   so_number: string;
-  contact_number: string;
+
 }

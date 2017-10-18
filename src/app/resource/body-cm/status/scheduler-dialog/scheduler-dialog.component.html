@@ -1,5 +1,9 @@
-<header-eng></header-eng>
-<div class="container">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h4>Scheduler's Engineer {{work_data.name}} {{work_data.lname}}</h4>
+    </div>
+  </div>
   <div class="row">
     <div class="col">
       <dx-scheduler
@@ -8,34 +12,35 @@
           [views]='["month", "week", "day"]'
           currentView="month"
           [firstDayOfWeek]="0"
-          [startDayHour]="0"
+          [startDayHour]="8"
           [endDayHour]="24"
           [currentDate]="currentDate"
           [useDropDownViewSwitcher]="switchModeNames[1] === switchMode.value"
           width="100%"
           [height]="600"
           appointmentTemplate="appointment-template"
+          appointmentTooltipTemplate="tooltip-template"
           (onAppointmentFormCreated)="FormCreated($event)"
-          textExpr="ticket_name"
           startDateExpr="date"
           endDateExpr="end_date"
-          (onAppointmentAdding)="addWorkplan($event)"
-          (onAppointmentUpdating)="updateWorkplan($event)"
-          (onAppointmentDeleting)="removeWork($event)">
-
+          (onAppointmentAdding)="addWorkplan($event)">
+          <!-- <dxi-resource
+              fieldExpr="ownerId"
+              label="Owner"
+              [allowMultiple]="true"
+              [dataSource]="resourcesData"
+          ></dxi-resource> -->
           <div *dxTemplate="let data of 'appointment-template'">
-            <i>Customer Name: {{data.customer_name}}</i>
+            <i>Engineer: {{data.name}} {{data.lname}}</i>
             <p> Description: {{data.description}}</p>
             <p>{{ data.date | date:'shortTime'}} - {{data.end_date | date:'shortTime'}}</p>
           </div>
 
-          <!-- <div *dxTemplate="let data of 'tooltip-template'">
+          <div *dxTemplate="let data of 'tooltip-template'">
             <i>Customer Name: {{data.customer_name}}</i>
             <p> Description: {{data.description}}</p>
             <p>{{ data.date | date:'shortTime'}} - {{data.end_date | date:'shortTime'}}</p>
-            <dx-button text='Remove' >
-            </dx-button>
-          </div> -->
+          </div>
 
           <dxo-editing #editingOptions
               [allowAdding]="true"
@@ -55,36 +60,23 @@
                   [width]="200">
               </dx-select-box>
           </div>
-          <div class="option" >
+          <div class="option" hidden>
               <dx-check-box text="Allow adding" [(value)]="editingOptions.allowAdding" (click)="addWorkplan($event)"></dx-check-box>
           </div>
-          <div class="option" >
-              <dx-check-box text="Allow updating" [(value)]="editingOptions.allowUpdating" (click)="updateWorkplan($event)"></dx-check-box>
+          <div class="option" hidden>
+              <dx-check-box text="Allow updating" [(value)]="editingOptions.allowUpdating"></dx-check-box>
           </div>
-          <div class="option" >
+          <div class="option" hidden>
               <dx-check-box text="Allow deleting" [(value)]="editingOptions.allowDeleting"></dx-check-box>
           </div>
-          <div class="option" >
+          <div class="option" hidden>
               <dx-check-box text="Allow resizing" [(value)]="editingOptions.allowResizing"></dx-check-box>
           </div>
-          <div class="option" >
+          <div class="option" hidden>
               <dx-check-box text="Allow dragging" [(value)]="editingOptions.allowDragging"></dx-check-box>
           </div>
       </div>
 
     </div>
   </div>
-
-  <!-- <div class="row">
-    <div class="col">
-      <div *ngFor="let data of workplan">
-        <li>{{data.workplan_id}}</li>
-        <li>{{data.em_id}}</li>
-        <li>{{data.customer_name}}</li>
-        <li>{{data.ticket_name}}</li>
-        <li>{{data.date | date:'shortDate'}}</li>
-        <li>{{data.end_date |date:'dd-MMM-yy, hh:mm'}}</li>
-      </div>
-    </div>
-  </div> -->
 </div>

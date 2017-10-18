@@ -1,7 +1,7 @@
 import { Component, OnInit, Directive } from '@angular/core';
-import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { TicketService } from '../ticket.service';
 import { Ticket } from '../ticket';
@@ -20,13 +20,13 @@ declare var jQuery: any;
 })
 export class FormTicketComponent implements OnInit {
 
-  form : FormGroup;
-  title : string;
+  form: FormGroup;
+  title: string;
   submitted = false;
   editted = false;
-  tickets : Ticket = new Ticket();
+  tickets: Ticket = new Ticket();
   errorMsg: string;
-  date:Date = new Date();
+  date: Date = new Date();
 
   // date2: Date = new Date(2016, 5, 10);
   // datepickerOpts = {
@@ -38,53 +38,53 @@ export class FormTicketComponent implements OnInit {
   //   format: 'D, d MM yyyy'
   // }
 
-  ManagedTicket :Observable<Ticket>;
+  ManagedTicket: Observable<Ticket>;
 
   constructor(
-     formBuilder: FormBuilder,
-     private router: Router,
-     private route: ActivatedRoute,
-     private ticketService: TicketService,
-     private datePipe: DatePipe
+    formBuilder: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute,
+    private ticketService: TicketService,
+    private datePipe: DatePipe
 
- ) {
-   this.form = formBuilder.group({
-     ticket_id: ['', [
-       Validators.required,
+  ) {
+    this.form = formBuilder.group({
+      ticket_name: ['', [
+        Validators.required,
 
-     ]],
-     so_number:['', [
-       Validators.required,
-     ]],
-     owner: ['', [
-       Validators.required,
-     ]],
-     person_contact: ['', [
-       Validators.required,
-     ]],
-     customer_name: ['', [
-       Validators.required,
-     ]],
-     tel: ['', [
-       Validators.required,
-     ]],
-     description: ['', [
-       Validators.required,
-     ]],
-     date: ['', [
-       Validators.required,
-     ]],
-     end_date: ['', [
-       Validators.required,
-     ]],
-    //  time: ['', [
-    //    Validators.required,
-    //  ]]
+      ]],
+      so_number: ['', [
+        //  Validators.required,
+      ]],
+      owner: ['', [
+        //  Validators.required,
+      ]],
+      person_contact: ['', [
+        //  Validators.required,
+      ]],
+      customer_name: ['', [
+        Validators.required,
+      ]],
+      tel: ['', [
+        //  Validators.required,
+      ]],
+      description: ['', [
+        //  Validators.required,
+      ]],
+      date: ['', [
+        Validators.required,
+      ]],
+      end_date: ['', [
+        Validators.required,
+      ]],
+      //  time: ['', [
+      //    Validators.required,
+      //  ]]
 
 
 
-   });
- }
+    });
+  }
 
   ngOnInit() {
     var id = this.route.params.subscribe(params => {
@@ -92,9 +92,9 @@ export class FormTicketComponent implements OnInit {
 
       console.log(id);
 
-      this.title = id ? 'Edit Ticket': 'Add Ticket';
+      this.title = id ? 'Edit Ticket' : 'Add Ticket';
 
-      if(id) {
+      if (id) {
         this.getDataById(id);
 
       }
@@ -109,54 +109,55 @@ export class FormTicketComponent implements OnInit {
   }
 
   managedTicket() {
-    if(this.editted) { this.editTicket(this.form); }
-    else if(!this.editted) { this.addTicket(this.form); }
+    if (this.editted) { this.editTicket(this.form); }
+    else if (!this.editted) { this.addTicket(this.form); }
   }
 
 
-    getDataById(id) {
+  getDataById(id) {
 
-      this.ManagedTicket = this.ticketService.getTicketById(id)
-        this.ManagedTicket.subscribe(
-        ticket => {
-          console.log(ticket),
+    this.ManagedTicket = this.ticketService.getTicketById(id)
+    this.ManagedTicket.subscribe(
+      ticket => {
+        console.log(ticket),
           this.tickets = ticket[0];
-          this.tickets.date = this.datePipe.transform(this.tickets.date, 'yyyy-MM-dd HH:mm');
-          this.tickets.end_date = this.datePipe.transform(this.tickets.end_date, 'yyyy-MM-dd HH:mm');
-        },
-        err => this.errorMsg = <any>err
-      );
+        this.tickets.date = this.datePipe.transform(this.tickets.date, 'yyyy-MM-dd HH:mm');
+        this.tickets.end_date = this.datePipe.transform(this.tickets.end_date, 'yyyy-MM-dd HH:mm');
+      },
+      err => this.errorMsg = <any>err
+    );
 
-      this.editted = true;
+    this.editted = true;
 
 
-    }
+  }
 
 
 
   addTicket(form) {
 
-        console.log("Submitted success!");
-        form.value.state = 'active';
-        form.value.date = form.value.date.toString();
-        form.value.end_date = form.value.end_date.toString();
-        // form.value.time = form.value.time.toString();
-        console.log(form.value);
-        this.ManagedTicket = this.ticketService.addTicket(form.value)
-        this.ManagedTicket.subscribe(
-          users => {
-            this.tickets = users;
-          },
-          err =>  this.errorMsg = <any>err
-        );
+    console.log("Submitted success!");
+    form.value.state = 'active';
+    form.value.date = form.value.date.toString();
+    form.value.end_date = form.value.end_date.toString();
+    // form.value.time = form.value.time.toString();
+    console.log(form.value);
+    this.ManagedTicket = this.ticketService.addTicket(form.value)
+    this.ManagedTicket.subscribe(
+      users => {
+        this.tickets = users;
+      },
+      err => this.errorMsg = <any>err
+    );
 
-        this.redirect();
+    this.redirect();
 
   }
 
   editTicket(form) {
     console.log("This is the edit function !!!");
     console.log(form.value);
+    form.value.ticket_id = this.tickets.ticket_id;
     form.value.date = form.value.date.toString();
     form.value.end_date = form.value.end_date.toString();
     // form.value.time = form.value.time.toString();
@@ -166,7 +167,7 @@ export class FormTicketComponent implements OnInit {
         this.tickets = users;
 
       },
-      err =>  this.errorMsg = <any>err
+      err => this.errorMsg = <any>err
     );
     this.redirect();
   }

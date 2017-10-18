@@ -88,12 +88,45 @@ export class ResourceService {
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
   }
 
+  getWorkplanID(id: Object): Observable<Workplan> {
+    console.log("Get workplan ID");
+    console.log(id);
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers : headers});
+
+   return this.http.get(`${this.userUrl}/workplan/id/${id}`, options)
+                    .map((res:Response) =>res.json())
+                    .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
   GetcurrentWorkplan(team: Object): Observable<Workplan[]> {
     console.log("Get all Workplan");
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
    return this.http.get(`${this.userUrl}/workplan/${team}`, options)
+                    .map((res:Response) =>res.json())
+                    .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getDateSelect(month:Object, year:Object, team:number): Observable<Workplan[]> {
+    console.log(month, year);
+    let body = {month,year};
+    console.log(body);
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers : headers});
+
+   return this.http.post(`${this.userUrl}/workplan/dateselect/${team}`,body , options)
+                    .map((res:Response) =>res.json())
+                    .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  ConfirmUpdate(index: Object): Observable<Workplan> {
+    console.log(index);
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers : headers});
+
+    return this.http.post(`${this.userUrl}/eng/accept/${index}`, options)
                     .map((res:Response) =>res.json())
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
   }

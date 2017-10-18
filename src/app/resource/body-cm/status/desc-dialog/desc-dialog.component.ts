@@ -25,6 +25,21 @@ export class DescDialog implements OnInit {
 
   }
 
+  ConfirmWork () {
+    console.log(this.work_id);
+    this.ObservableWork = this.resourceService.ConfirmUpdate(this.work_id);
+    this.ObservableWork.subscribe(
+                      workplan => {
+                        this.workplan = workplan
+                      },
+                      err => {
+                        this.errorMsg = <any>err
+                      }
+    )
+    this.dialogRef.close();
+    window.location.reload();
+  }
+
   getDetails() {
     this.ObservableWork = this.resourceService.getDetails(this.work_id);
     this.ObservableWork.subscribe(

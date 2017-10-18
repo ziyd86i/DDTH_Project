@@ -24,7 +24,6 @@ border: none;
   background-color: #09ba32;
 }
 
-
 .navbar a {
   color: white;
 }
@@ -36,4 +35,14 @@ border: none;
 
 body {
   font-family: roboto;
+}
+
+.dropdown-menu>li:hover {
+  cursor: pointer;
+
+}
+
+.dropdown-menu>li>a:hover {
+
+  background-color: #00D717;
 }

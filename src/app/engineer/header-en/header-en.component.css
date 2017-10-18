@@ -39,6 +39,16 @@ border: none;
 
 }
 
+.dropdown-menu>li:hover {
+  cursor: pointer;
+
+}
+
+.dropdown-menu>li>a:hover {
+
+  background-color: #00D717;
+}
+
 body {
   font-family: roboto;
 }

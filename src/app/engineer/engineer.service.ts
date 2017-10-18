@@ -71,11 +71,31 @@ export class EngineerService {
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  addWorkplan(form: Object): Observable<Workplan[]> {
+  addWorkplan(form: Object,em_id: Object): Observable<Workplan> {
+    console.log(form)
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
-    return this.http.post(`${this.userUrl}/eng/addwork`, options)
+    return this.http.post(`${this.userUrl}/eng/addwork/${em_id}`,form, options)
+                    .map((res:Response) =>res.json())
+                    .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  updateWorkplan(form: Object): Observable<Workplan> {
+    let body = JSON.stringify(form);
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers : headers});
+
+    return this.http.post(`${this.userUrl}/eng/updatework`,body, options)
+                    .map((res:Response) =>res.json())
+                    .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  removeWork(id: Object): Observable<Workplan> {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    let options = new RequestOptions({headers : headers});
+
+    return this.http.get(`${this.userUrl}/eng/removework/${id}`, options)
                     .map((res:Response) =>res.json())
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
   }

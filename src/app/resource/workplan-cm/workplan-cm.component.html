@@ -6,6 +6,11 @@
     </div>
   </div>
   <div class="row">
+    <div class="col pull-left">
+      <label class="radio-inline"><input type="radio" name="view" [(ngModel)]="viewType" [value]="1">Scheduler</label>
+      <label class="radio-inline"><input type="radio" name="view" [(ngModel)]="viewType" [value]="2">Data Grid</label>
+    </div>
+
     <div class="col pull-right">
       <label>Select Team: </label>
       <select class="form-control" id="team_id" [(ngModel)]="defaultTeam" (ngModelChange)="changeDefault()" required>
@@ -17,9 +22,37 @@
           <option value="509" [selected]="defaultTeam === 509">Upcountry FE</option>
       </select>
     </div>
+
+    <div class="col pull-right" *ngIf="viewType == 2">
+      <label>Select Year: </label>
+      <input type="text"
+             maxlength="4"
+             pattern="\d{3}"
+             class="form-control"
+             [(ngModel)]="year"
+             (keyup.enter)="getDateSelect()">
+    </div>
+    <div class="col pull-right" *ngIf="viewType == 2">
+      <label>Select Month: </label>
+      <select class="form-control" [(ngModel)]="month" (ngModelChange)="getDateSelect()">
+        <option value="1"  [selected]="month == 1">January</option>
+        <option value="2"  [selected]="month == 2">February</option>
+        <option value="3"  [selected]="month == 3">March</option>
+        <option value="4"  [selected]="month == 4">April</option>
+        <option value="5"  [selected]="month == 5">May</option>
+        <option value="6"  [selected]="month == 6">June</option>
+        <option value="7"  [selected]="month == 7">July</option>
+        <option value="8"  [selected]="month == 8">August</option>
+        <option value="9"  [selected]="month == 9">September</option>
+        <option value="10" [selected]="month == 10">October</option>
+        <option value="11" [selected]="month == 11">November</option>
+        <option value="12" [selected]="month == 12">December</option>
+      </select>
+    </div>
+
   </div>
 
-    <div class="row">
+    <div class="row" *ngIf="viewType == 1">
       <div class="col">
         <dx-scheduler
             id="scheduler"
@@ -58,11 +91,11 @@
             </div>
 
             <dxo-editing #editingOptions
-                [allowAdding]="true"
-                [allowUpdating]="true"
-                [allowDeleting]="true"
-                [allowResizing]="true"
-                [allowDragging]="true"
+                [allowAdding]="false"
+                [allowUpdating]="false"
+                [allowDeleting]="false"
+                [allowResizing]="false"
+                [allowDragging]="false"
             ></dxo-editing>
         </dx-scheduler>
         <div class="options" hidden>
@@ -75,23 +108,46 @@
                     [width]="200">
                 </dx-select-box>
             </div>
-            <div class="option" hidden>
+            <div class="option" >
                 <dx-check-box text="Allow adding" [(value)]="editingOptions.allowAdding" (click)="addWorkplan($event)"></dx-check-box>
             </div>
-            <div class="option" hidden>
+            <div class="option" >
                 <dx-check-box text="Allow updating" [(value)]="editingOptions.allowUpdating"></dx-check-box>
             </div>
-            <div class="option" hidden>
+            <div class="option" >
                 <dx-check-box text="Allow deleting" [(value)]="editingOptions.allowDeleting"></dx-check-box>
             </div>
-            <div class="option" hidden>
+            <div class="option" >
                 <dx-check-box text="Allow resizing" [(value)]="editingOptions.allowResizing"></dx-check-box>
             </div>
-            <div class="option" hidden>
+            <div class="option" >
                 <dx-check-box text="Allow dragging" [(value)]="editingOptions.allowDragging"></dx-check-box>
             </div>
         </div>
 
+      </div>
+    </div>
+
+    <div class="row" *ngIf="viewType == 2">
+      <div class="col">
+        <dx-data-grid id="gridContainer" [dataSource]="dataGrid">
+
+          <dxo-export [enabled]="true" fileName="Workplan_{{month}}_{{year}}" [allowExportSelectedData]="true"></dxo-export>
+          <dxo-selection mode="multiple"></dxo-selection>
+          <dxo-group-panel [visible]="false"></dxo-group-panel>
+
+          <dxi-column dataField="em_id"         caption="Emp ID"></dxi-column>
+          <dxi-column dataField="name"          caption="Name"></dxi-column>
+          <dxi-column dataField="lname"         caption="Surname"></dxi-column>
+          <dxi-column dataField="so_number"     caption="SO Number" [width]="100"></dxi-column>
+          <dxi-column dataField="ticket_name"   caption="Ticket ID"></dxi-column>
+          <dxi-column dataField="customer_name" caption="Customer"></dxi-column>
+          <dxi-column dataField="date"          caption="Date"      [width]="150" dataType="datetime"></dxi-column>
+          <dxi-column dataField="end_date"      caption="End Date"  [width]="150" dataType="datetime"></dxi-column>
+          <dxi-column dataField="tel"           caption="Contact Number"></dxi-column>
+          <dxi-column dataField="description"   caption="Description"></dxi-column>
+
+        </dx-data-grid>
       </div>
     </div>
 </div>

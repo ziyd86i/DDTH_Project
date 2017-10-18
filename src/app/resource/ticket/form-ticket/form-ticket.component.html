@@ -12,15 +12,15 @@
      <div  class="form-group">
        <div class="row">
          <div class="col-md-2 col-md-offset-3">
-           <label>Ticket ID:</label>
+           <label>Ticket / SVR / Project : <b style="color:red;">*</b></label>
          </div>
          <div class="col-md-3">
            <p *ngIf="!editted"><input
               type="text"
               class="form-control"
               id="ticket_id"
-              [(ngModel)]="tickets.ticket_id"
-              formControlName="ticket_id"
+              [(ngModel)]="tickets.ticket_name"
+              formControlName="ticket_name"
               maxlength="40"
               required
               >
@@ -28,8 +28,8 @@
             <p *ngIf="editted"><input type="text"
                     class="form-control"
                     id="ticket_id"
-                    [(ngModel)]="tickets.ticket_id"
-                    formControlName="ticket_id"
+                    [(ngModel)]="tickets.ticket_name"
+                    formControlName="ticket_name"
                     maxlength="40"
                     disabled
                     ></p>
@@ -49,7 +49,7 @@
                  id="so_number"
                  [(ngModel)]="tickets.so_number"
                  formControlName="so_number"
-                 required>
+                 >
          </div>
        </div>
 
@@ -64,14 +64,13 @@
                  id="owner"
                  [(ngModel)]="tickets.owner"
                  formControlName="owner"
-                 required
                  >
          </div>
        </div>
 
        <div class="row">
          <div class="col-md-2 col-md-offset-3">
-           <label>Customer:</label>
+           <label>Customer:<b style="color:red;">*</b></label>
          </div>
          <div class="col-md-3">
            <input
@@ -96,7 +95,6 @@
                  id="person_contact"
                  [(ngModel)]="tickets.person_contact"
                  formControlName="person_contact"
-                 required
                  >
          </div>
        </div>
@@ -124,17 +122,15 @@
                  id="tel"
                  [(ngModel)]="tickets.tel"
                  formControlName="tel"
-                 required
                  >
          </div>
        </div>
 
        <div class="row">
          <div class="col-md-2 col-md-offset-3">
-           <label>Start Date: </label>
+           <label>Start Date: <b style="color:red;">*</b></label>
          </div>
          <div class="col-md-3">
-
                 <input
                 type="text"
                 [(ngModel)]="tickets.date"
@@ -143,13 +139,14 @@
                 formControlName="date"
                 date-format = "YYYY-MM-DD HH:mm"
                 [close-on-select]="false"
+                required
                  />
          </div>
        </div>
 
        <div class="row">
          <div class="col-md-2 col-md-offset-3">
-           <label>End Date: </label>
+           <label>End Date: <b style="color:red;">*</b></label>
          </div>
          <div class="col-md-3">
 
@@ -161,6 +158,7 @@
                 formControlName="end_date"
                 date-format = "YYYY-MM-DD HH:mm"
                 [close-on-select]="false"
+                required
                  />
          </div>
        </div>
@@ -175,7 +173,6 @@
                     id="description"
                     [(ngModel)]="tickets.description"
                     formControlName="description"
-                    required
                     rows="10" cols="50"></textarea>
          </div>
        </div>
