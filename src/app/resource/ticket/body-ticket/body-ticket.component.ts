@@ -6,7 +6,8 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { DatePipe,SlicePipe } from '@angular/common';
 import { Subject } from 'rxjs/Subject';
 import { DataTableDirective } from 'angular-datatables';
-
+import { MdDialog } from '@angular/material';
+import { AssignEngDialog } from './assign-eng/assign-eng.component';
 
 @Component({
   selector: 'body-ticket',
@@ -22,14 +23,20 @@ export class BodyTicketComponent implements OnInit {
   mapping: string;
   ObservableTicket : Observable<Ticket[]>;
   ticket : Ticket[];
+  progress: Ticket[];
+  doing: Ticket[];
+  done: Ticket[];
 
-  constructor(
+  constructor(  public dialog: MdDialog,
                 private ticketService:TicketService,
                 private router: Router,
                 private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.getTicket();
+    this.getProgressTicket();
+    this.getDoingTicket();
+    this.getDoneTicket();
   }
 
   redirect() {
@@ -38,39 +45,106 @@ export class BodyTicketComponent implements OnInit {
   }
 
   getTicket() {
-    this.ObservableTicket = this.ticketService.getTicket();
+    this.ObservableTicket = this.ticketService.getTicketState1();
     this.ObservableTicket.subscribe(
               ticket => {
                 this.ticket = ticket
+                console.log("Ticket "+this.ticket)
                 // this.dtTrigger.next();
-                $(document).ready(function() {
+                $(document).ready( () => {
                   $('#ticket').DataTable({
-
-                  });
-                  $('#ticket2').DataTable({
 
                   });
                 });
               },
               err => this.ticket = <any>err
-
-
   );
  }
 
- deleteTicket(ticket) :void {
+ getProgressTicket() {
+   this.ObservableTicket = this.ticketService.getTicketProgress();
+   this.ObservableTicket.subscribe(
+     ticket => {
+       this.progress = ticket
+       console.log("Progress " + this.progress)
+       $(document).ready( () => {
+         $('#ticket2').DataTable({
+
+         });
+       });
+     },
+     err => this.ticket = <any>err
+   )
+ }
+
+ getDoingTicket() {
+   this.ObservableTicket = this.ticketService.getDoing();
+   this.ObservableTicket.subscribe(
+     ticket => {
+       this.doing = ticket
+       $(document).ready( () => {
+         $('#ticket3').DataTable({
+
+         });
+       })
+     },
+     err => this.ticket = <any>err
+
+   )
+ }
+
+ getDoneTicket() {
+   this.ObservableTicket = this.ticketService.getDone();
+   this.ObservableTicket.subscribe(
+     ticket => {
+       this.done = ticket
+       $(document).ready( () => {
+         $('#ticket4').DataTable({
+
+         });
+       })
+     },
+     err => this.ticket = <any>err
+
+   )
+ }
+
+ deleteTicket(ticket) {
+
+   if (confirm("Do you want to delete this ticket ?")) {
+
+       this.ticketService.deleteTicket(ticket.ticket_id)
+          .subscribe(null,
+          err => {
+            alert("Cannot Delete this ticket");
+          });
+   }
+ }
+
+ deleteTicketDone(ticket) {
 
    console.log(ticket);
-   if (confirm("Warning !! if you already assign this ticket to engineer, Engineer's workplan will be deleted in the same time.")) {
+   if (confirm("Warning !! This ticket is already assign to engineer. Their workplan must me delete in the same time.")) {
 
-     this.ticketService.deleteTicket(ticket.ticket_id)
+     this.ticketService.deleteAll(ticket.ticket_id)
        .subscribe(null,
          err => {
-           alert("Could not delete user.");
+           alert("Could not delete ticket.");
            // Revert the view back to its original state
          });
         //  this.redirect();
    }
+ }
+
+ assignWork(ticket, name) {
+   console.log(ticket)
+   let dialogRef = this.dialog.open(AssignEngDialog, {
+     width: '500px',
+     data: {
+       ticket_id:ticket,
+       ticket_name: name
+     }
+   });
  }
 
 

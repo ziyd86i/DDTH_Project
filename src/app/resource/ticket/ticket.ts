@@ -1,13 +1,13 @@
 export class Ticket {
-  ticket_id: number = null;
+  ticket_id: number;
   ticket_name: string = "";
   customer_name: string = "";
-  tel: number = null;
+  tel: string;
   description: string = "";
-  date: string = "";
-  end_date: string = "";
+  date: any;
+  end_date: any;
   // time: string;
-  state: number = null;
+  state: number;
   so_number: string = "";
   person_contact: string = "";
   owner: string = "";

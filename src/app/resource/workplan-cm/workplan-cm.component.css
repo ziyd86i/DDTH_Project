@@ -12,3 +12,11 @@ h1 {
 .col {
   margin-left: 15px;
 }
+
+th {
+   text-align: center;
+}
+
+img {
+  height: 15px;
+}

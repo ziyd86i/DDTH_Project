@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime';
 import { NguiDatetimePickerModule } from '@ngui/datetime-picker';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { DayPilotModule } from 'daypilot-pro-angular';
 import {
          DxSchedulerModule,
          DxDataGridModule,
@@ -23,6 +24,7 @@ import {
 import { AuthCmGuard } from './login/_guard/auth_cm.guard';
 import { AuthAdminGuard } from './login/_guard/auth_admin.guard';
 import { AuthEngineerGuard } from './login/_guard/auth_engineer.guard';
+import { AuthLoginGuard } from './login/_guard/auth_login.guard'
 import { ManagedService } from './admin/managed.service';
 import { TicketService } from './resource/ticket/ticket.service';
 import { LoginService } from './login/login.service';
@@ -30,6 +32,8 @@ import { AlertService } from './login/_service/alert.service';
 import { AuthenticationService } from './login/_service/authentication.service';
 import { EngineerService } from './engineer/engineer.service';
 import { ResourceService } from './resource/resource.service';
+import { DashboardService } from './dashboard/dashboard.service';
+import { ProfileService } from './profile/profile.service';
 
 
 
@@ -62,7 +66,11 @@ import { DelDialog } from './resource/body-cm/status/del-dialog/del-dialog.compo
 import { DescDialog } from './resource/body-cm/status/desc-dialog/desc-dialog.component';
 import { WorkplanCmComponent } from './resource/workplan-cm/workplan-cm.component';
 import { SchedulerDialog } from './resource/body-cm/status/scheduler-dialog/scheduler-dialog.component';
-
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfileDataComponent } from './profile/profile-data/profile-data.component';
+import { AssignEngDialog } from './resource/ticket/body-ticket/assign-eng/assign-eng.component';
+import { AlertComponent } from './login/_alert/alert.component';
 
 
 
@@ -96,6 +104,11 @@ import { SchedulerDialog } from './resource/body-cm/status/scheduler-dialog/sche
     DescDialog,
     WorkplanCmComponent,
     SchedulerDialog,
+    DashboardComponent,
+    ProfileComponent,
+    ProfileDataComponent,
+    AssignEngDialog,
+    AlertComponent,
 
 
 
@@ -109,7 +122,8 @@ import { SchedulerDialog } from './resource/body-cm/status/scheduler-dialog/sche
     AssignDialog,
     DelDialog,
     DescDialog,
-    SchedulerDialog
+    SchedulerDialog,
+    AssignEngDialog
 
   ],
   imports: [
@@ -131,6 +145,7 @@ import { SchedulerDialog } from './resource/body-cm/status/scheduler-dialog/sche
     DxCheckBoxModule,
     DxSchedulerModule,
     DxDateBoxModule,
+    DayPilotModule
 
 
   ],
@@ -138,6 +153,7 @@ import { SchedulerDialog } from './resource/body-cm/status/scheduler-dialog/sche
               AuthCmGuard,
               AuthEngineerGuard,
               AuthAdminGuard,
+              AuthLoginGuard,
               LoginService,
               ManagedService,
               DatePipe,
@@ -146,6 +162,8 @@ import { SchedulerDialog } from './resource/body-cm/status/scheduler-dialog/sche
               AuthenticationService,
               EngineerService,
               ResourceService,
+              DashboardService,
+              ProfileService
 
             ],
   bootstrap: [AppComponent]

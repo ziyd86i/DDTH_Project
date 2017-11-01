@@ -4,6 +4,7 @@ import { Workplan } from '../../workplan';
 import { Employees } from '../../employees';
 import { DatePipe, SlicePipe } from '@angular/common';
 import { ResourceService } from '../resource.service';
+declare var $ :any;
 
 @Component({
   selector: 'workplan-cm',
@@ -18,10 +19,11 @@ export class WorkplanCmComponent implements OnInit {
   // ObservEng: Observable<Employees[]>;
   workplan: Workplan[];
   dataGrid: Workplan[];
+  status: Workplan[];
   current = JSON.parse(localStorage.getItem('currentUser'));
   errorMsg: string;
   viewType: number = 1;
-  month: number = new Date().getMonth()+1;
+  month: number = new Date().getMonth() + 1;
   year: number = new Date().getFullYear();
 
   constructor(
@@ -32,6 +34,16 @@ export class WorkplanCmComponent implements OnInit {
     this.defaultTeam = this.current.team_id;
     this.switchModeNames = ["Tabs", "Drop-Down Menu"];
 
+    this.GetcurrentWorkplan();
+    this.getDateSelect();
+    this.showStatus();
+
+  }
+
+  changeDefault() {
+    $('#status').DataTable().destroy();
+
+    this.showStatus();
     this.GetcurrentWorkplan();
     this.getDateSelect();
   }
@@ -46,10 +58,10 @@ export class WorkplanCmComponent implements OnInit {
         for (let i = 0; i < workplan.length; i++) {
           this.workplan[i].date = this.datePipe.transform(this.workplan[i].date, 'short');
           this.workplan[i].end_date = this.datePipe.transform(this.workplan[i].end_date, 'short');
-          console.log(this.workplan[i].date);
+          // console.log(this.workplan[i].date);
 
         }
-        console.log(this.workplan);
+        // console.log(this.workplan);
       },
       err => {
         this.errorMsg = <any>err;
@@ -57,23 +69,56 @@ export class WorkplanCmComponent implements OnInit {
     )
   }
 
-  changeDefault() {
-    this.GetcurrentWorkplan();
-    this.getDateSelect();
+  showStatus() {
+    this.ObservWork = this.resourceService.getStatus(this.defaultTeam)
+    this.ObservWork.subscribe(
+      status => {
+        this.status = status
+        $(document).ready( () => {
+
+          $('#status').DataTable({
+              searching: false,
+              paging: false,
+              scrollY: true,
+              "language": {
+                "emptyTable": "No status data"
+              }
+            });
+
+        });
+      },
+      err => {
+        this.errorMsg = <any>err
+      }
+    )
+
   }
 
   getDateSelect() {
-    this.ObservWork = this.resourceService.getDateSelect(this.month, this.year,this.defaultTeam)
+    this.ObservWork = this.resourceService.getDateSelect(this.month, this.year, this.defaultTeam)
     this.ObservWork.subscribe(
       workplan => {
         this.dataGrid = workplan
-        console.log(this.dataGrid)
+        // console.log(this.dataGrid)
         for (let i = 0; i < workplan.length; i++) {
           this.dataGrid[i].date = this.datePipe.transform(this.dataGrid[i].date, 'short');
           this.dataGrid[i].end_date = this.datePipe.transform(this.dataGrid[i].end_date, 'short');
           console.log(this.dataGrid[i].date);
 
         }
+      },
+      err => {
+        this.errorMsg = <any>err;
+      }
+    )
+  }
+
+  selectWorkById(id) {
+    console.log(id)
+    this.ObservWork = this.resourceService.getWorkById(id)
+    this.ObservWork.subscribe(
+      workplan => {
+        this.workplan = workplan
       },
       err => {
         this.errorMsg = <any>err;
@@ -159,9 +204,9 @@ export class WorkplanCmComponent implements OnInit {
       editorOptions: {
         type: "datetime",
         items: this.workplan,
-        startDateExpr: "date",
+
         onValueChanged: (change) => {
-          console.log(change.value);
+          // console.log(change.value);
           //  this.workplan.date = change.value;
         }
       }
@@ -172,9 +217,9 @@ export class WorkplanCmComponent implements OnInit {
       editorOptions: {
         type: "datetime",
         items: this.workplan,
-        displayExpr: "end_date",
+
         onValueChanged: (change) => {
-          console.log(change.value);
+          // console.log(change.value);
           // this.workplan[].end_date
         }
       }

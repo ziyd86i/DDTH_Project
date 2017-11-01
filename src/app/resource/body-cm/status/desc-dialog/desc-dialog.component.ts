@@ -45,6 +45,7 @@ export class DescDialog implements OnInit {
     this.ObservableWork.subscribe(
                       data => {
                         this.workplan = data[0]
+                        console.log(this.workplan)
                       },
                       err => {
                         this.errorMsg = <any>err

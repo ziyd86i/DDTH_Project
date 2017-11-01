@@ -23,7 +23,7 @@
           (onAppointmentFormCreated)="FormCreated($event)"
           startDateExpr="date"
           endDateExpr="end_date"
-          (onAppointmentAdding)="addWorkplan($event)">
+          >
           <!-- <dxi-resource
               fieldExpr="ownerId"
               label="Owner"
@@ -43,11 +43,11 @@
           </div>
 
           <dxo-editing #editingOptions
-              [allowAdding]="true"
-              [allowUpdating]="true"
-              [allowDeleting]="true"
-              [allowResizing]="true"
-              [allowDragging]="true"
+              [allowAdding]="false"
+              [allowUpdating]="false"
+              [allowDeleting]="false"
+              [allowResizing]="false"
+              [allowDragging]="false"
           ></dxo-editing>
       </dx-scheduler>
       <div class="options" hidden>
@@ -61,7 +61,7 @@
               </dx-select-box>
           </div>
           <div class="option" hidden>
-              <dx-check-box text="Allow adding" [(value)]="editingOptions.allowAdding" (click)="addWorkplan($event)"></dx-check-box>
+              <dx-check-box text="Allow adding" [(value)]="editingOptions.allowAdding"></dx-check-box>
           </div>
           <div class="option" hidden>
               <dx-check-box text="Allow updating" [(value)]="editingOptions.allowUpdating"></dx-check-box>

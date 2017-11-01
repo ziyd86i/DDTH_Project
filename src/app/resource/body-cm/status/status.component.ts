@@ -39,18 +39,18 @@ export class StatusComponent implements OnInit {
   constructor(
               public dialog: MdDialog,
               private resourceService: ResourceService
-            ) { }
+            ) {
+     setInterval(()=> {
+     this.changeDefault();
+     console.log("reload")
+     },60000);
+   }
 
   ngOnInit() {
     this.defaultTeam = this.currentUser.team_id;
     this.getAvailable();
     this.getInProgress();
     this.getBusy();
-
-    setInterval(()=> {
-       this.changeDefault();
-
-     },60000);
 
   }
 
@@ -76,6 +76,7 @@ export class StatusComponent implements OnInit {
 
           $(document).ready( () => {
             var table1 = $('#available').DataTable({
+
                   "language": {
                     "emptyTable": "No available data"
                   }
@@ -144,11 +145,15 @@ export class StatusComponent implements OnInit {
     })
   }
 
-  deleteWork(id) {
+  deleteWork(id,status) {
     console.log(id);
+
     let dialogRef = this.dialog.open(DelDialog, {
       width: '350px',
-      data: id
+      data: {
+        id: id,
+        status: status
+      }
 
     })
   }
@@ -167,7 +172,7 @@ export class StatusComponent implements OnInit {
     console.log(data)
 
     let dialogRef = this.dialog.open(SchedulerDialog, {
-      width: '768px',
+      width: '1024px',
       data: data
     })
   }

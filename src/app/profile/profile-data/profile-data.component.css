@@ -1,0 +1,13 @@
+input[disabled] {
+    background:none;
+    border:none;
+    outline:none;
+}
+
+.row {
+  margin-bottom: 5px;
+}
+
+.help-block {
+  color: red;
+}

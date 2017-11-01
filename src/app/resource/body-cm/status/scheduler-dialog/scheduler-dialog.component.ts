@@ -47,4 +47,116 @@ export class SchedulerDialog implements OnInit {
       }
     )
   }
+
+  FormCreated(data) {
+    let form = data.form
+
+    form.option("items", [{
+      label: {
+        text: 'SO Number'
+      },
+      editorType: 'dxTextBox',
+      dataField: 'so_number',
+      editorOptions: {
+        items: this.workplan,
+        displayExpr: "so_number",
+        valueExpr: "so_number"
+      }
+    },
+    {
+      label: {
+        text: 'Ticket ID'
+      },
+      editorType: 'dxTextBox',
+      dataField: 'ticket_name',
+      editorOptions: {
+        items: this.workplan,
+        displayExpr: "ticket_name",
+        valueExpr: "ticket_name",
+      }
+    },
+    {
+      label: {
+        text: 'Case Owner'
+      },
+      editorType: 'dxTextBox',
+      dataField: 'owner',
+      editorOptions: {
+        items: this.workplan,
+        displayExpr: "owner",
+        valueExpr: "owner",
+      }
+    },
+    {
+      label: {
+        text: 'Customer'
+      },
+      editorType: 'dxTextBox',
+      dataField: 'customer_name',
+      editorOptions: {
+        items: this.workplan,
+        displayExpr: "customer_name",
+      }
+    },
+    {
+      label: {
+        text: 'Personal Contact'
+      },
+      editorType: 'dxTextBox',
+      dataField: 'person_contact',
+      editorOptions: {
+        items: this.workplan,
+        displayExpr: "person_contact",
+      }
+    },
+    {
+      label: {
+        text: 'Telephone'
+      },
+      editorType: 'dxTextBox',
+      dataField: 'tel',
+      editorOptions: {
+        items: this.workplan,
+        displayExpr: "teleplone",
+      }
+    },
+    {
+      dataField: "date",
+      editorType: "dxDateBox",
+      editorOptions: {
+        type: "datetime",
+        items: this.workplan,
+        startDateExpr: "date",
+        onValueChanged: (change) => {
+          console.log(change.value);
+          //  this.workplan.date = change.value;
+        }
+      }
+    },
+    {
+      dataField: "end_date",
+      editorType: "dxDateBox",
+      editorOptions: {
+        type: "datetime",
+        items: this.workplan,
+        displayExpr: "end_date",
+        onValueChanged: (change) => {
+          console.log(change.value);
+          // this.workplan[].end_date
+        }
+      }
+    },
+    {
+      label: {
+        text: 'Description'
+      },
+      dataField: 'description',
+      editorType: "dxTextArea",
+      editorOptions: {
+        items: this.workplan,
+        displayExpr: "description"
+      }
+    }
+    ])
+  }
 }

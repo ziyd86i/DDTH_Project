@@ -30,7 +30,7 @@
                   <label>Start Date : </label>
                 </div>
                 <div class="col-md-6">
-                  <label>{{workplan.date | date:'dd-MMM-yy, hh:mm'}}</label>
+                  <label>{{workplan.date | date:'short'}}</label>
                 </div>
               </div>
 
@@ -39,7 +39,7 @@
                   <label>End Date : </label>
                 </div>
                 <div class="col-md-6">
-                  <label>{{workplan.end_date | date:'dd-MMM-yy, hh:mm'}}</label>
+                  <label>{{workplan.end_date | date:'short'}}</label>
                 </div>
               </div>
 
@@ -52,9 +52,16 @@
                 </div>
               </div>
               <hr>
+              <div class="row" >
+                <div class="col text-center" >
+                  <p *ngIf="workplan.emp_status === 'busy'">*You cannot confirm this work. Because, Engineer working now.</p>
+                </div>
+              </div>
               <div class="row">
                 <div class="col text-center">
-                  <button md-raised-button (click)="ConfirmWork()" class="btn btn-success pull-center" >Confirm</button>
+                  <button *ngIf="workplan.emp_status === 'available'" md-raised-button (click)="ConfirmWork()" class="btn btn-success pull-center" >Confirm</button>
+                  <button *ngIf="workplan.emp_status === 'busy'" md-raised-button (click)="ConfirmWork()" class="btn btn-success pull-center" disabled="">Confirm</button>
+
                   <button md-raised-button (click)="close()" class="btn btn-warning pull-center" >Close</button>
 
                 </div>

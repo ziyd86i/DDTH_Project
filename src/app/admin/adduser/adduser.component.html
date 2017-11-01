@@ -15,9 +15,10 @@
     <div class="form-group">
       <div class="row">
         <div class="col-md-3">
-          <label>Employee ID (รหัสพนักงาน):</label>
+          <label>Employee ID (รหัสพนักงาน):<b style="color:red;">*</b></label>
         </div>
-        <div class="col-md-3" [ngClass]="{'has-error':!form.controls['em_id'].valid && form.controls['em_id'].touched}">
+        <div class="col-md-3" [ngClass]="{'has-error':!form.controls['em_id'].valid && form.controls['em_id'].touched }">
+
           <p *ngIf="!editted"><input type="text" class="form-control" id="em_id" [(ngModel)]="users.em_id" formControlName="em_id" placeholder="Ex.TH999999" maxlength="8" required>
           </p>
           <p *ngIf="editted"><input type="text" class="form-control" id="em_id" [(ngModel)]="users.em_id" formControlName="em_id" disabled></p>
@@ -28,7 +29,7 @@
 
       <div class="row">
         <div class="col-md-3">
-          <label>Firstname (ชื่อ): </label>
+          <label>Firstname (ชื่อ):<b style="color:red;">*</b> </label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['name'].valid && form.controls['name'].touched}">
           <input type="text" class="form-control" id="name" [(ngModel)]="users.name" formControlName="name" name="name" required>
@@ -39,7 +40,7 @@
 
       <div class="row">
         <div class="col-md-3">
-          <label>Surname (นามสกุล): </label>
+          <label>Surname (นามสกุล):<b style="color:red;">*</b> </label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['lname'].valid && form.controls['lname'].touched}">
           <input type="text" class="form-control" id="lname" [(ngModel)]="users.lname" formControlName="lname" required>
@@ -157,7 +158,7 @@
 
       <div class="row">
         <div class="col-md-3">
-          <label>Skill (ทักษะ / ความสนใจ) : </label>
+          <label>Skill (ทักษะ / ความสนใจ): </label>
         </div>
         <div class="col-md-3">
           <select class="form-control" id="skill_id" [(ngModel)]="defaultSkill" formControlName="skill_id" required>
@@ -174,7 +175,7 @@
 
       <div class="row">
         <div class="col-md-3">
-          <label>Skill (เพิ่มเติม 1) : </label>
+          <label>Skill (เพิ่มเติม 1): </label>
         </div>
         <div class="col-md-3">
           <select class="form-control" id="skill_id1" [(ngModel)]="defaultSkill_1" formControlName="skill_id1" required>
@@ -213,7 +214,8 @@
           <label>Hiredate (วันจ้างงาน): </label>
         </div>
         <!-- Type date not support for firefox and IE 11 recommended to use google chome -->
-        <div class="col-md-3" [ngClass]="{'has-error':!form.controls['hiredate'].valid && form.controls['hiredate'].touched}">
+        <div class="col-md-3" [ngClass]="{'has-error':!form.controls['hiredate'].valid }">
+          <!-- && form.controls['hiredate'].touched -->
           <input type="text" [(ngModel)]="users.hiredate" class="form-control" ngui-datetime-picker formControlName="hiredate" date-format="YYYY/MM/DD" date-only="true" placeholder="format.Year/Month/day" required />
 
           <span class="help-block" *ngIf="!form.controls['hiredate'].valid
@@ -223,9 +225,10 @@
 
       <div class="row">
         <div class="col-md-3">
-          <label>Email (อีเมล): </label>
+          <label>Email (อีเมล): <b style="color:red;">*</b></label>
         </div>
-        <div class="col-md-3" [ngClass]="{'has-error':!form.controls['email'].valid && form.controls['email'].touched}">
+        <div class="col-md-3" [ngClass]="{'has-error':!form.controls['email'].valid }">
+          <!-- && form.controls['email'].touched -->
           <input type="email" class="form-control" id="email" [(ngModel)]="users.email" formControlName="email" required placeholder="Ex.ddth.d@dimentiondata.com">
           <span class="help-block" *ngIf="!form.controls['email'].valid
                                               && form.controls['email'].touched">Please enter Valid Email</span>
@@ -269,9 +272,10 @@
 
       <div class="row">
         <div class="col-md-3">
-          <label>Username: </label>
+          <label>Username: <b style="color:red;">*</b></label>
         </div>
-        <div class="col-md-3" [ngClass]="{'has-error':!form.controls['username'].valid && form.controls['username'].touched}">
+        <div class="col-md-3" [ngClass]="{'has-error':!form.controls['username'].valid }">
+          <!-- && form.controls['username'].touched -->
           <input type="text" id="username" [(ngModel)]="users.username" class="form-control" formControlName="username" required>
           <span class="help-block" *ngIf="!form.controls['username'].valid
                                               && form.controls['username'].touched">Please enter username</span>
@@ -280,9 +284,10 @@
 
       <div class="row">
         <div class="col-md-3">
-          <label>Password: </label>
+          <label>Password: <b style="color:red;">*</b></label>
         </div>
-        <div class="col-md-3" [ngClass]="{'has-error':!form.controls['password'].valid && form.controls['password'].touched}">
+        <div class="col-md-3" [ngClass]="{'has-error':!form.controls['password'].valid}">
+           <!-- && form.controls['password'].touched -->
           <input type="password" id="password" [(ngModel)]="users.password" class="form-control" formControlName="password" required>
           <span class="help-block" *ngIf="!form.controls['password'].valid
                                               && form.controls['password'].touched">Please enter password 6 digits</span>
@@ -291,7 +296,7 @@
 
       <div class="row">
         <div class="col-md-3">
-          <label>Reply Password: </label>
+          <label>Confirm Password: <b style="color:red;">*</b></label>
         </div>
         <div class="col-md-3">
           <input type="password" id="reply" [(ngModel)]="reply" class="form-control" formControlName="reply">

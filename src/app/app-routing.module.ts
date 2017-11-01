@@ -8,12 +8,15 @@ import { AdduserComponent } from './admin/adduser/adduser.component';
 import { TicketComponent } from './resource/ticket/ticket.component';
 import { FormTicketComponent } from './resource/ticket/form-ticket/form-ticket.component';
 import { WorkplanCmComponent } from './resource/workplan-cm/workplan-cm.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ProfileComponent } from './profile/profile.component';
 
 import { EngineerComponent } from './engineer/engineer.component';
 import { EngWorkplanComponent } from './engineer/eng-workplan/eng-workplan.component';
 import { AuthCmGuard } from './login/_guard/auth_cm.guard';
 import { AuthAdminGuard } from './login/_guard/auth_admin.guard';
 import { AuthEngineerGuard } from './login/_guard/auth_engineer.guard';
+import { AuthLoginGuard } from './login/_guard/auth_login.guard';
 
 
 const routes: Routes = [
@@ -31,6 +34,12 @@ const routes: Routes = [
 
   { path: 'eng', component: EngineerComponent, canActivate: [AuthEngineerGuard] },
   { path: 'eng/workplan', component: EngWorkplanComponent, canActivate: [AuthEngineerGuard] },
+
+  { path: 'dashboard', component: DashboardComponent },
+
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthLoginGuard] },
+
+
   // otherwise redirect to home
   { path: '**', redirectTo: '' }
 

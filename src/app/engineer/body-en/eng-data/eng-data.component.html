@@ -24,8 +24,8 @@
                   <tr *ngFor="let data of workplan; let i = index">
                     <td>{{ data.ticket_name }}</td>
                     <td>{{ data.customer_name }}</td>
-                    <td>{{ data.date | date:'dd-MMM-yy, hh:mm' }}</td>
-                    <td>{{ data.end_date | date:'dd-MMM-yy, hh:mm'}}</td>
+                    <td>{{ data.date | date:'short' }}</td>
+                    <td>{{ data.end_date | date:'short'}}</td>
                     <!-- <td>{{ data.workplan_id}}</td> -->
 
                     <td>
@@ -76,13 +76,13 @@
                 <tr *ngIf="workDoing">
                   <td><b>Start Date :  </b></td>
                   <td>
-                      {{ workDoing.date | date:'dd-MMM-yy, hh:mm' }}</td>
+                      {{ workDoing.date | date:'short' }}</td>
                 </tr>
 
                 <tr *ngIf="workDoing">
                   <td><b>End Date :  </b></td>
                   <td>
-                      {{ workDoing.end_date | date:'dd-MMM-yy, hh:mm' }}</td>
+                      {{ workDoing.end_date | date:'short' }}</td>
                 </tr>
 
                 <tr *ngIf="workDoing">
@@ -132,8 +132,8 @@
               <tr *ngFor="let week of workofweek">
                 <td>{{ week.ticket_name }}</td>
                 <td>{{ week.customer_name }}</td>
-                <td>{{ week.date | date:'dd-MMM-yy, hh:mm' }}</td>
-                <td>{{ week.end_date | date:'dd-MMM-yy, hh:mm'}}</td>
+                <td>{{ week.date | date:'short' }}</td>
+                <td>{{ week.end_date | date:'short'}}</td>
                 <!-- <td>{{ data.date | date }}</td> -->
               </tr>
 

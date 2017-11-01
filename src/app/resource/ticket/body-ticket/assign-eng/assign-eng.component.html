@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h4><label>Assign Ticket {{ticket.ticket_name}}</label></h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+        <label>Select Team: </label>
+        <select class="form-control" id="team_id" [(ngModel)]="defaultTeam" (ngModelChange)="getEngineer()" required>
+            <option value="505" [selected]="defaultTeam === 505">Service Support</option>
+            <option value="503" [selected]="defaultTeam === 503">Installation </option>
+            <option value="504" [selected]="defaultTeam === 504">Preventive Maintenance</option>
+            <option value="506" [selected]="defaultTeam === 506">Resource Management</option>
+            <option value="507" [selected]="defaultTeam === 507">Service</option>
+            <option value="509" [selected]="defaultTeam === 509">Upcountry FE</option>
+        </select>
+
+    </div>
+  </div>
+  <div class="row" *ngIf="users">
+    <div class="col">
+        <label>Select Engineer: </label>
+        <select class="form-control" id="em_id" [(ngModel)]="selectEng">
+            <option *ngFor="let data of users" [ngValue]="data.em_id">{{data.name}} {{data.lname}} [{{data.em_id}}]</option>
+
+        </select>
+
+    </div>
+  </div>
+
+  <div class="row" *ngIf="selectEng">
+    <div class="col text-right">
+      <button md-raised-button (click)="AssignWork()" class="btn btn-success" >Assign Work</button>
+    </div>
+  </div>
+
+  <!-- <div class="row" *ngIf="selectEng">
+    <div class="col">
+      <h5>Assign Ticket <b>{{ticket.ticket_name}}</b> to engineer <b>{{selectEng}}</b></h5>
+    </div>
+  </div> -->
+</div>

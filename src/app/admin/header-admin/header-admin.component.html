@@ -36,7 +36,7 @@
                    <span class="glyphicon glyphicon-cog"></span></a>
 
                    <ul class="dropdown-menu">
-                     <li><a href="">See your profile</a></li>
+                     <li><a [routerLink]="['/profile', currentUser.em_id]">See your profile</a></li>
                      <li><a (click)="logout()">Log out</a></li>
                    </ul>
               </li>

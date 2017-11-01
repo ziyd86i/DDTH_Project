@@ -180,13 +180,13 @@ export class EngWorkplanComponent {
       editorOptions: {
         type: "datetime",
         items: this.workplan,
-        displayExpr: "date",
         onValueChanged: (change) => {
           // console.log(change.value);
-          startDate = new Date(change.value)
+          startDate = change.value
+          // console.log(startDate)
           form.getEditor("end_date")
-              .option("value", this.datePipe.transform(new Date(startDate.getTime() + 60*1000*180), 'yyyy/MM/dd HH:mm:ss'));
-
+              .option("value", this.datePipe.transform(new Date(startDate).getTime() + 60*1000*180, 'short'));
+              // yyyy/MM/ddTHH:mm:ss
         }
       }
     },
@@ -196,9 +196,8 @@ export class EngWorkplanComponent {
       editorOptions: {
         type: "datetime",
         items: this.workplan,
-        displayExpr: "end_date",
         onValueChanged: (change) => {
-          console.log(change.value);
+          // console.log(change.value);
           // this.workplan[].end_date
         }
       }

@@ -8,9 +8,11 @@ export class Workplan {
   customer_name: string;
   description: string;
   tel: number;
-  date : string;
+  date : any;
   owner: string;
-  end_date: string;
+  end_date: any;
   so_number: string;
-
+  team_name: string;
+  team_id: number;
+  emp_status: string;
 }

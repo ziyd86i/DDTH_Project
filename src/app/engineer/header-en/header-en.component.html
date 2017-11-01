@@ -23,6 +23,7 @@
             <ul class="nav navbar-nav">
               <li><a routerLink="/eng" routerLinkActive="active">HOME</a></li>
               <li><a routerLink="/eng/workplan" routerLinkActive="active">Your Workplan</a></li>
+              <!-- <li><a routerLink="/dashboard" routerLinkActive="active">Dashboard</a></li> -->
 
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -36,7 +37,7 @@
                    <span class="glyphicon glyphicon-cog"></span></a>
 
                    <ul class="dropdown-menu">
-                     <li><a href="">See your profile</a></li>
+                     <li><a [routerLink]="['/profile', currentUser.em_id]">See your profile</a></li>
                      <li><a (click)="logout()">Log out</a></li>
                    </ul>
               </li>

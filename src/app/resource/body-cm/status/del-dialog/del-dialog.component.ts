@@ -14,6 +14,7 @@ export class DelDialog implements OnInit {
 
   ObservableWork: Observable<Workplan>;
   work_id: number;
+  status: string;
   errorMsg: string;
 
   constructor(private resourceService: ResourceService,
@@ -21,12 +22,13 @@ export class DelDialog implements OnInit {
       @Inject(MD_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-    this.work_id = this.data;
+    this.work_id = this.data.id;
+    this.status = this.data.status;
   }
 
   Delete() {
     console.log(this.work_id);
-    this.ObservableWork = this.resourceService.deleteWork(this.work_id);
+    this.ObservableWork = this.resourceService.deleteWork(this.work_id, this.status);
     this.ObservableWork.subscribe(
         work => {
 

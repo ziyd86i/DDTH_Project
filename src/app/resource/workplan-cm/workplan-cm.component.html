@@ -53,7 +53,7 @@
   </div>
 
     <div class="row" *ngIf="viewType == 1">
-      <div class="col">
+      <div class="col-md-9">
         <dx-scheduler
             id="scheduler"
             [dataSource]="workplan"
@@ -84,10 +84,23 @@
               <p>{{ data.date | date:'shortTime'}} - {{data.end_date | date:'shortTime'}}</p>
             </div>
 
-            <div *dxTemplate="let data of 'tooltip-template'">
-              <i>Customer Name: {{data.customer_name}}</i>
-              <p> Description: {{data.description}}</p>
-              <p>{{ data.date | date:'shortTime'}} - {{data.end_date | date:'shortTime'}}</p>
+            <div *dxTemplate="let data of 'tooltip-template'" >
+              <div>
+                <h4>Ticket#: {{data.ticket_name}}</h4>
+              </div>
+              <div>
+                Engineer:  {{data.name}} {{data.lname}}
+              </div>
+              <div>
+                Customer Name:  {{data.customer_name}}
+              </div>
+              <div>
+                Description: {{data.description}}
+              </div>
+              <div>
+                {{ data.date | date:'shortTime'}} - {{data.end_date | date:'shortTime'}}
+              </div>
+
             </div>
 
             <dxo-editing #editingOptions
@@ -125,6 +138,26 @@
             </div>
         </div>
 
+      </div>
+
+      <div class="col-md-3">
+
+        <table id="status" class="table table-striped table-bordered" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th style="width: 30%">Status</th>
+              <th>Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of status">
+              <td *ngIf="data.emp_status === 'available'"><img src="../../assets/images/green_1.png"></td>
+              <td *ngIf="data.emp_status === 'busy'"><img src="../../assets/images/red_1.png"></td>
+
+              <td (click)="selectWorkById(data.em_id)" style="cursor: pointer;">{{data.name}} {{data.lname}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 

@@ -1,16 +1,14 @@
 import { Component, OnInit, Directive } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { TicketService } from '../ticket.service';
 import { Ticket } from '../ticket';
 import * as $ from 'jquery';
-import { NguiDatetimePickerModule, NguiDatetime } from '@ngui/datetime-picker';
+// import { NguiDatetimePickerModule, NguiDatetime } from '@ngui/datetime-picker';
 
 declare var jQuery: any;
-
-
 
 @Component({
   selector: 'form-ticket',
@@ -49,40 +47,29 @@ export class FormTicketComponent implements OnInit {
 
   ) {
     this.form = formBuilder.group({
-      ticket_name: ['', [
-        Validators.required,
+      ticket_name: new FormControl({value: '', disabled:false}, Validators.required),
+      so_number: ['',[
 
-      ]],
-      so_number: ['', [
-        //  Validators.required,
       ]],
       owner: ['', [
-        //  Validators.required,
+
       ]],
-      person_contact: ['', [
-        //  Validators.required,
+      person_contact: ['',[
+
       ]],
-      customer_name: ['', [
-        Validators.required,
+      customer_name: new FormControl({value: '', disabled:false}, Validators.required),
+      tel: ['',[
+
       ]],
-      tel: ['', [
-        //  Validators.required,
-      ]],
-      description: ['', [
-        //  Validators.required,
+      description: ['',[
+
       ]],
       date: ['', [
-        Validators.required,
+        Validators.required
       ]],
-      end_date: ['', [
-        Validators.required,
-      ]],
-      //  time: ['', [
-      //    Validators.required,
-      //  ]]
-
-
-
+      end_date:['', [
+        Validators.required
+      ]]
     });
   }
 
@@ -116,13 +103,22 @@ export class FormTicketComponent implements OnInit {
 
   getDataById(id) {
 
+    console.log(this.form.controls['so_number'].valid)
+    console.log(this.form.controls['owner'].valid)
+    console.log(this.form.controls['person_contact'].valid)
+    console.log(this.form.controls['customer_name'].valid)
+    console.log(this.form.controls['tel'].valid)
+    console.log(this.form.controls['description'].valid)
+
+
     this.ManagedTicket = this.ticketService.getTicketById(id)
     this.ManagedTicket.subscribe(
       ticket => {
         console.log(ticket),
           this.tickets = ticket[0];
-        this.tickets.date = this.datePipe.transform(this.tickets.date, 'yyyy-MM-dd HH:mm');
-        this.tickets.end_date = this.datePipe.transform(this.tickets.end_date, 'yyyy-MM-dd HH:mm');
+
+        this.tickets.date = this.datePipe.transform(this.tickets.date, 'short');
+        this.tickets.end_date = this.datePipe.transform(this.tickets.end_date, 'short');
       },
       err => this.errorMsg = <any>err
     );
@@ -138,8 +134,8 @@ export class FormTicketComponent implements OnInit {
 
     console.log("Submitted success!");
     form.value.state = 'active';
-    form.value.date = form.value.date.toString();
-    form.value.end_date = form.value.end_date.toString();
+    form.value.date = this.datePipe.transform(form.value.date, 'yyyy-MM-dd HH:mm');
+    form.value.end_date = this.datePipe.transform(form.value.end_date, 'yyyy-MM-dd HH:mm');
     // form.value.time = form.value.time.toString();
     console.log(form.value);
     this.ManagedTicket = this.ticketService.addTicket(form.value)
@@ -157,6 +153,7 @@ export class FormTicketComponent implements OnInit {
   editTicket(form) {
     console.log("This is the edit function !!!");
     console.log(form.value);
+
     form.value.ticket_id = this.tickets.ticket_id;
     form.value.date = form.value.date.toString();
     form.value.end_date = form.value.end_date.toString();
@@ -170,6 +167,10 @@ export class FormTicketComponent implements OnInit {
       err => this.errorMsg = <any>err
     );
     this.redirect();
+  }
+
+  changeEndDate(time) {
+    this.tickets.end_date = this.datePipe.transform(new Date(time).getTime() + 60*1000*180, 'yyyy-MM-ddTHH:mm:ss')
   }
 
 }

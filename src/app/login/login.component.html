@@ -14,7 +14,8 @@
                <form class="form-signin" (ngSubmit)="login()" #f="ngForm">
                    <span id="reauth-email" class="reauth-email">aaa</span>
                     <div *ngIf="f.submitted && !username.valid" class="help-block">{{ errorMsg }}</div>
-                   <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                   <div class="form-group" >
+                     <!-- [ngClass]="{ 'has-error': f.submitted && !username.valid }" -->
                      <input type="email"
                             class="form-control"
                             id="username"
@@ -26,7 +27,8 @@
                    </div>
 
 
-                   <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                   <div class="form-group" >
+                     <!-- [ngClass]="{ 'has-error': f.submitted && !password.valid }" -->
                      <input type="password"
                             class="form-control"
                             [(ngModel)]="password"

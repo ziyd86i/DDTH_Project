@@ -46,9 +46,34 @@ var authen = "SELECT username, password from employees";
 var query2 = "SELECT * FROM `workplan` INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id INNER JOIN employees ON workplan.em_id = employees.em_id";
 
 
-// =========================================================================================================================
-// ********************************* SET INTERVAL TO AUTO DELETE RECORD EVERY 2 YEARS***************************************
-// =========================================================================================================================
+//************************************** Test & data employees *************************************
+
+apiRoutes.get('/', (req,res) => {
+  res.json({ message: 'Welcome to the coolest API !', success: true});
+  // console.log(data_employees);
+});
+
+app.get('/', (req, res) => {
+  res.send('<h1> Hello Node.js</h1>');
+});
+
+app.get('/data', (req,res) => {
+  con.query(queryString,(err,users) => {
+    if (err) {
+      res.status(400).send('Error in database.');
+    }
+    else {
+    res.send(users);
+     data_employees = users;
+     console.log(data_employees);
+    }
+  });
+});
+
+// ===================================================================================================================================
+// ********************************* SET INTERVAL TO AUTO DELETE RECORD EVERY 2 YEARS*************************************************
+// ===================================================================================================================================
+
 
 setInterval( ()=>{
 
@@ -72,9 +97,10 @@ setInterval( ()=>{
 }, 86400000);
 
 
-// =========================================================================================================================
-// ********************************************** Login Authentication *****************************************************
-// =========================================================================================================================
+// ===================================================================================================================================
+// *************************************************** Login Authentication **********************************************************
+// ===================================================================================================================================
+
 
 app.use('/api', apiRoutes);
 
@@ -129,36 +155,64 @@ apiRoutes.post('/authenticate', (req,res) => {
 });
 
 
-apiRoutes.get('/', (req,res) => {
-  res.json({ message: 'Welcome to the coolest API !', success: true});
-  // console.log(data_employees);
-});
 
 
+// ===================================================================================================================================
+// *************************************************** Get Profile Employees *********************************************************
+// ===================================================================================================================================
 
-//************************************** Test & data employees *************************************
+app.get('/profile/:id', (req,res) => {
+   var id = req.params.id;
 
-app.get('/', (req, res) => {
-  res.send('<h1> Hello Node.js</h1>');
-});
+  //  console.log(id);
+  //  sqlUser = "SELECT * FROM employees INNER JOIN team ON employees.team_id = team.team_id WHERE em_id = '"+id+"'";
+   sqlAll = "SELECT * FROM employees "
+            +"INNER JOIN team ON employees.team_id = team.team_id "
+            +"INNER JOIN department ON department.job_fam_id = employees.job_fam_id "
+            +"INNER JOIN business_title ON employees.business_id = business_title.business_id "
+            +"INNER JOIN job_profile ON job_profile.job_pro_id = employees.job_pro_id "
+            +"WHERE employees.em_id = '"+id+"'"
 
-app.get('/data', (req,res) => {
-  con.query(queryString,(err,users) => {
+   con.query(sqlAll, (err,user) => {
+     if (err) {
+       console.log("Cannot get data user");
+     }
+     else {
+       res.send(user);
+       console.log("Get data user complete");
+     }
+   })
+})
+
+app.post('/profile/edit/:id', (req,res) => {
+  var id = req.params.id,
+      name = req.body.name,
+      lname = req.body.lname,
+      email = req.body.email,
+      car_id = req.body.car_id,
+      tel = req.body.tel,
+      password = req.body.password;
+
+      // console.log(id,name,lname,email,car_id,tel,password);
+  sqlEdit = "UPDATE employees SET name = '"+name+"', lname = '"+lname+"', email = '"+email+"', car_id = '"+car_id+"', tel = '"+tel+"', password = '"+password+"' WHERE em_id = '"+id+"'"
+  // console.log(sqlEdit);
+
+  con.query(sqlEdit, (err, edit) => {
     if (err) {
-      res.status(400).send('Error in database.');
+      throw err;
+      console.log("Edit profile error");
     }
     else {
-    res.send(users);
-     data_employees = users;
-     console.log(data_employees);
+      res.send(edit)
+      console.log("Edit profile "+ name + " Complete");
     }
-  });
-});
+  })
 
+})
+// ===================================================================================================================================
+// ******************************************************** Admin Managed User *******************************************************
+// ===================================================================================================================================
 
-// =========================================================================================================================
-// ********************************************** Admin Managed User *******************************************************
-// =========================================================================================================================
 
 // get data user ตาม id
 app.get('/data/:id', (req,res) => {
@@ -202,7 +256,7 @@ app.post('/edit/:id', (req,res) => {
 
     // console.log(id,name);
     // console.log(req.body.em_id);
-    console.log(name, lname,tel,email,hiredate, skill_id ,skill_id1,skill_id2,username,password,type,team_id,job_fam_id,business_id,job_pro_id ,car_id);
+    // console.log(name, lname,tel,email,hiredate, skill_id ,skill_id1,skill_id2,username,password,type,team_id,job_fam_id,business_id,job_pro_id ,car_id);
   //
   let queryEdit = "UPDATE employees SET `name`='"+name+"', `lname`='"+lname+"', `hiredate`='"+hiredate+"', `tel`='"+tel+"', `email`='"+email+"', `skill_id`='"+skill_id+"' ,`skill_id1`='"+skill_id1+"',`skill_id2`='"+skill_id2+"', `username`='"+username+"', `password`='"+password+"', `type`='"+type+"', `car_id`='"+car_id+"', `team_id`='"+team_id+"', `job_fam_id`='"+job_fam_id+"', `job_pro_id`='"+job_pro_id+"', `business_id`='"+business_id+"'"
                   +" WHERE employees.em_id = "+id+"";
@@ -268,12 +322,12 @@ app.post('/adduser', (req,res) => {
       console.log("Add user complete !" + users);
     }
   });
-
 });
 
-// =========================================================================================================================
-// ************************************************** CM Assign Work *******************************************************
-// =========================================================================================================================
+// ===================================================================================================================================
+// ******************************************************* CM Assign Work ************************************************************
+// ===================================================================================================================================
+
 
 // Select employees on status available & in the team that selected
 app.get('/available/:id', (req,res) => {
@@ -359,12 +413,13 @@ app.post('/cm/assignwork', (req,res) => {
 })
 
 // Delete the workplan that cm assign to engineer
-app.get('/cm/delete/:id',(req,res) => {
-  let id = req.params.id;
-  console.log(id);
+app.post('/cm/delete',(req,res) => {
+  let id = req.body.id;
+  let status = req.body.status;
+  console.log(id,status);
   let queryDelWorkplan = "DELETE FROM workplan WHERE workplan_id = '"+id+"'";
   let queryUpdate = "UPDATE workplan INNER JOIN employees ON workplan.em_id = employees.em_id INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id "+
-                    " SET employees.emp_status = 'available', ticket.state = 'active' WHERE workplan.workplan_id = '"+id+"'";
+                    " SET employees.emp_status = '"+status+"', ticket.state = 'active' WHERE workplan.workplan_id = '"+id+"'";
 
   con.query(queryUpdate, (err,result) =>{
     if (err) {
@@ -403,9 +458,10 @@ app.get('/cm/getdata/:id', (req,res) => {
   });
 
 });
-// ===========================================================================================
-// ********************************* CM Managed Ticket ************************************
-// ===========================================================================================
+// ===================================================================================================================================
+// *************************************************** CM Managed Ticket *************************************************************
+// ===================================================================================================================================
+
 
 
 app.get('/ticket', (req,res) => {
@@ -417,8 +473,7 @@ app.get('/ticket', (req,res) => {
     }
     else {
     res.send(ticket);
-     data_ticket = ticket;
-     console.log(data_ticket);
+    console.log("Get ticket complete");
     }
   });
 });
@@ -432,11 +487,55 @@ app.get('/ticketstate', (req,res) => {
     }
     else {
     res.send(ticket);
-     data_ticket = ticket;
-     console.log(data_ticket);
+    console.log("Get ticket state complete");
     }
   });
 });
+
+app.get('/ticketprogress', (req,res) => {
+
+  queryProgress = "SELECT * FROM ticket INNER JOIN workplan ON workplan.ticket_id = ticket.ticket_id INNER JOIN employees ON employees.em_id = workplan.em_id WHERE ticket.state = 'in progress'";
+
+  con.query(queryProgress, (err,ticket) => {
+    if (err) {
+      console.log("Error to get data progress");
+    }
+    else {
+      res.send(ticket);
+      console.log("Get ticket progress complete");
+    }
+  })
+})
+
+app.get('/ticketdoing', (req,res) => {
+
+  queryProgress = "SELECT * FROM ticket INNER JOIN workplan ON workplan.ticket_id = ticket.ticket_id INNER JOIN employees ON employees.em_id = workplan.em_id WHERE ticket.state = 'doing'";
+
+  con.query(queryProgress, (err,ticket) => {
+    if (err) {
+      console.log("Error to get data doing");
+    }
+    else {
+      res.send(ticket);
+      console.log("Get ticket doing complete");
+    }
+  })
+})
+
+app.get('/ticketdone', (req,res) => {
+
+  queryProgress = "SELECT * FROM ticket INNER JOIN workplan ON workplan.ticket_id = ticket.ticket_id INNER JOIN employees ON employees.em_id = workplan.em_id WHERE ticket.state = 'done'";
+
+  con.query(queryProgress, (err,ticket) => {
+    if (err) {
+      console.log("Error to get data done");
+    }
+    else {
+      res.send(ticket);
+      console.log("Get ticket done complete");
+    }
+  })
+})
 
 app.get('/ticket/:id', (req,res) => {
   id = req.params.id;
@@ -518,16 +617,30 @@ app.post('/ticket/edit/:id', (req,res) => {
 
 });
 
-app.get('/ticket/delete/:id',(req,res) => {
+app.get('/ticket/delete/:id', (req,res) => {
+
+  let id = req.params.id;
+  let queryDelete = "DELETE FROM ticket WHERE ticket_id = '"+id+"'";
+
+  con.query(queryDelete, (err,result) =>{
+    if (err) {
+      console.log("Error to delete ticket");
+    }
+    else {
+      console.log("Delete ticket Complete");
+    }
+  })
+})
+
+app.get('/ticket/deleteall/:id',(req,res) => {
   let id = req.params.id;
   console.log(id);
   let queryDelTicket = "DELETE FROM ticket WHERE ticket_id = '"+id+"'";
-  let queryDelWorkplan = "DELETE FROM workplan WHERE workplan.ticket_id = '"+id+"'";
-  let querySetstatus = "UPDATE "
+  let queryDelWorkplan = "DELETE FROM workplan WHERE ticket_id = '"+id+"'";
 
   con.query(queryDelWorkplan, (err,result) =>{
     if (err) {
-      throw err;
+      console.log("");
     }
     else {
       console.log("Delete Workplan complete");
@@ -545,9 +658,25 @@ app.get('/ticket/delete/:id',(req,res) => {
   });
 });
 
-// =============================================================================================
-// ********************************* CM Management Workplan ************************************
-// =============================================================================================
+app.get('/ticket/geteng/:team', (req,res) => {
+
+  team = req.params.team;
+
+  sqlEng = "SELECT * FROM employees WHERE team_id = '"+team+"' AND type = 'engineer'"
+  con.query(sqlEng, (err,eng) => {
+    if (err) {
+      throw err;
+    }
+    else {
+      res.send(eng);
+      console.log("Select data engineer complete");
+    }
+  })
+})
+
+// ===================================================================================================================================
+// ************************************************ CM Management Workplan ***********************************************************
+// ===================================================================================================================================
 
 
   app.get('/workplan/:team', (req,res) => {
@@ -572,7 +701,7 @@ app.get('/ticket/delete/:id',(req,res) => {
     let year = req.body.year;
 
     console.log(team_id, month, year);
-    let queryDate = "SELECT employees.em_id, employees.name, employees.lname , ticket.ticket_id, ticket.so_number, ticket.customer_name, ticket.person_contact, ticket.description, team.team_name, ticket.date, ticket.end_date "
+    let queryDate = "SELECT employees.em_id, employees.name, employees.lname , ticket.ticket_id, ticket.so_number,ticket.ticket_name,ticket.tel, ticket.customer_name, ticket.person_contact, ticket.description, team.team_name, ticket.date, ticket.end_date "
                     +"FROM workplan INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id INNER JOIN employees ON workplan.em_id = employees.em_id INNER JOIN team ON employees.team_id = team.team_id "
                     +"WHERE team.team_id = '"+team_id+"' AND month(date) = '"+month+"' AND year(date) = '"+year+"'"
 
@@ -603,9 +732,27 @@ app.get('/ticket/delete/:id',(req,res) => {
     })
   })
 
-// =============================================================================================
-// ********************************* Engineer Management ************************************
-// =============================================================================================
+  app.get('/workplan/status/:id', (req,res) => {
+    let team_id = req.params.id;
+
+    console.log(team_id + "STATUS");
+    queryStatus = "SELECT workplan.em_id, name, lname, emp_status FROM workplan INNER JOIN employees ON workplan.em_id = employees.em_id WHERE employees.team_id = '"+team_id+"' GROUP BY employees.name"
+
+    con.query(queryStatus, (err,status) => {
+      if (err) {
+        console.log("Cannot select data status");
+      }
+      else {
+        res.send(status);
+        console.log("Status data have sent.");
+      }
+    })
+  })
+
+// ===================================================================================================================================
+// *************************************************** Engineer Management ***********************************************************
+// ===================================================================================================================================
+
 
 
 app.get('/eng/workplan/:id', (req,res) => {
@@ -697,9 +844,9 @@ app.post('/eng/donework/:id', (req,res) => {
   });
 });
 
-// =============================================================================================
-// ********************************* Engineer Workplan ************************************
-// =============================================================================================
+// ===================================================================================================================================
+// ******************************************************* Engineer Workplan *********************************************************
+// ===================================================================================================================================
 
 
 app.get('/eng/workplan/get/:id' , (req,res) => {
@@ -817,11 +964,46 @@ app.get('/eng/removework/:id', (req,res) => {
   })
 })
 
+// ===================================================================================================================================
+// ******************************************************* DASHBOARD Management ******************************************************
+// ===================================================================================================================================
 
+app.get('/dashboard/workplan/:team', (req,res) => {
+  let team = req.params.team;
+  sqlDashboard = "SELECT * FROM workplan INNER JOIN employees ON workplan.em_id = employees.em_id INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id"
+                 +" WHERE employees.team_id = '"+team+"' AND date(ticket.date) >= cast((now()) as date)"
 
-// =============================================================================================
-//  *************************** กำหนด port ที่ api จะแสดงผล ***************************
-// =============================================================================================
+  con.query(sqlDashboard, (err,workplan) => {
+    if (err) {
+      console.log("Cannot get workplan Data");
+    }
+    else {
+      res.send(workplan)
+      console.log("Get workplan data to dashboard complete");
+    }
+  })
+})
+
+app.get('/dashboard/user/:team', (req,res) => {
+  let team = req.params.team;
+
+  sqlUser = "SELECT * FROM employees INNER JOIN team ON employees.team_id = team.team_id WHERE employees.team_id = '"+team+"' AND employees.type = 'engineer'"
+
+  con.query(sqlUser, (err,user) => {
+    if (err) {
+      console.log("Cannot get user data");
+    }
+    else {
+      res.send(user);
+      console.log("Get user data success");
+    }
+  })
+})
+
+// ===================================================================================================================================
+//  ************************************************ กำหนด port ที่ api จะแสดงผล ******************************************************
+// ===================================================================================================================================
+
 
 server.listen(3300, () => {
   console.log('Express server is lisening on port 3300');

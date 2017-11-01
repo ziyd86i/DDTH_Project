@@ -1,0 +1,220 @@
+<form (ngSubmit)="EditProfile()" [formGroup]="form">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel-group">
+          <div class="panel panel-info">
+            <div class="panel-heading">Personal Details</div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Name:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         formControlName="name"
+                         [(ngModel)]="employees.name"
+                         id="name"
+                         >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Surname:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         formControlName="lname"
+                         [(ngModel)]="employees.lname"
+                         id="lname"
+                         >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5" [ngClass]="{'has-error':!form.controls['email'].valid && form.controls['email'].touched}">
+                  <label>Email:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         formControlName="email"
+                         [(ngModel)]="employees.email"
+                         id="email"
+                         >
+                         <span class="help-block" *ngIf="!form.controls['email'].valid
+                                                             && form.controls['email'].touched">Please enter Valid Email</span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5" [ngClass]="{'has-error':!form.controls['tel'].valid && form.controls['tel'].touched}">
+                  <label>Contact Number:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         formControlName="tel"
+                         [(ngModel)]="employees.tel"
+                         id="tel"
+                         maxlength="10"
+                         >
+                         <span class="help-block" *ngIf="!form.controls['tel'].valid
+                                                             && form.controls['tel'].touched">Please enter Valid Phone Number</span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5">
+                  <label>License Plate:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         formControlName="car_id"
+                         [(ngModel)]="employees.car_id"
+                         id="car_id"
+                         >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5" [ngClass]="{'has-error':!form.controls['password'].valid && form.controls['password'].touched}">
+                  <label>Password:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="password"
+                         class="form-control"
+                         formControlName="password"
+                         [(ngModel)]="employees.password"
+                         id="password"
+                         >
+                         <span class="help-block" *ngIf="!form.controls['password'].valid
+                                                             && form.controls['password'].touched">Please enter password more than 6 digits</span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Confirm Password:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="password"
+                         class="form-control"
+                         formControlName="reply"
+                         [(ngModel)]="reply"
+                         >
+                         
+                  <span class="help-block" *ngIf="form.controls['reply'].errors?.MatchPassword
+                                                &&form.controls['reply'].touched">Password not match</span>
+                </div>
+              </div>
+              <br>
+              <p align="right"><button type="submit"  class="btn btn-primary" [disabled]="!form.valid">Edit details</button></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="panel-group">
+          <div class="panel panel-info">
+            <div class="panel-heading">Career Details</div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Employee ID:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         formControlName="em_id"
+                         [(ngModel)]="employees.em_id"
+                         id="em_id"
+                         maxlength="8"
+                         >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Job Family:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         formControlName="job_fam_name"
+                         [(ngModel)]="employees.job_fam_name"
+                         id="job_fam_name"
+                         >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Team:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         formControlName="team_name"
+                         [(ngModel)]="employees.team_name"
+                         id="team_name"
+                         >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Business Title:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         formControlName="business_title"
+                         [(ngModel)]="employees.business_title"
+                         id="business_title"
+                         >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Job Profile:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         formControlName="job_pro_name"
+                         [(ngModel)]="employees.job_pro_name"
+                         id="job_pro_id"
+                         >
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-5">
+                  <label>Hire Date:</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="text"
+                         class="form-control"
+                         formControlName="hiredate"
+                         [(ngModel)]="employees.hiredate"
+                         id="hiredate"
+                         >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</form>

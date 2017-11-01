@@ -35,6 +35,7 @@ export class AdduserComponent implements OnInit {
   ManagedEmp: Observable<Employees[]>;
   ManagedUser :Observable<Employees>;
   errorMsg: string;
+  reply: string;
 
   // employees = {
   //   em_id : 0,
@@ -65,7 +66,7 @@ export class AdduserComponent implements OnInit {
     this.form = formBuilder.group({
       em_id: ['', [
         Validators.required,
-        Validators.pattern('[ST][AH][0-9]{6}')
+        Validators.pattern('[ST][AH][0-9]{4,}')
 
       ]],
       name: ['', [
@@ -76,7 +77,6 @@ export class AdduserComponent implements OnInit {
       ]],
       // birth: [],
       tel: ['',[
-
         Validators.maxLength(10),
         Validators.pattern('[0][0-9]{9}')
       ]],

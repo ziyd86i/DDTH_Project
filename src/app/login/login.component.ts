@@ -20,8 +20,8 @@ export class LoginComponent implements OnInit {
   ObservableEmp: Observable<Employees[]>
   employees: Employees;
   errorMsg: string;
-  username: string = '';
-  password: string = '';
+  username: any;
+  password: any;
 
   constructor(
               private authenService: AuthenticationService,
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
     //reset login status
     this.authenService.logout();
-
+    // console.log(this.username.valid)
     //get return url from  route  params or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
    }
