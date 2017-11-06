@@ -2,7 +2,7 @@ export class Ticket {
   ticket_id: number;
   ticket_name: string = "";
   customer_name: string = "";
-  tel: string;
+  tel: string = "";
   description: string = "";
   date: any;
   end_date: any;

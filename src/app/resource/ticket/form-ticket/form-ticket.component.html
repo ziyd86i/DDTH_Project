@@ -126,6 +126,8 @@
                  [(ngModel)]="tickets.tel"
                  formControlName="tel"
                  >
+                 <span class="help-block" *ngIf="!form.controls['tel'].valid
+                                                     && form.controls['tel'].touched">Please Input valid number</span>
          </div>
        </div>
 
@@ -141,7 +143,7 @@
                 [(value)]="tickets.date"
                 type="datetime"
                 dateSerializationFormat="yyyy-MM-ddTHH:mm:ss"
-
+                (onValueChanged)="changeEndDate($event)"
                 >
                 </dx-date-box>
                 <!-- (onValueChanged)="changeEndDate(tickets.date)" -->

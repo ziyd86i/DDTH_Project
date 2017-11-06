@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "default": "ddth-workplan",
+    "staging": "ddth-workplan"
+  }
+}

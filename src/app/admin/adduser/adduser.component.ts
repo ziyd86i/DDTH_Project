@@ -22,9 +22,9 @@ export class AdduserComponent implements OnInit {
   submitted = false;
   defaultType = 'engineer';
   defaultTeam = 505;
-  defaultSkill = 401;
-  defaultSkill_1 = 0;
-  defaultSkill_2 = 0;
+  defaultSkill = 'Networking';
+  defaultSkill_1 = '';
+  defaultSkill_2 = '';
   defaultProfile = 201;
   defaultBusiness = 301;
   defaultFamily =103;

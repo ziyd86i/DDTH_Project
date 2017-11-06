@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit {
   currentUser: Employees;
   events = [];
   resource = [];
+
   config: any = {
     rowHeaderColumns: [
       { title: "<center> Engineer </center>" }
@@ -38,18 +39,25 @@ export class DashboardComponent implements OnInit {
     scale: "Day",
     days: 10,
     startDate: new Date(),
+    autoRefreshEnabled: true,
+    autoRefreshInterval: 60,
 
+    onAutoRefresh: (args) => {
+      this.scheduler.control.events.all().pop();
+      this.getWorkplan();
+      // this.scheduler.control.update();
+      console.log("refreshing, " + args.i)
+    },
   };
 
   constructor(private dashboardService: DashboardService, private datePipe: DatePipe) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.DefaultTeam = this.currentUser.team_id;
     console.log(this.DefaultTeam)
-    setInterval( () => {
-
-      // window.location.reload();
-      console.log("RELOAD")
-    },60000)
+    // setInterval( () => {
+    //   // window.location.reload();
+    //   console.log("RELOAD")
+    // },10000 )
   }
 
   ngOnInit() {
@@ -65,26 +73,56 @@ export class DashboardComponent implements OnInit {
 
         $(document).ready((data) => {
           data = emp
-          console.log(data)
+          // console.log(data)
           this.teamName = data[0].team_name;
           // console.log(data)
           var dp = this.scheduler.control;
+          var row = Math.ceil(data.length /10);
+          // console.log(row)
+          dp.treeEnabled = true;
 
+          var col = 0;
 
-          for (var i = 0; i < data.length; i++) {
-            // console.log(data[i]);
+          for(var r = 0; r< row; r++) {
 
-            var user = {
-              id: data[i].em_id,
-              name: data[i].name + " " + data[i].lname
+            var eng = [];
+            for (var i = 0; i < 10; i++) {
+              // console.log(data[i]);
+
+              if(col < data.length) {
+                var user = {
+                  id: data[col].em_id,
+                  name: data[col].name + " " + data[col].lname
+                }
+                // console.log(user)
+                eng.push(user);
+                col++
+
+              }
+              else {
+                break;
+
+              }
+              // console.log(eng)
+
             }
-            // console.log(user)
-            this.resource.push(user);
+            // console.log(eng)
+           var group = {
+                name: "Group ["+(r+1)+"]",
+                id: "group"+(r+1),
+                expanded: false,
+                children: eng
+              }
+          //  console.log(group)
+            this.resource.push(group);
+            // console.log(this.resource)
 
           }
-          console.log(this.resource)
           dp.resources = this.resource;
           dp.update();
+          dp.rows.find("group1").expand();
+                    // dp.rows.expandAll();
+
 
         })
       },
@@ -99,11 +137,12 @@ export class DashboardComponent implements OnInit {
     this.ObservWork.subscribe(
       workplan => {
         this.workplan = workplan
-        console.log(this.workplan)
+        // console.log(this.workplan)
         $(document).ready((data) => {
           data = this.workplan
           // console.log(data)
           var dp = this.scheduler.control;
+          dp.events.list = [];
           // var event = [];
           for (var i = 0; i < data.length; i++) {
 
@@ -123,8 +162,10 @@ export class DashboardComponent implements OnInit {
             // console.log(item)
             var e = new DayPilot.Event(item)
             dp.events.add(e);
+
             // // console.log(dp.events.all())
             dp.update();
+
 
             // event.push(item);
             // this.events.push(item);

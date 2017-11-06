@@ -7,7 +7,13 @@
   </div>
   <div class="row">
     <div class="col">
-      <daypilot-scheduler #scheduler [config]="config" ></daypilot-scheduler>
+      <daypilot-scheduler #scheduler [config]="config"
+                          CssOnly="true"
+                          CssClassPrefix="dashboard_theme"
+                          autoRefreshEnabled= "true"
+                          autoRefreshInterval= "10"
+                          autoRefreshMaxCount="12"
+                      ></daypilot-scheduler>
     </div>
   </div>
 </div>

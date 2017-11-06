@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 import { TicketService } from '../ticket.service';
 import { Ticket } from '../ticket';
 import * as $ from 'jquery';
+import config from 'devextreme/core/config'
 // import { NguiDatetimePickerModule, NguiDatetime } from '@ngui/datetime-picker';
 
 declare var jQuery: any;
@@ -25,6 +26,7 @@ export class FormTicketComponent implements OnInit {
   tickets: Ticket = new Ticket();
   errorMsg: string;
   date: Date = new Date();
+
 
   // date2: Date = new Date(2016, 5, 10);
   // datepickerOpts = {
@@ -46,6 +48,10 @@ export class FormTicketComponent implements OnInit {
     private datePipe: DatePipe
 
   ) {
+    config({
+      forceIsoDateParsing: true
+    });
+
     this.form = formBuilder.group({
       ticket_name: new FormControl({value: '', disabled:false}, Validators.required),
       so_number: ['',[
@@ -59,15 +65,16 @@ export class FormTicketComponent implements OnInit {
       ]],
       customer_name: new FormControl({value: '', disabled:false}, Validators.required),
       tel: ['',[
-
+        Validators.maxLength(10),
+        Validators.pattern('[0][0-9]{8,9}')
       ]],
       description: ['',[
 
       ]],
-      date: ['', [
+      date: [new Date(), [
         Validators.required
       ]],
-      end_date:['', [
+      end_date:[new Date(), [
         Validators.required
       ]]
     });
@@ -103,12 +110,12 @@ export class FormTicketComponent implements OnInit {
 
   getDataById(id) {
 
-    console.log(this.form.controls['so_number'].valid)
-    console.log(this.form.controls['owner'].valid)
-    console.log(this.form.controls['person_contact'].valid)
-    console.log(this.form.controls['customer_name'].valid)
-    console.log(this.form.controls['tel'].valid)
-    console.log(this.form.controls['description'].valid)
+    // console.log(this.form.controls['so_number'].valid)
+    // console.log(this.form.controls['owner'].valid)
+    // console.log(this.form.controls['person_contact'].valid)
+    // console.log(this.form.controls['customer_name'].valid)
+    // console.log(this.form.controls['tel'].valid)
+    // console.log(this.form.controls['description'].valid)
 
 
     this.ManagedTicket = this.ticketService.getTicketById(id)
@@ -117,8 +124,8 @@ export class FormTicketComponent implements OnInit {
         console.log(ticket),
           this.tickets = ticket[0];
 
-        this.tickets.date = this.datePipe.transform(this.tickets.date, 'short');
-        this.tickets.end_date = this.datePipe.transform(this.tickets.end_date, 'short');
+        this.tickets.date = this.datePipe.transform(this.tickets.date, 'yyyy-MM-dd HH:mm');
+        this.tickets.end_date = this.datePipe.transform(this.tickets.end_date, 'yyyy-MM-dd HH:mm');
       },
       err => this.errorMsg = <any>err
     );
@@ -157,7 +164,7 @@ export class FormTicketComponent implements OnInit {
     form.value.ticket_id = this.tickets.ticket_id;
     form.value.date = form.value.date.toString();
     form.value.end_date = form.value.end_date.toString();
-    // form.value.time = form.value.time.toString();
+
     this.ManagedTicket = this.ticketService.editTicket(form.value, form.value.ticket_id)
     this.ManagedTicket.subscribe(
       users => {
@@ -170,7 +177,8 @@ export class FormTicketComponent implements OnInit {
   }
 
   changeEndDate(time) {
-    this.tickets.end_date = this.datePipe.transform(new Date(time).getTime() + 60*1000*180, 'yyyy-MM-ddTHH:mm:ss')
+    console.log(time.value)
+    this.tickets.end_date = this.datePipe.transform(new Date(time.value).getTime() + 60*1000*180, 'yyyy-MM-ddTHH:mm:ss')
   }
 
 }

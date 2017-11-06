@@ -5,7 +5,7 @@ export class Employees {
   hiredate: string;
   tel: number;
   email: string;
-  skill_id: number;
+  skill_id: string;
   type: string;
   job_fam_id: number;
   job_fam_name:string;
@@ -18,8 +18,8 @@ export class Employees {
   car_id: string;
   username: string;
   password: string;
-  skill_id1: number;
-  skill_id2: number;
+  skill_id1: string;
+  skill_id2: string;
   token: string;
 
 }

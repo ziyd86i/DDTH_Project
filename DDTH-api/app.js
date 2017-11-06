@@ -333,7 +333,7 @@ app.post('/adduser', (req,res) => {
 app.get('/available/:id', (req,res) => {
   id = req.params.id;
   console.log(id);
-  queryAvailable = "SELECT * FROM employees INNER JOIN skill ON employees.skill_id = skill.skill_id WHERE emp_status = 'available' AND employees.team_id = '"+id+"'";
+  queryAvailable = "SELECT * FROM employees WHERE type = 'engineer' AND emp_status = 'available' AND employees.team_id = '"+id+"'";
 
   con.query(queryAvailable, (err,data) => {
     if (err) {
@@ -351,7 +351,9 @@ app.get('/progress/:id', (req,res) => {
   id = req.params.id;
   console.log(id);
 
-  queryProgress = "SELECT * FROM employees INNER JOIN workplan ON employees.em_id = workplan.em_id INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE workplan.status_work = 'active' AND date(ticket.date) >= cast(now() as date) AND employees.team_id = '"+id+"'";
+  queryProgress = "SELECT * FROM employees INNER JOIN workplan ON employees.em_id = workplan.em_id "
+                  +"INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id "
+                  +"WHERE workplan.status_work = 'active' AND date(ticket.date) >= cast(now() as date) AND employees.team_id = '"+id+"'";
 
   con.query(queryProgress, (err,data) => {
     if (err) {
@@ -370,7 +372,9 @@ app.get('/busy/:id', (req,res) => {
   id = req.params.id;
   console.log(id);
 
-  queryBusy = "SELECT * FROM employees INNER JOIN workplan ON employees.em_id = workplan.em_id INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id WHERE workplan.status_work = 'doing' AND employees.team_id = '"+id+"'";
+  queryBusy = "SELECT * FROM employees INNER JOIN workplan ON employees.em_id = workplan.em_id "
+              +"INNER JOIN ticket ON workplan.ticket_id = ticket.ticket_id "
+              +"WHERE workplan.status_work = 'doing' AND employees.team_id = '"+id+"'";
 
   con.query(queryBusy, (err,data) => {
     if (err) {
