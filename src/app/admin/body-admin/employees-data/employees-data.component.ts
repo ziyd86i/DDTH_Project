@@ -50,7 +50,7 @@ export class EmployeesDataComponent implements OnInit {
 
   deleteUser(users) :void {
 
-    console.log(users);
+    // console.log(users);
     if (confirm("Are you sure you want to delete " + users.name + "?")) {
 
       this.managedService.deleteUser(users.em_id)

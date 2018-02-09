@@ -48,10 +48,10 @@ export class EngWorkplanComponent {
         for (let i = 0; i < workplan.length; i++) {
           this.workplan[i].date = this.datePipe.transform(this.workplan[i].date, 'short');
           this.workplan[i].end_date = this.datePipe.transform(this.workplan[i].end_date, 'short');
-          console.log(this.workplan[i].date,this.workplan[i].end_date);
+          // console.log(this.workplan[i].date,this.workplan[i].end_date);
 
         }
-        console.log(this.workplan);
+        // console.log(this.workplan);
       },
       err => {
         this.errorMsg = <any>err;
@@ -60,13 +60,15 @@ export class EngWorkplanComponent {
   }
 
   addWorkplan(data) {
-    console.log(data);
-    console.log(data.appointmentData);
-    console.log(this.current.em_id)
+    // console.log(data);
+    // console.log(data.appointmentData);
+    // console.log(this.current.em_id)
+    data.appointmentData.date = this.datePipe.transform(data.appointmentData.date, 'yyyy-MM-dd HH:mm');
+    // data.appointmentData.end_date = this.datePipe.transform(data.appointmentData.end_date, 'yyyy-MM-dd HH:mm');
     this.ObservWork1 = this.engineerService.addWorkplan(data.appointmentData,this.current.em_id)
     this.ObservWork1.subscribe(
       workplan => {
-        console.log("Update complete" + workplan)
+        // console.log("Update complete" + workplan)
       },
       err => {
         this.errorMsg = <any>err;
@@ -75,6 +77,9 @@ export class EngWorkplanComponent {
   }
 
   updateWorkplan(data) {
+    //
+    // data.newData.date = this.datePipe.transform(data.newData.date, 'yyyy-MM-dd HH:mm');
+    // data.newData.end_date = this.datePipe.transform(data.newData.end_date, 'yyyy-MM-dd HH:mm');
     console.log(data.newData)
     this.ObservWork1 = this.engineerService.updateWorkplan(data.newData)
     this.ObservWork1.subscribe(
@@ -102,8 +107,9 @@ export class EngWorkplanComponent {
 
   FormCreated(data) {
     let form = data.form
-    console.log(data)
+    // console.log(data)
     let startDate = data.appointmentData.date;
+    // let endDate = data.appointmentData.end_date;
     form.option("items", [
     {
       label: {
@@ -185,7 +191,7 @@ export class EngWorkplanComponent {
           startDate = change.value
           // console.log(startDate)
           form.getEditor("end_date")
-              .option("value", this.datePipe.transform(new Date(startDate).getTime() + 60*1000*180, 'short'));
+              .option("value", this.datePipe.transform(new Date(startDate).getTime() + 60*1000*180, 'yyyy-MM-dd HH:mm'));
               // yyyy/MM/ddTHH:mm:ss
         }
       }
@@ -198,6 +204,7 @@ export class EngWorkplanComponent {
         items: this.workplan,
         onValueChanged: (change) => {
           // console.log(change.value);
+          // endDate = change.value
           // this.workplan[].end_date
         }
       }

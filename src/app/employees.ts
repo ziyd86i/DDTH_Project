@@ -3,7 +3,7 @@ export class Employees {
   name: string;
   lname: string;
   hiredate: string;
-  tel: number;
+  tel: string = '';
   email: string;
   skill_id: string;
   type: string;
@@ -15,7 +15,7 @@ export class Employees {
   business_title: string;
   team_id: number;
   team_name: string;
-  car_id: string;
+  car_id: string = '';
   username: string;
   password: string;
   skill_id1: string;

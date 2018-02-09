@@ -103,7 +103,7 @@ export class WorkplanCmComponent implements OnInit {
         for (let i = 0; i < workplan.length; i++) {
           this.dataGrid[i].date = this.datePipe.transform(this.dataGrid[i].date, 'short');
           this.dataGrid[i].end_date = this.datePipe.transform(this.dataGrid[i].end_date, 'short');
-          console.log(this.dataGrid[i].date);
+          // console.log(this.dataGrid[i].date);
 
         }
       },
@@ -114,7 +114,7 @@ export class WorkplanCmComponent implements OnInit {
   }
 
   selectWorkById(id) {
-    console.log(id)
+    // console.log(id)
     this.ObservWork = this.resourceService.getWorkById(id)
     this.ObservWork.subscribe(
       workplan => {

@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
    login() {
      this.loading = true;
-     console.log(this.username, this.password);
+     // console.log(this.username, this.password);
      this.authenService.login(this.username, this.password)
          .subscribe(
            users => {
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
              }
              else if(users.success) {
                this.employees = users;
-               console.log(this.employees.type);
+               // console.log(this.employees.type);
                if(this.employees.type === 'admin') {
                  this.router.navigate(['/admin']);
                }

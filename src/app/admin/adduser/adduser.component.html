@@ -14,7 +14,7 @@
   <form (ngSubmit)="managedEmployees()" [formGroup]="form">
     <div class="form-group">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Employee ID (รหัสพนักงาน):<b style="color:red;">*</b></label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['em_id'].valid && form.controls['em_id'].touched }">
@@ -28,7 +28,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Firstname (ชื่อ):<b style="color:red;">*</b> </label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['name'].valid && form.controls['name'].touched}">
@@ -39,7 +39,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Surname (นามสกุล):<b style="color:red;">*</b> </label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['lname'].valid && form.controls['lname'].touched}">
@@ -52,7 +52,7 @@
 
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Job Family : </label>
         </div>
         <div class="col-md-3">
@@ -72,7 +72,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Team : </label>
         </div>
         <div class="col-md-3">
@@ -91,7 +91,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Job Profile : </label>
         </div>
         <div class="col-md-3">
@@ -120,7 +120,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Business Title : </label>
         </div>
         <div class="col-md-3">
@@ -157,7 +157,7 @@
 
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Skill (ทักษะ / ความสนใจ): </label>
         </div>
         <div class="col-md-3">
@@ -180,11 +180,11 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Skill (เพิ่มเติม 1): </label>
         </div>
         <div class="col-md-3">
-          <select class="form-control" id="skill_id1" [(ngModel)]="defaultSkill_1" formControlName="skill_id1" required>
+          <select class="form-control" id="skill_id1" [(ngModel)]="defaultSkill_1" formControlName="skill_id1" >
               <option value=""
                       [selected]="defaultSkill_1 === ''">ไม่มี</option>
               <option value="Networking"
@@ -205,11 +205,11 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Skill (เพิ่มเติม 2) : </label>
         </div>
         <div class="col-md-3">
-          <select class="form-control" id="skill_id2" [(ngModel)]="defaultSkill_2" formControlName="skill_id2" required>
+          <select class="form-control" id="skill_id2" [(ngModel)]="defaultSkill_2" formControlName="skill_id2">
             <option value=""
                     [selected]="defaultSkill_2 === ''">ไม่มี</option>
             <option value="Networking"
@@ -229,8 +229,8 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
-          <label>Hiredate (วันจ้างงาน): </label>
+        <div class="col-md-2 col-md-offset-3">
+          <label>Hiredate (วันจ้างงาน): <b style="color:red;">*</b></label>
         </div>
 
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['hiredate'].valid && form.controls['hiredate'].touched}">
@@ -243,7 +243,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Email (อีเมล): <b style="color:red;">*</b></label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['email'].valid && form.controls['email'].touched}">
@@ -257,7 +257,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Telephone (โทรศัพท์): </label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['tel'].valid && form.controls['tel'].touched}">
@@ -268,7 +268,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Car ID (ทะเบียนรถ): </label>
         </div>
         <div class="col-md-3">
@@ -277,7 +277,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Type (สิทธิ์การใช้งาน): </label>
         </div>
         <div class="col-md-3">
@@ -290,7 +290,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Username: <b style="color:red;">*</b></label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['username'].valid && form.controls['username'].touched }">
@@ -302,7 +302,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Password: <b style="color:red;">*</b></label>
         </div>
         <div class="col-md-3" [ngClass]="{'has-error':!form.controls['password'].valid && form.controls['password'].touched}">
@@ -314,7 +314,7 @@
       </div>
 
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2 col-md-offset-3">
           <label>Confirm Password: <b style="color:red;">*</b></label>
         </div>
         <div class="col-md-3">
@@ -329,8 +329,18 @@
 
     </div>
 
-    <p *ngIf="!editted" align="center"><button type="submit" class="btn btn-success" [disabled]="!form.valid">Add User</button></p>
-    <p *ngIf="editted" align="center"><button type="submit" class="btn btn-warning" [disabled]="!form.valid">Ediit</button></p>
+    <p *ngIf="!editted" align="center">
+      <button type="submit" class="btn btn-success" [disabled]="!form.valid">Add User</button>
+      <button type="submit" class="btn btn-default"  [routerLink]="['/admin']" >Back</button>
+
+
+    </p>
+    <p *ngIf="editted" align="center">
+      <button type="submit" class="btn btn-warning" [disabled]="!form.valid">Ediit</button>
+      <button type="submit" class="btn btn-default"  [routerLink]="['/admin']" >Back</button>
+      
+
+    </p>
 
 
   </form>

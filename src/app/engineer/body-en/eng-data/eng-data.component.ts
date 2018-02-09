@@ -20,6 +20,7 @@ export class EngDataComponent implements OnInit {
   index: number = 0;
   errorMsg: string;
   block: boolean = true;
+  week: boolean = false;
   current: Employees = JSON.parse(localStorage.getItem('currentUser'));
   workplan: Workplan[];
   workofweek: Workplan[];
@@ -38,7 +39,7 @@ export class EngDataComponent implements OnInit {
   }
 
   GetworkToday() {
-    console.log(this.current);
+    // console.log(this.current);
     this.ObservableWork = this.engineerService.GetworkToday(this.current.em_id);
     this.ObservableWork.subscribe(
       workplan => {
@@ -57,7 +58,7 @@ export class EngDataComponent implements OnInit {
     this.ObservableWork.subscribe(
       workplan => {
         this.workofweek = workplan
-        console.log(this.workofweek);
+        // console.log(this.workofweek);
       },
       err => this.errorMsg = <any>err
 
@@ -69,8 +70,8 @@ export class EngDataComponent implements OnInit {
     this.ObservableWorking.subscribe(
       workplan => {
         this.workDoing = workplan[0];
-        console.log(this.workDoing);
         // console.log(this.workDoing);
+
       },
       err => this.errorMsg = <any>err
     )
@@ -80,8 +81,8 @@ export class EngDataComponent implements OnInit {
     if(this.workDoing){
       this.block = false;
     }
-    console.log(id);
-    console.log(index);
+    // console.log(id);
+    // console.log(index);
     let dialogRef = this.dialog.open(DialogDetails, {
       width: '530px',
       data: {
@@ -96,13 +97,26 @@ export class EngDataComponent implements OnInit {
   }
 
   dialogWorkDone(id) {
-    console.log(id)
+    // console.log(id)
 
     let dialogRef = this.dialog.open(DialogDone, {
       width: '350px',
       data: id
     });
 
+  }
+
+  openDialogWeek(id, index) {
+    // console.log(id, index)
+     this.week = true;
+    let dialogRef = this.dialog.open(DialogDetails, {
+      width: '530px',
+      data: {
+        mydata: this.workofweek[index],
+        workplan_id: id,
+        week: this.week
+      }
+    })
   }
 
 

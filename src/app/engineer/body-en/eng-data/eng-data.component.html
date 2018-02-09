@@ -120,6 +120,7 @@
                 <th>Customer</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th></th>
               </tr>
 
             </thead>
@@ -129,12 +130,19 @@
                   <h4 >Not have work on this week </h4>
                 </td>
               </tr>
-              <tr *ngFor="let week of workofweek">
+              <tr *ngFor="let week of workofweek; let i = index">
                 <td>{{ week.ticket_name }}</td>
                 <td>{{ week.customer_name }}</td>
                 <td>{{ week.date | date:'short' }}</td>
                 <td>{{ week.end_date | date:'short'}}</td>
                 <!-- <td>{{ data.date | date }}</td> -->
+                <td>
+                  <button md-raised-button
+                          (click)="openDialogWeek(week.workplan_id, i)"
+                          class="btn btn-info">
+                          Details
+                  </button>
+                </td>
               </tr>
 
             </tbody>

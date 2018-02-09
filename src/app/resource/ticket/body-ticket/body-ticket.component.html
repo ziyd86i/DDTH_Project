@@ -7,7 +7,7 @@
       <button class="btn btn-primary pull-right" routerLink="/cm/ticket/addnew">Add new Ticket +</button>
     </div>
   </div>
-  <h4><img src="../../assets/images/green_1.png"> Waiting for Assign </h4>
+  <h4><img src="./assets/images/green_1.png"> Waiting for Assign </h4>
   <hr>
 
   <div class="row">
@@ -23,7 +23,7 @@
             <th >Start Date</th>
             <th >End Date</th>
             <th>Assign</th>
-            <th >Detail&Edit</th>
+            <th >Detail & Edit</th>
             <th >Delete</th>
           </tr>
         </thead>
@@ -50,6 +50,10 @@
 
               </td>
               <td>
+                <!-- <a (click)="deleteTicket(tick)" href="DDTHWorkplan/cm/ticket">
+                  <button type="button" class="btn btn-danger btn-circle">
+                  <i class="glyphicon glyphicon-trash"></i></button>
+                  </a> -->
                 <a (click)="deleteTicket(tick)" href="/cm/ticket">
                   <button type="button" class="btn btn-danger btn-circle">
                   <i class="glyphicon glyphicon-trash"></i></button>
@@ -69,7 +73,7 @@
     </div>
   </div>
 
-  <h4><img src="../../assets/images/yellow_2.gif"> Already Assign</h4>
+  <h4><img src="./assets/images/yellow_2.gif"> Already Assign</h4>
   <hr>
   <div class="row">
     <div class="col mx-auto">
@@ -83,7 +87,7 @@
             <th >Customer Name</th>
             <th >Start Date</th>
             <th >End Date</th>
-            <th >Detail&Edit</th>
+            <th >Detail & Edit</th>
             <th >Delete</th>
           </tr>
         </thead>
@@ -104,10 +108,15 @@
                 </a>
               </td>
               <td>
-                <a (click)="deleteTicketDone(tick)" href="/cm/ticket">
+                <!-- <a (click)="deleteTicketDone(tick)" href="DDTHWorkplan/cm/ticket">
                   <button type="button" class="btn btn-danger btn-circle">
                   <i class="glyphicon glyphicon-trash"></i></button>
-                  </a>
+                  </a> -->
+
+                  <a (click)="deleteTicketDone(tick)" href="/cm/ticket">
+                    <button type="button" class="btn btn-danger btn-circle">
+                    <i class="glyphicon glyphicon-trash"></i></button>
+                    </a>
               </td>
 
               <!-- <td><button class="btn btn-default"
@@ -123,7 +132,7 @@
     </div>
   </div>
 
-  <h4><img src="../../assets/images/red_1.png"> Doing Ticket</h4>
+  <h4><img src="./assets/images/red_1.png"> Doing Ticket</h4>
   <hr>
 
   <div class="row">
@@ -137,7 +146,7 @@
             <th >Customer Name</th>
             <th >Start Date</th>
             <th >End Date</th>
-            <th >Detail&Edit</th>
+            <th >Detail & Edit</th>
           </tr>
         </thead>
 
@@ -170,7 +179,7 @@
     </div>
   </div>
 
-  <h4><img src="../../assets/images/green_1.png"> Done</h4>
+  <h4><img src="./assets/images/green_1.png"> Finished</h4>
   <hr>
   <div class="row">
     <div class="col mx-auto">
@@ -198,6 +207,11 @@
               <td>{{ tick.end_date | date:'short' }}</td>
 
               <td>
+                <!-- <a (click)="deleteTicketDone(tick)" href="DDTHWorkplan/cm/ticket">
+                  <button type="button" class="btn btn-danger btn-circle">
+                  <i class="glyphicon glyphicon-trash"></i></button>
+                </a> -->
+
                 <a (click)="deleteTicketDone(tick)" href="/cm/ticket">
                   <button type="button" class="btn btn-danger btn-circle">
                   <i class="glyphicon glyphicon-trash"></i></button>

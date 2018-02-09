@@ -86,8 +86,8 @@ export class AdduserComponent implements OnInit {
         Validators.pattern("[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}")
       ]],
       skill_id: ['',Validators.required],
-      skill_id1: ['',Validators.required],
-      skill_id2: ['',Validators.required],
+      skill_id1: [''],
+      skill_id2: [''],
       type: ['',Validators.required],
       job_fam_id: ['',Validators.required],
       job_pro_id: ['',Validators.required],
@@ -117,7 +117,7 @@ export class AdduserComponent implements OnInit {
     var id = this.route.params.subscribe(params => {
       var id = params['id'];
 
-      console.log(id);
+      // console.log(id);
 
       this.title = id ? 'Edit User': 'Add User';
 
@@ -162,7 +162,7 @@ export class AdduserComponent implements OnInit {
 
   addUser(form) {
         // console.log(form.value.hiredate);
-        console.log("Submitted success!");
+        // console.log("Submitted success!");
         // console.log(form.value);
         form.value.hiredate = form.value.hiredate.toString();
         this.ManagedUser = this.managedService.addUser(form.value)
@@ -179,7 +179,7 @@ export class AdduserComponent implements OnInit {
   }
 
   editUser(form) {
-    console.log("This is the edit function !!!");
+    // console.log("This is the edit function !!!");
     // console.log(form.value);
     // console.log(form.value.hiredate);
     form.value.hiredate = form.value.hiredate.toString();
@@ -200,11 +200,11 @@ export class AdduserComponent implements OnInit {
     this.ManagedUser = this.managedService.getUserById(id)
       this.ManagedUser.subscribe(
       users => {
-        console.log(users),
+        // console.log(users),
         this.users = users[0];
         //set format date
         this.users.hiredate = this.datePipe.transform(this.users.hiredate, 'yyyy-MM-dd');
-        console.log(this.users.hiredate);
+        // console.log(this.users.hiredate);
         this.defaultSkill = this.users.skill_id;
         this.defaultType = this.users.type;
         this.defaultTeam = this.users.team_id;

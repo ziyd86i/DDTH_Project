@@ -93,7 +93,7 @@ export class ProfileDataComponent implements OnInit {
     // console.log(this.form.value)
     this.ObservData = this.profileService.editUserId(this.form.value, this.employees.em_id)
     this.ObservData.subscribe(user => {
-      console.log(user)
+      // console.log(user)
       alert("Edit profile complete.");
       window.location.reload();
 

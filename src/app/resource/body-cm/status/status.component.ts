@@ -67,7 +67,7 @@ export class StatusComponent implements OnInit {
   }
 
   getAvailable() {
-    console.log(this.defaultTeam);
+    // console.log(this.defaultTeam);
     this.cmObservable = this.resourceService.getAvailable(this.defaultTeam)
     this.cmObservable.subscribe(
       data => {
@@ -98,7 +98,7 @@ export class StatusComponent implements OnInit {
 
           $('#progress').DataTable({
               "language": {
-                "emptyTable": "No progress data"
+                "emptyTable": "No in progress data"
               }
             });
 
@@ -130,7 +130,7 @@ export class StatusComponent implements OnInit {
 
 
   assignWork(id) {
-    console.log(id);
+    // console.log(id);
     let dialogRef = this.dialog.open(AssignDialog, {
       width: '500px',
       data: id
@@ -146,7 +146,7 @@ export class StatusComponent implements OnInit {
   }
 
   deleteWork(id,status) {
-    console.log(id);
+    // console.log(id);
 
     let dialogRef = this.dialog.open(DelDialog, {
       width: '350px',
@@ -159,7 +159,7 @@ export class StatusComponent implements OnInit {
   }
 
   dialogWorkDone(id) {
-    console.log(id)
+    // console.log(id)
 
     let dialogRef = this.dialog.open(DoneDialog, {
       width: '350px',
@@ -169,7 +169,7 @@ export class StatusComponent implements OnInit {
   }
 
   schedulerDialog(data) {
-    console.log(data)
+    // console.log(data)
 
     let dialogRef = this.dialog.open(SchedulerDialog, {
       width: '1024px',

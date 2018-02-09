@@ -47,73 +47,29 @@
             <td>{{ users.type }}</td>
             <td>{{users.email}}</td>
             <td>
+              <!-- set route when deploy on server -->
+              <!-- <a [routerLink]="['/DDTHWorkplan/admin', users.em_id]" >
+                <span class="glyphicon glyphicon-pencil" ></span>
+              </a> -->
+              <!-- set route on developed mode -->
               <a [routerLink]="['/admin', users.em_id]" >
                 <span class="glyphicon glyphicon-pencil" ></span>
               </a>
             </td>
             <td>
+              <!-- set route when deploy on server -->
+              <!-- <a (click)="deleteUser(users)" href="/DDTHWorkplan/admin" >
+                <span class="glyphicon glyphicon-trash"></span>
+              </a> -->
               <a (click)="deleteUser(users)" href="/admin" >
                 <span class="glyphicon glyphicon-trash"></span>
               </a>
+
             </td>
 
           </tr>
         </tbody>
       </table>
-
-        <!-- <table id="emp-table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-          <thead>
-            <tr>
-              <th style="width: 10%">
-                Employee ID
-              </th>
-              <th style="width: 15%">
-                Name
-              </th>
-              <th style="width: 15%">Type</th>
-              <th style="width: 15%">Email</th>
-              <th style="width: 5%">Edit</th>
-              <th style="width: 5%">Delete</th>
-            </tr>
-          </thead>
-
-          <tfoot>
-            <tr>
-              <th style="width: 10%">
-                Employee ID
-              </th>
-              <th style="width: 15%">
-                Name
-              </th>
-              <th style="width: 15%">Type</th>
-              <th style="width: 15%">Email</th>
-              <th style="width: 5%">Edit</th>
-              <th style="width: 5%">Delete</th>
-            </tr>
-          </tfoot>
-
-          <tbody>
-            <tr *ngFor="let users of employees">
-              <td>{{users.em_id}}</td>
-              <td>{{users.name}}  {{users.lname}}</td>
-              <td>{{ users.type }}</td>
-              <td>{{users.email}}</td>
-              <td>
-                <a [routerLink]="['/admin', users.em_id]" >
-                  <span class="glyphicon glyphicon-pencil" ></span>
-                </a>
-              </td>
-              <td>
-                <a (click)="deleteUser(users)" href="/admin" >
-                  <span class="glyphicon glyphicon-trash"></span>
-                </a>
-              </td>
-
-            </tr>
-          </tbody>
-      </table> -->
-
-
     </div>
   </div>
 </div>

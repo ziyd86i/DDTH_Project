@@ -4,12 +4,12 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Employees } from '../employees';
 import { Workplan } from '../workplan';
 
-
 @Injectable()
 export class ResourceService {
 
   constructor(private http:Http) { }
 
+  // userUrl = 'http://10.35.2.31:3300';
   userUrl = 'http://localhost:3300';
 
   getAvailable(team_id): Observable<Employees[]> {
@@ -72,8 +72,8 @@ export class ResourceService {
       id: id,
       status: status
     }
-    console.log(load)
-    console.log("Delete work assign")
+    // console.log(load)
+    // console.log("Delete work assign")
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
@@ -83,8 +83,8 @@ export class ResourceService {
   }
 
   getDetails(id: Object): Observable<Workplan> {
-    console.log("Getdata work");
-    console.log(id);
+    // console.log("Getdata work");
+    // console.log(id);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
@@ -94,8 +94,8 @@ export class ResourceService {
   }
 
   getWorkplanID(id: Object): Observable<Workplan> {
-    console.log("Get workplan ID");
-    console.log(id);
+    // console.log("Get workplan ID");
+    // console.log(id);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
@@ -105,7 +105,7 @@ export class ResourceService {
   }
 
   GetcurrentWorkplan(team: Object): Observable<Workplan[]> {
-    console.log("Get all Workplan");
+    // console.log("Get all Workplan");
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
@@ -115,9 +115,9 @@ export class ResourceService {
   }
 
   getDateSelect(month:Object, year:Object, team:number): Observable<Workplan[]> {
-    console.log(month, year);
+    // console.log(month, year);
     let body = {month,year};
-    console.log(body);
+    // console.log(body);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
@@ -127,7 +127,7 @@ export class ResourceService {
   }
 
   ConfirmUpdate(index: Object): Observable<Workplan> {
-    console.log(index);
+    // console.log(index);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
@@ -137,7 +137,7 @@ export class ResourceService {
   }
 
   getStatus(team_id: Object) :Observable<Workplan[]> {
-    console.log(team_id)
+    // console.log(team_id)
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
@@ -147,7 +147,7 @@ export class ResourceService {
   }
 
   getWorkById(id: Object): Observable<Workplan[]> {
-    console.log(id)
+    // console.log(id)
 
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});

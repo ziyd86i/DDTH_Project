@@ -32,7 +32,7 @@ export class SchedulerDialog implements OnInit {
                }
 
   ngOnInit() {
-    console.log(this.current)
+    // console.log(this.current)
     this.GetcurrentWorkplan();
   }
 
@@ -128,7 +128,7 @@ export class SchedulerDialog implements OnInit {
         items: this.workplan,
         startDateExpr: "date",
         onValueChanged: (change) => {
-          console.log(change.value);
+          // console.log(change.value);
           //  this.workplan.date = change.value;
         }
       }
@@ -141,7 +141,7 @@ export class SchedulerDialog implements OnInit {
         items: this.workplan,
         displayExpr: "end_date",
         onValueChanged: (change) => {
-          console.log(change.value);
+          // console.log(change.value);
           // this.workplan[].end_date
         }
       }

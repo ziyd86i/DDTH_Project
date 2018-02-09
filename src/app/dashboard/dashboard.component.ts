@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { DashboardService } from './dashboard.service';
 import { DayPilotSchedulerComponent, DayPilot } from "daypilot-pro-angular";
 import { DatePipe, SlicePipe } from '@angular/common';
+import { Router,ActivatedRoute } from '@angular/router';
 declare var $: any;
 @Component({
   selector: 'dashboard',
@@ -25,6 +26,7 @@ export class DashboardComponent implements OnInit {
   currentUser: Employees;
   events = [];
   resource = [];
+  currentTime:any;
 
   config: any = {
     rowHeaderColumns: [
@@ -34,33 +36,47 @@ export class DashboardComponent implements OnInit {
       { groupBy: "Month", format: "MMMM/yyyy" },
       { groupBy: "Day", format: "dddd d" },
     ],
-    cellWidth: 135,
-    eventHeight: 50,
+    headerHeight :30,
+    cellWidth: 155,
+    eventHeight: 75,
     scale: "Day",
     days: 10,
     startDate: new Date(),
     autoRefreshEnabled: true,
     autoRefreshInterval: 60,
+    CssOnly: true,
+    theme: "scheduler_theme",
+    // CssClassPrefix: "dashboard_theme",
 
     onAutoRefresh: (args) => {
       this.scheduler.control.events.all().pop();
       this.getWorkplan();
       // this.scheduler.control.update();
-      console.log("refreshing, " + args.i)
+      // console.log("refreshing, " + args.i)
     },
   };
 
-  constructor(private dashboardService: DashboardService, private datePipe: DatePipe) {
+  constructor(
+     private dashboardService: DashboardService,
+     private datePipe: DatePipe,
+     private router: Router,
+     private route: ActivatedRoute,) {
     this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.DefaultTeam = this.currentUser.team_id;
-    console.log(this.DefaultTeam)
-    // setInterval( () => {
-    //   // window.location.reload();
-    //   console.log("RELOAD")
-    // },10000 )
+    this.currentTime = new Date().getDate()+1;
+
+    setInterval( () => {
+      var today = new Date().getDate();
+
+      if(today === this.currentTime) {
+        window.location.reload();
+        console.log("RELOAD")
+      }
+    },60000 )
   }
 
   ngOnInit() {
+    console.log(new Date())
     this.getUser();
     this.getWorkplan();
     // console.log("GET WORK")
@@ -179,6 +195,15 @@ export class DashboardComponent implements OnInit {
       }
     )
 
+  }
+
+  backToHome() {
+    if (this.currentUser.type === 'resource controller') {
+        this.router.navigateByUrl('/cm');
+    }
+    else if (this.currentUser.type === 'admin') {
+       this.router.navigateByUrl('/admin');
+    }
   }
 
 }

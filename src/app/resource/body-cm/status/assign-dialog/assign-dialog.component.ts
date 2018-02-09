@@ -47,8 +47,8 @@ export class AssignDialog implements OnInit {
   }
 
   AssignWork(id) {
-    console.log(id);
-    console.log(this.em_id);
+    // console.log(id);
+    // console.log(this.em_id);
     this.workplan.em_id = this.em_id;
     this.workplan.ticket_id = id;
     // console.log(this.workplan);

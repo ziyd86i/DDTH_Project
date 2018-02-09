@@ -15,7 +15,7 @@
            <label>Ticket / SVR / Project : <b style="color:red;">*</b></label>
          </div>
          <div class="col-md-3" [ngClass]="{'has-error':!form.controls['ticket_name'].valid && form.controls['ticket_name'].touched}">
-           <p *ngIf="!editted"><input
+           <p><input
               type="text"
               class="form-control"
               id="ticket_id"
@@ -24,15 +24,8 @@
               maxlength="40"
               >
             </p>
-            <p *ngIf="editted"><input type="text"
-                    class="form-control"
-                    id="ticket_id"
-                    [(ngModel)]="tickets.ticket_name"
-                    formControlName="ticket_name"
-                    maxlength="40"
-                    disabled=""></p>
-                    <span class="help-block" *ngIf="!form.controls['ticket_name'].valid
-                                                  && form.controls['ticket_name'].touched">Please input Ticket</span>
+            <span class="help-block" *ngIf="!form.controls['ticket_name'].valid
+                                          && form.controls['ticket_name'].touched">Please input Ticket</span>
 
          </div>
 
@@ -214,10 +207,17 @@
 
      </div>
      <!-- <button type="submit" class="btn btn-success" >Add Ticket</button> -->
-
+     <hr>
      <div class="text-center">
-       <p *ngIf="!editted"><button type="submit" class="btn btn-success" [disabled]="!form.valid" >Add Ticket</button></p>
-       <p *ngIf="editted"><button type="submit" class="btn btn-warning" [disabled]="!form.valid" >Ediit</button></p>
+       <p *ngIf="!editted">
+         <button type="submit" class="btn btn-success" [disabled]="!form.valid" style="margin-right:10px;">Add Ticket</button>
+         <button type="submit" class="btn btn-default"  [routerLink]="['/cm/ticket']" > Back </button>
+
+       </p>
+       <p *ngIf="editted">
+         <button type="submit" class="btn btn-warning" [disabled]="!form.valid" style="margin-right:10px;"> Ediit</button>
+         <button type="submit" class="btn btn-default"  [routerLink]="['/cm/ticket']" >Back</button>
+       </p>
      </div>
 
 

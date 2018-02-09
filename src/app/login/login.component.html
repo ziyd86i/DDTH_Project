@@ -8,11 +8,11 @@
     <div class="container">
            <div class="card card-container" >
 
-               <img id="profile-img" class="profile-img-card" src="../assets/images/DDTHlogo.jpeg" />
+               <img id="profile-img" class="profile-img-card" src="./assets/images/DDTHlogo.jpeg" />
                <p id="profile-name" class="profile-name-card"></p>
 
                <form class="form-signin" (ngSubmit)="login()" #f="ngForm">
-                   <span id="reauth-email" class="reauth-email">aaa</span>
+                   <!-- <span id="reauth-email" class="reauth-email">aaa</span> -->
                     <div *ngIf="f.submitted && !username.valid" class="help-block">{{ errorMsg }}</div>
                    <div class="form-group" >
                      <!-- [ngClass]="{ 'has-error': f.submitted && !username.valid }" -->
@@ -48,7 +48,7 @@
                    </div> -->
                    <div class="form-group">
                      <div align="center">
-                       <img *ngIf="loading" src="../../assets/images/loader.gif">
+                       <img *ngIf="loading" src="./assets/images/loader.gif">
                      </div>
                      <button [disabled]="loading"
                              type="submit"

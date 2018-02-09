@@ -151,8 +151,8 @@
           </thead>
           <tbody>
             <tr *ngFor="let data of status">
-              <td *ngIf="data.emp_status === 'available'"><img src="../../assets/images/green_1.png"></td>
-              <td *ngIf="data.emp_status === 'busy'"><img src="../../assets/images/red_1.png"></td>
+              <td *ngIf="data.emp_status === 'available'" style="text-align:center;"><img src="./assets/images/green_1.png"></td>
+              <td *ngIf="data.emp_status === 'busy'" style="text-align:center;"><img src="./assets/images/red_1.png"></td>
 
               <td (click)="selectWorkById(data.em_id)" style="cursor: pointer;">{{data.name}} {{data.lname}}</td>
             </tr>

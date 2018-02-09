@@ -1,19 +1,18 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-9">
+
+    <div class="col-md-11">
       <h4>Dashboard Workplan Team: {{teamName}}</h4>
+    </div>
+    <div class="col-md-1" style="margin-top: 10px;">
+        <button type="button" class="btn btn-success btn-circle" (click)="backToHome()">
+          <i class="glyphicon glyphicon-home"></i></button>
     </div>
 
   </div>
   <div class="row">
     <div class="col">
-      <daypilot-scheduler #scheduler [config]="config"
-                          CssOnly="true"
-                          CssClassPrefix="dashboard_theme"
-                          autoRefreshEnabled= "true"
-                          autoRefreshInterval= "10"
-                          autoRefreshMaxCount="12"
-                      ></daypilot-scheduler>
+      <daypilot-scheduler #scheduler [config]="config"></daypilot-scheduler>
     </div>
   </div>
 </div>

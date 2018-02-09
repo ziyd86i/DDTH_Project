@@ -7,7 +7,7 @@ export class Workplan {
   ticket_name: string;
   customer_name: string;
   description: string;
-  tel: number;
+  tel: string = '';
   date : any;
   owner: string;
   end_date: any;

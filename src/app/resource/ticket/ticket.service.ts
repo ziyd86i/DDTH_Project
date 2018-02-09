@@ -11,6 +11,7 @@ export class TicketService {
 
   constructor(private http:Http) { }
 
+  // userUrl = 'http://10.35.2.31:3300';
   userUrl = 'http://localhost:3300';
 
   getTicket(): Observable<Ticket[]> {
@@ -69,12 +70,12 @@ export class TicketService {
 
   addTicket(form: Object): Observable<Ticket> {
     // console.log("POST ticket ");
-    console.log(form);
+    // console.log(form);
 
     let body = JSON.stringify(form);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
-    console.log(body);
+    // console.log(body);
 
     return this.http.post(`${this.userUrl}/ticket/add`, body, options)
                     .map((res:Response) => res.json())

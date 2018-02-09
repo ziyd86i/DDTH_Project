@@ -2,16 +2,18 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Employees } from '../employees';
-
+import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch';
 @Injectable()
 export class ManagedService {
 
   constructor(private http: Http) { }
 
+  // userUrl = 'http://10.35.2.31:3300';
   userUrl = 'http://localhost:3300';
 
   getEmployees(): Observable<Employees[]> {
-    console.log("GET");
+    // console.log("GET");
    return this.http.get(`${this.userUrl}/data`)
                     .map((res:Response) => res.json())
                     .catch((error:Response|any) => Observable.throw(error.json().error || 'Server error'));
@@ -19,7 +21,7 @@ export class ManagedService {
   }
 
   getUserById(id : Object): Observable<Employees> {
-    console.log("GET" + id);
+    // console.log("GET" + id);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
 
@@ -30,13 +32,13 @@ export class ManagedService {
   }
 
   editUser(form: Object, id:Object): Observable<Employees> {
-    console.log("EDIT" + form);
-    console.log(id);
+    // console.log("EDIT" + form);
+    // console.log(id);
     let body = JSON.stringify(form);
     let bodyInt = JSON.stringify(id);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
-    console.log(body);
+    // console.log(body);
 
     return this.http.post(`${this.userUrl}/edit/${bodyInt}`, body, options)
                     .map((res: Response) => res.json())
@@ -45,8 +47,8 @@ export class ManagedService {
 
 
   addUser(form: Object): Observable<Employees> {
-    console.log("POST" + form);
-    console.log(form);
+    // console.log("POST" + form);
+    // console.log(form);
     let body = JSON.stringify(form);
     let headers = new Headers({'Content-Type': 'application/json'});
     let options = new RequestOptions({headers : headers});
@@ -60,7 +62,7 @@ export class ManagedService {
   }
 
   deleteUser(id): Observable<Employees> {
-    console.log(id);
+    // console.log(id);
 
     return this.http.get(`${this.userUrl}/delete/${id}`)
                     .map((res: Response) => res.json())

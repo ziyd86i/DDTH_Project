@@ -27,7 +27,7 @@ export class DelDialog implements OnInit {
   }
 
   Delete() {
-    console.log(this.work_id);
+    // console.log(this.work_id);
     this.ObservableWork = this.resourceService.deleteWork(this.work_id, this.status);
     this.ObservableWork.subscribe(
         work => {

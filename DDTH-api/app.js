@@ -57,18 +57,7 @@ app.get('/', (req, res) => {
   res.send('<h1> Hello Node.js</h1>');
 });
 
-app.get('/data', (req,res) => {
-  con.query(queryString,(err,users) => {
-    if (err) {
-      res.status(400).send('Error in database.');
-    }
-    else {
-    res.send(users);
-     data_employees = users;
-     console.log(data_employees);
-    }
-  });
-});
+
 
 // ===================================================================================================================================
 // ********************************* SET INTERVAL TO AUTO DELETE RECORD EVERY 2 YEARS*************************************************
@@ -213,6 +202,19 @@ app.post('/profile/edit/:id', (req,res) => {
 // ******************************************************** Admin Managed User *******************************************************
 // ===================================================================================================================================
 
+// get data user ทั้งหมด
+app.get('/data', (req,res) => {
+  con.query(queryString,(err,users) => {
+    if (err) {
+      res.status(400).send('Error in database.');
+    }
+    else {
+    res.send(users);
+     data_employees = users;
+     // console.log(data_employees);
+    }
+  });
+});
 
 // get data user ตาม id
 app.get('/data/:id', (req,res) => {
@@ -220,7 +222,7 @@ app.get('/data/:id', (req,res) => {
   // res.send('Get Request !!' + id);
   // console.log(req.params.id);
   let queryId = " SELECT * FROM employees where em_id = '"+id+"'";
-  console.log(queryId);
+  // console.log(queryId);
   con.query(queryId,(err,users) => {
     if(err) {
       res.status(400).send('Error to get user!');
@@ -311,7 +313,7 @@ app.post('/adduser', (req,res) => {
 
   queryInsert = "INSERT INTO `employees` (`em_id`, `name`, `lname`, `hiredate`, `tel`, `email`, `skill_id`,  `skill_id1`, `skill_id2`,`username`, `password`, `type`, `car_id`, `team_id`, `job_fam_id`, `job_pro_id`, `business_id`)"
                 +" VALUES ('"+em_id+"', '"+name+"', '"+lname+"','"+hiredate+"','"+tel+"','"+email+"','"+skill_id+"','"+skill_id1+"','"+skill_id2+"','"+username+"','"+password+"','"+type+"', '"+car_id+"','"+team_id+"','"+job_fam_id+"','"+job_pro_id+"','"+business_id+"')";
-        console.log(queryInsert);
+        // console.log(queryInsert);
   // console.log(em_id, name, lname,tel,hiredate ,email, skill_id ,username,password,type,team_id,job_fam_id,job_pro_id,business_id ,car_id);
   con.query(queryInsert, (err,users) => {
     if (err) {
@@ -820,7 +822,7 @@ app.post('/eng/accept/:id', (req,res) => {
   let work_id =  req.params.id;
   console.log(work_id);
 
-  let queryAccept = "UPDATE workplan INNER JOIN employees ON workplan.em_id = employees.em_id  SET `status_work`= 'doing', employees.emp_status = 'busy' WHERE workplan_id = '"+work_id+"'";
+  let queryAccept = "UPDATE workplan INNER JOIN employees ON workplan.em_id = employees.em_id INNER JOIN ticket ON ticket.ticket_id = workplan.workplan_id SET `status_work`= 'doing', employees.emp_status = 'busy', ticket.state = 'doing' WHERE workplan_id = '"+work_id+"' ";
 
   con.query(queryAccept, (err,workplan) => {
     if (err) {

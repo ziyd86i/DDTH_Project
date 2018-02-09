@@ -84,7 +84,7 @@ export class FormTicketComponent implements OnInit {
     var id = this.route.params.subscribe(params => {
       var id = params['id'];
 
-      console.log(id);
+      // console.log(id);
 
       this.title = id ? 'Edit Ticket' : 'Add Ticket';
 
@@ -121,7 +121,7 @@ export class FormTicketComponent implements OnInit {
     this.ManagedTicket = this.ticketService.getTicketById(id)
     this.ManagedTicket.subscribe(
       ticket => {
-        console.log(ticket),
+        // console.log(ticket),
           this.tickets = ticket[0];
 
         this.tickets.date = this.datePipe.transform(this.tickets.date, 'yyyy-MM-dd HH:mm');
@@ -139,12 +139,12 @@ export class FormTicketComponent implements OnInit {
 
   addTicket(form) {
 
-    console.log("Submitted success!");
+    // console.log("Submitted success!");
     form.value.state = 'active';
     form.value.date = this.datePipe.transform(form.value.date, 'yyyy-MM-dd HH:mm');
     form.value.end_date = this.datePipe.transform(form.value.end_date, 'yyyy-MM-dd HH:mm');
     // form.value.time = form.value.time.toString();
-    console.log(form.value);
+    // console.log(form.value);
     this.ManagedTicket = this.ticketService.addTicket(form.value)
     this.ManagedTicket.subscribe(
       users => {
@@ -158,8 +158,8 @@ export class FormTicketComponent implements OnInit {
   }
 
   editTicket(form) {
-    console.log("This is the edit function !!!");
-    console.log(form.value);
+    // console.log("This is the edit function !!!");
+    // console.log(form.value);
 
     form.value.ticket_id = this.tickets.ticket_id;
     form.value.date = form.value.date.toString();
@@ -177,8 +177,11 @@ export class FormTicketComponent implements OnInit {
   }
 
   changeEndDate(time) {
-    console.log(time.value)
-    this.tickets.end_date = this.datePipe.transform(new Date(time.value).getTime() + 60*1000*180, 'yyyy-MM-ddTHH:mm:ss')
+    // console.log(time.value)
+    if (!this.tickets.end_date) {
+      this.tickets.end_date = this.datePipe.transform(new Date(time.value).getTime() + 60*1000*180, 'yyyy-MM-ddTHH:mm:ss')
+        
+    }
   }
 
 }

@@ -3,13 +3,17 @@ import { Observable } from 'rxjs/Observable';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Workplan } from '../workplan';
 import { Employees } from '../employees';
+import 'rxjs/add/operator/map'
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class DashboardService {
 
   constructor(private http:Http) { }
 
+  // userUrl = 'http://10.35.2.31:3300';
   userUrl = 'http://localhost:3300';
+
 
   getWorkplan(team: Object): Observable<Workplan[]> {
 

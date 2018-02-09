@@ -53,7 +53,9 @@ export class BodyTicketComponent implements OnInit {
                 // this.dtTrigger.next();
                 $(document).ready( () => {
                   $('#ticket').DataTable({
-
+                    "language": {
+                      "emptyTable": "No ticket right now"
+                    }
                   });
                 });
               },
@@ -69,7 +71,9 @@ export class BodyTicketComponent implements OnInit {
        console.log("Progress " + this.progress)
        $(document).ready( () => {
          $('#ticket2').DataTable({
-
+           "language": {
+             "emptyTable": "No ticket in progress right now"
+           }
          });
        });
      },
@@ -82,9 +86,13 @@ export class BodyTicketComponent implements OnInit {
    this.ObservableTicket.subscribe(
      ticket => {
        this.doing = ticket
+       // console.log(this.doing)
+
        $(document).ready( () => {
          $('#ticket3').DataTable({
-
+           "language": {
+             "emptyTable": "No ticket doing right now"
+           }
          });
        })
      },
@@ -100,7 +108,9 @@ export class BodyTicketComponent implements OnInit {
        this.done = ticket
        $(document).ready( () => {
          $('#ticket4').DataTable({
-
+           "language": {
+             "emptyTable": "Not have finished ticket"
+           }
          });
        })
      },

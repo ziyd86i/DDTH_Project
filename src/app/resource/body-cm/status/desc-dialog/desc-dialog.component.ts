@@ -26,7 +26,7 @@ export class DescDialog implements OnInit {
   }
 
   ConfirmWork () {
-    console.log(this.work_id);
+    // console.log(this.work_id);
     this.ObservableWork = this.resourceService.ConfirmUpdate(this.work_id);
     this.ObservableWork.subscribe(
                       workplan => {
@@ -45,7 +45,7 @@ export class DescDialog implements OnInit {
     this.ObservableWork.subscribe(
                       data => {
                         this.workplan = data[0]
-                        console.log(this.workplan)
+                        // console.log(this.workplan)
                       },
                       err => {
                         this.errorMsg = <any>err

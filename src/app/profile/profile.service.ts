@@ -9,6 +9,7 @@ export class ProfileService {
 
   constructor(private http:Http) { }
 
+  // userUrl = 'http://10.35.2.31:3300';
   userUrl = 'http://localhost:3300';
 
   getUserById(id): Observable<Employees> {

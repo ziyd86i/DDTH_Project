@@ -17,6 +17,7 @@ export class DialogDetails implements OnInit {
   index: number;
   workplan_id: number;
   block: boolean;
+  week: boolean;
   errorMsg: string;
   constructor(private engineerService: EngineerService,
     public dialogRef: MdDialogRef<DialogDetails>,
@@ -28,11 +29,12 @@ export class DialogDetails implements OnInit {
     this.index = this.data.index;
     this.workplan_id = this.data.workplan_id;
     this.block = this.data.block;
-    console.log(this.DetailData);
+    this.week = this.data.week;
+    // console.log(this.DetailData);
   }
 
   ConfirmWork () {
-    console.log(this.workplan_id);
+    // console.log(this.workplan_id);
     this.ObservableWork = this.engineerService.ConfirmUpdate(this.workplan_id);
     this.ObservableWork.subscribe(
                       workplan => {
